@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	v1 "github.com/AstraProtocol/astra/v2/app/upgrades/v1"
+	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	client2 "github.com/cosmos/cosmos-sdk/x/gov/client"
 	"io"
 	"net/http"
 	"os"
@@ -28,7 +30,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/grpc/tmservice"
-	"github.com/cosmos/cosmos-sdk/client/rpc"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/server/api"
@@ -87,17 +88,15 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ethermintapp "github.com/evmos/ethermint/app"
 
-	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
-	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
-	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
-	ibc "github.com/cosmos/ibc-go/v3/modules/core"
-	ibcclient "github.com/cosmos/ibc-go/v3/modules/core/02-client"
-	ibcclientclient "github.com/cosmos/ibc-go/v3/modules/core/02-client/client"
-	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
-	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	ibctesting "github.com/cosmos/ibc-go/v3/testing"
-
+	"github.com/cosmos/ibc-go/v5/modules/apps/transfer"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v5/modules/apps/transfer/keeper"
+	ibctransfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
+	ibc "github.com/cosmos/ibc-go/v5/modules/core"
+	ibcclient "github.com/cosmos/ibc-go/v5/modules/core/02-client"
+	ibcclientclient "github.com/cosmos/ibc-go/v5/modules/core/02-client/client"
+	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
+	ibchost "github.com/cosmos/ibc-go/v5/modules/core/24-host"
+	ibckeeper "github.com/cosmos/ibc-go/v5/modules/core/keeper"
 	// unnamed import of statik for swagger UI support
 	_ "github.com/AstraProtocol/astra/v2/client/docs/statik"
 	"github.com/evmos/ethermint/encoding"
@@ -105,7 +104,6 @@ import (
 	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
-	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
@@ -114,13 +112,13 @@ import (
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 
 	"github.com/AstraProtocol/astra/v2/app/ante"
-	"github.com/evmos/evmos/v6/x/erc20"
-	erc20client "github.com/evmos/evmos/v6/x/erc20/client"
-	erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
-	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
-	"github.com/evmos/evmos/v6/x/vesting"
-	vestingkeeper "github.com/evmos/evmos/v6/x/vesting/keeper"
-	vestingtypes "github.com/evmos/evmos/v6/x/vesting/types"
+	"github.com/evmos/evmos/v12/x/erc20"
+	erc20client "github.com/evmos/evmos/v12/x/erc20/client"
+	erc20keeper "github.com/evmos/evmos/v12/x/erc20/keeper"
+	erc20types "github.com/evmos/evmos/v12/x/erc20/types"
+	"github.com/evmos/evmos/v12/x/vesting"
+	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
+	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
 )
 
 func init() {
@@ -159,11 +157,12 @@ var (
 		mint.AppModuleBasic{},
 		distr.AppModuleBasic{},
 		gov.NewAppModuleBasic(
-			paramsclient.ProposalHandler, distrclient.ProposalHandler, upgradeclient.ProposalHandler, upgradeclient.CancelProposalHandler,
-			ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
-			// Astra proposal types
-			erc20client.RegisterCoinProposalHandler, erc20client.RegisterERC20ProposalHandler,
-			erc20client.ToggleTokenConversionProposalHandler,
+			[]client2.ProposalHandler{
+				paramsclient.ProposalHandler, distrclient.ProposalHandler, upgradeclient.LegacyProposalHandler, upgradeclient.LegacyCancelProposalHandler,
+				ibcclientclient.UpdateClientProposalHandler, ibcclientclient.UpgradeProposalHandler,
+				// Astra proposal types
+				erc20client.RegisterCoinProposalHandler, erc20client.RegisterERC20ProposalHandler,
+				erc20client.ToggleTokenConversionProposalHandler},
 		),
 		params.AppModuleBasic{},
 		crisis.AppModuleBasic{},
@@ -204,7 +203,7 @@ var (
 var (
 	_ servertypes.Application = (*Astra)(nil)
 	_ simapp.App              = (*Astra)(nil)
-	_ ibctesting.TestingApp   = (*Astra)(nil)
+	//_ ibctesting.TestingApp   = (*Astra)(nil)
 )
 
 // Astra implements an extended ABCI application. It is an application
@@ -221,9 +220,9 @@ type Astra struct {
 	invCheckPeriod uint
 
 	// keys to access the substores
-	keys    map[string]*sdk.KVStoreKey
-	tkeys   map[string]*sdk.TransientStoreKey
-	memKeys map[string]*sdk.MemoryStoreKey
+	keys    map[string]*storetypes.KVStoreKey
+	tkeys   map[string]*storetypes.TransientStoreKey
+	memKeys map[string]*storetypes.MemoryStoreKey
 
 	// keepers
 	AccountKeeper    authkeeper.AccountKeeper
@@ -829,9 +828,6 @@ func (app *Astra) SimulationManager() *module.SimulationManager {
 // API server.
 func (app *Astra) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
-	rpc.RegisterRoutes(clientCtx, apiSvr.Router)
-
-	evmrest.RegisterTxRoutes(clientCtx, apiSvr.Router)
 
 	// Register new tx routes from grpc-gateway.
 	authtx.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
@@ -839,7 +835,6 @@ func (app *Astra) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConf
 	tmservice.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
 
 	// Register legacy and grpc-gateway routes for all modules.
-	ModuleBasics.RegisterRESTRoutes(clientCtx, apiSvr.Router)
 	ModuleBasics.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
 
 	// register swagger API from root so that other applications can override easily
@@ -907,7 +902,7 @@ func GetMaccPerms() map[string][]string {
 
 // initParamsKeeper init params keeper and its subspaces
 func initParamsKeeper(
-	appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino, key, tkey sdk.StoreKey,
+	appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino, key, tkey storetypes.StoreKey,
 ) paramskeeper.Keeper {
 	paramsKeeper := paramskeeper.NewKeeper(appCodec, legacyAmino, key, tkey)
 

@@ -46,8 +46,8 @@ func (k Keeper) MintCoins(ctx sdk.Context, newCoin sdk.Coin) error {
 // AllocateInflation allocates coins from the inflation to external
 // modules according to allocation proportions:
 //   - staking rewards -> sdk `auth` module fee collector
-// 	 - foundation -> a multi-sig address of the Astra Foundation
-//	 - community pool -> sdk `dist` module community pool
+//   - foundation -> a multi-sig address of the Astra Foundation
+//   - community pool -> sdk `dist` module community pool
 func (k Keeper) AllocateInflation(ctx sdk.Context, mintedCoin sdk.Coin) error {
 	params := k.GetParams(ctx)
 	distribution := params.InflationDistribution
@@ -72,9 +72,9 @@ func (k Keeper) AllocateInflation(ctx sdk.Context, mintedCoin sdk.Coin) error {
 
 	// update the total minted provision
 	totalMintedProvision := k.GetTotalMintProvision(ctx)
-	mintedAmt := mintedCoin.Amount.ToDec()
+	mintedAmt := sdk.NewDecFromInt(mintedCoin.Amount)
 	if mintedCoin.Denom == config.DisplayDenom {
-		mintedAmt = mintedAmt.Mul(ethermint.PowerReduction.ToDec())
+		mintedAmt = mintedAmt.Mul(sdk.NewDecFromInt(ethermint.PowerReduction))
 	}
 	newTotalMintedProvision := totalMintedProvision.Add(mintedAmt)
 	k.SetTotalMintProvision(ctx, newTotalMintedProvision)
