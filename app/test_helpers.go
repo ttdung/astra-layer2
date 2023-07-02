@@ -69,7 +69,7 @@ func Setup(
 		stakingGenesisState := stakingtypes.DefaultGenesisState()
 		stakingGenesisState.Params.BondDenom = minttypes.DefaultInflationDenom
 		encCfg := encoding.MakeConfig(ModuleBasics)
-		stakingGenesis := encCfg.Marshaler.MustMarshalJSON(stakingGenesisState)
+		stakingGenesis := encCfg.Codec.MustMarshalJSON(stakingGenesisState)
 		genesisState[stakingtypes.ModuleName] = stakingGenesis
 
 		// Verify feeMarket genesis
