@@ -8,15 +8,15 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/ethermint/encoding"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/evmos/evmos/v12/encoding"
+	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 	"github.com/stretchr/testify/suite"
 	"math/big"
 	"testing"
 	"time"
 
 	"github.com/AstraProtocol/astra/v2/testutil"
-	"github.com/evmos/ethermint/tests"
+	"github.com/evmos/evmos/v12/tests"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"

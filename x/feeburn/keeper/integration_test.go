@@ -15,10 +15,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/ethermint/crypto/ethsecp256k1"
-	"github.com/evmos/ethermint/encoding"
-	"github.com/evmos/ethermint/tests"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
+	"github.com/evmos/evmos/v12/encoding"
+	"github.com/evmos/evmos/v12/tests"
+	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 

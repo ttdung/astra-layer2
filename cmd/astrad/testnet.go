@@ -36,12 +36,12 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	"github.com/evmos/evmos/v12/crypto/hd"
+	"github.com/evmos/evmos/v12/server/config"
+	srvflags "github.com/evmos/evmos/v12/server/flags"
 
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	ethermint "github.com/evmos/evmos/v12/types"
+	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 
 	cmdcfg "github.com/AstraProtocol/astra/v2/cmd/config"
 	astrakr "github.com/AstraProtocol/astra/v2/crypto/keyring"

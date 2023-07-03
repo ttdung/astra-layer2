@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/encoding"
+	"github.com/evmos/evmos/v12/encoding"
 )
 
 // NewDefaultGenesisState generates the default state for the application.
@@ -62,7 +62,8 @@ func (app *Astra) ExportAppStateAndValidators(
 
 // prepare for fresh start at zero height
 // NOTE zero height genesis is a temporary feature which will be deprecated
-//      in favor of export at a block height
+//
+//	in favor of export at a block height
 func (app *Astra) prepForZeroHeightGenesis(ctx sdk.Context, jailAllowedAddrs []string) error {
 	applyAllowedAddrs := false
 

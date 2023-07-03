@@ -486,7 +486,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/account/{address}:
+  /evmos/v12/evm/v1/account/{address}:
     get:
       summary: Account queries an Ethereum account.
       operationId: Account
@@ -706,7 +706,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/balances/{address}:
+  /evmos/v12/evm/v1/balances/{address}:
     get:
       summary: |-
         Balance queries the balance of a the EVM denomination for a single
@@ -921,7 +921,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/base_fee:
+  /evmos/v12/evm/v1/base_fee:
     get:
       summary: >-
         BaseFee queries the base fee of the parent block of the current block,
@@ -1129,7 +1129,7 @@ paths:
                         }
       tags:
         - Query
-  /ethermint/evm/v1/codes/{address}:
+  /evmos/v12/evm/v1/codes/{address}:
     get:
       summary: Code queries the balance of all coins for a single account.
       operationId: Code
@@ -1343,7 +1343,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/cosmos_account/{address}:
+  /evmos/v12/evm/v1/cosmos_account/{address}:
     get:
       summary: CosmosAccount queries an Ethereum account's Cosmos Address.
       operationId: CosmosAccount
@@ -1566,7 +1566,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/estimate_gas:
+  /evmos/v12/evm/v1/estimate_gas:
     get:
       summary: EstimateGas implements the `eth_estimateGas` rpc api
       operationId: EstimateGas
@@ -1785,7 +1785,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /ethermint/evm/v1/eth_call:
+  /evmos/v12/evm/v1/eth_call:
     get:
       summary: EthCall implements the `eth_call` rpc api
       operationId: EthCall
@@ -2083,7 +2083,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /ethermint/evm/v1/params:
+  /evmos/v12/evm/v1/params:
     get:
       summary: Params queries the parameters of x/evm module.
       operationId: EvmParams
@@ -2407,7 +2407,7 @@ paths:
                         }
       tags:
         - Query
-  /ethermint/evm/v1/storage/{address}/{key}:
+  /evmos/v12/evm/v1/storage/{address}/{key}:
     get:
       summary: Storage queries the balance of all coins for a single account.
       operationId: Storage
@@ -2631,7 +2631,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/evm/v1/trace_block:
+  /evmos/v12/evm/v1/trace_block:
     get:
       summary: >-
         TraceBlock implements the `debug_traceBlockByNumber` and
@@ -2999,7 +2999,7 @@ paths:
           format: date-time
       tags:
         - Query
-  /ethermint/evm/v1/trace_tx:
+  /evmos/v12/evm/v1/trace_tx:
     get:
       summary: TraceTx implements the `debug_traceTransaction` rpc api
       operationId: TraceTx
@@ -3445,7 +3445,7 @@ paths:
           format: date-time
       tags:
         - Query
-  /ethermint/evm/v1/validator_account/{cons_address}:
+  /evmos/v12/evm/v1/validator_account/{cons_address}:
     get:
       summary: >-
         ValidatorAccount queries an Ethereum account's from a validator
@@ -3672,7 +3672,7 @@ paths:
           type: string
       tags:
         - Query
-  /ethermint/feemarket/v1/base_fee:
+  /evmos/v12/feemarket/v1/base_fee:
     get:
       summary: BaseFee queries the base fee of the parent block of the current block.
       operationId: FeeMarketBaseFee
@@ -3709,7 +3709,7 @@ paths:
                       format: byte
       tags:
         - Query
-  /ethermint/feemarket/v1/block_gas:
+  /evmos/v12/feemarket/v1/block_gas:
     get:
       summary: BlockGas queries the gas used at a given block height
       operationId: BlockGas
@@ -3747,7 +3747,7 @@ paths:
                       format: byte
       tags:
         - Query
-  /ethermint/feemarket/v1/params:
+  /evmos/v12/feemarket/v1/params:
     get:
       summary: Params queries the parameters of x/feemarket module.
       operationId: FeeMarketParams

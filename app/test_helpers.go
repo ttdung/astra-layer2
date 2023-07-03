@@ -7,16 +7,16 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ibctesting "github.com/cosmos/ibc-go/v5/testing"
-	"github.com/cosmos/ibc-go/v5/testing/simapp"
+	ibctesting "github.com/cosmos/ibc-go/v6/testing"
+	"github.com/cosmos/ibc-go/v6/testing/simapp"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmtypes "github.com/tendermint/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
-	"github.com/evmos/ethermint/encoding"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/evmos/evmos/v12/encoding"
+	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
 	"github.com/AstraProtocol/astra/v2/cmd/config"
 )

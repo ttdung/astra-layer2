@@ -4,7 +4,7 @@ import (
 	"github.com/AstraProtocol/astra/v2/cmd/config"
 	"github.com/AstraProtocol/astra/v2/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ethermint "github.com/evmos/ethermint/types"
+	ethermint "github.com/evmos/evmos/v12/types"
 )
 
 // GetProportions returns the amount of coins given its distribution and the total amount of coins.

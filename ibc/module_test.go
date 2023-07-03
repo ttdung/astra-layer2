@@ -9,10 +9,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 
-	transfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
-	porttypes "github.com/cosmos/ibc-go/v5/modules/core/05-port/types"
-	"github.com/cosmos/ibc-go/v5/modules/core/exported"
+	transfertypes "github.com/cosmos/ibc-go/v6/modules/apps/transfer/types"
+	channeltypes "github.com/cosmos/ibc-go/v6/modules/core/04-channel/types"
+	porttypes "github.com/cosmos/ibc-go/v6/modules/core/05-port/types"
+	"github.com/cosmos/ibc-go/v6/modules/core/exported"
 )
 
 var _ porttypes.IBCModule = &MockIBCModule{}
@@ -34,9 +34,9 @@ func (m MockIBCModule) OnChanOpenInit(
 	chanCap *capabilitytypes.Capability,
 	counterparty channeltypes.Counterparty,
 	version string,
-) error {
+) (string, error) {
 	args := m.Called()
-	return args.Error(0)
+	return version, args.Error(0)
 }
 
 // OnChanOpenTry implements the Module interface.
@@ -136,6 +136,19 @@ func (m MockIBCModule) OnTimeoutPacket(
 }
 
 func TestModule(t *testing.T) {
+	//mockModule := &MockIBCModule{}
+	//mockModule.On("OnChanOpenInit").Return(nil)
+	//mockModule.On("OnChanOpenTry").Return("", nil)
+	//mockModule.On("OnChanOpenAck").Return(nil)
+	//mockModule.On("OnChanOpenConfirm").Return(nil)
+	//mockModule.On("OnChanCloseInit").Return(nil)
+	//mockModule.On("OnChanCloseConfirm").Return(nil)
+	//mockModule.On("OnRecvPacket").Return(channeltypes.NewResultAcknowledgement([]byte("ack")))
+	//mockModule.On("OnAcknowledgementPacket").Return(nil)
+	//mockModule.On("OnTimeoutPacket").Return(nil)
+	//
+	//module := NewModule(mockModule)
+
 	mockModule := &MockIBCModule{}
 	mockModule.On("OnChanOpenInit").Return(nil)
 	mockModule.On("OnChanOpenTry").Return("", nil)
@@ -150,7 +163,7 @@ func TestModule(t *testing.T) {
 	module := NewModule(mockModule)
 
 	// mock calls for abstraction
-	err := module.OnChanOpenInit(sdk.Context{}, channeltypes.ORDERED, nil, transfertypes.PortID, "channel-0", &capabilitytypes.Capability{}, channeltypes.Counterparty{}, "")
+	_, err := module.OnChanOpenInit(sdk.Context{}, channeltypes.ORDERED, nil, transfertypes.PortID, "channel-0", &capabilitytypes.Capability{}, channeltypes.Counterparty{}, "")
 	require.NoError(t, err)
 	_, err = module.OnChanOpenTry(sdk.Context{}, channeltypes.ORDERED, nil, transfertypes.PortID, "channel-0", &capabilitytypes.Capability{}, channeltypes.Counterparty{}, "")
 	require.NoError(t, err)

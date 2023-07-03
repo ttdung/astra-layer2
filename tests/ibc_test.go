@@ -8,10 +8,10 @@ import (
 	"github.com/AstraProtocol/astra/v2/app"
 	ibctesting "github.com/AstraProtocol/astra/v2/ibc/testing"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	transfertypes "github.com/cosmos/ibc-go/v5/modules/apps/transfer/types"
-	clienttypes "github.com/cosmos/ibc-go/v5/modules/core/02-client/types"
-	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
-	ibcgotesting "github.com/cosmos/ibc-go/v5/testing"
+	transfertypes "github.com/cosmos/ibc-go/v6/modules/apps/transfer/types"
+	clienttypes "github.com/cosmos/ibc-go/v6/modules/core/02-client/types"
+	channeltypes "github.com/cosmos/ibc-go/v6/modules/core/04-channel/types"
+	ibcgotesting "github.com/cosmos/ibc-go/v6/testing"
 
 	erc20types "github.com/evmos/evmos/v12/x/erc20/types"
 )
