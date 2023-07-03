@@ -17,6 +17,7 @@ import (
 	"github.com/tendermint/tendermint/version"
 
 	//"github.com/evmos/evmos/v12/tests"
+	utiltx "github.com/evmos/evmos/v12/testutil/tx"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 )
 
@@ -31,7 +32,7 @@ type GenesisTestSuite struct {
 
 func (suite *GenesisTestSuite) SetupTest() {
 	// consensus key
-	consAddress := sdk.ConsAddress(tests.GenerateAddress().Bytes())
+	consAddress := sdk.ConsAddress(utiltx.GenerateAddress().Bytes())
 
 	suite.app = app.Setup(false, feemarkettypes.DefaultGenesisState())
 	suite.ctx = suite.app.BaseApp.NewContext(false, tmproto.Header{

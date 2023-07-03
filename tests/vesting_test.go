@@ -17,10 +17,10 @@ import (
 
 	"github.com/AstraProtocol/astra/v2/testutil"
 	//"github.com/evmos/evmos/v12/tests"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	utiltx "github.com/evmos/evmos/v12/testutil/tx"
 	"github.com/evmos/evmos/v12/x/vesting/types"
 )
 
@@ -71,9 +71,9 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 		vested          sdk.Coins
 		unlocked        sdk.Coins
 	)
-	//grantee := sdk.AccAddress(tests.GenerateAddress().Bytes())
-	//funder := sdk.AccAddress(tests.GenerateAddress().Bytes())
-	//dest := sdk.AccAddress(tests.GenerateAddress().Bytes())
+	grantee := sdk.AccAddress(utiltx.GenerateAddress().Bytes())
+	funder := sdk.AccAddress(utiltx.GenerateAddress().Bytes())
+	dest := sdk.AccAddress(utiltx.GenerateAddress().Bytes())
 
 	testCases := []struct {
 		name     string
@@ -84,24 +84,24 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 			func() {
 				ctx := sdk.WrapSDKContext(suite.ctx)
 
-				//balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// Perform clawback before cliff
-				//msg := types.NewMsgClawback(funder, grantee, dest)
-				//_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
-				//
-				//suite.Require().NoError(err)
-				//
-				//// All initial vesting amount goes to dest
-				//bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//suite.Require().Equal(bF, balanceFunder)
-				//suite.Require().Equal(balanceGrantee.Sub(vestingAmtTotal[0]).Amount.Uint64(), bG.Amount.Uint64())
-				//suite.Require().Equal(balanceDest.Add(vestingAmtTotal[0]).Amount.Uint64(), bD.Amount.Uint64())
+				balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// Perform clawback before cliff
+				msg := types.NewMsgClawback(funder, grantee, dest)
+				_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
+
+				suite.Require().NoError(err)
+
+				// All initial vesting amount goes to dest
+				bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				suite.Require().Equal(bF, balanceFunder)
+				suite.Require().Equal(balanceGrantee.Sub(vestingAmtTotal[0]).Amount.Uint64(), bG.Amount.Uint64())
+				suite.Require().Equal(balanceDest.Add(vestingAmtTotal[0]).Amount.Uint64(), bD.Amount.Uint64())
 			},
 		},
 		{
@@ -124,26 +124,26 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 				suite.Require().True(free.IsZero())
 				suite.Require().Equal(vesting, vestingAmtTotal)
 
-				//balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// Perform clawback
-				//msg := types.NewMsgClawback(funder, grantee, dest)
-				//ctx := sdk.WrapSDKContext(suite.ctx)
-				//_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
-				//suite.Require().NoError(err)
-				//
-				//bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+				balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// Perform clawback
+				msg := types.NewMsgClawback(funder, grantee, dest)
+				ctx := sdk.WrapSDKContext(suite.ctx)
+				_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
+				suite.Require().NoError(err)
+
+				bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
 
 				expClawback := clawbackAccount.GetUnvestedOnly(suite.ctx.BlockTime())
 
 				// Any unvested amount is clawed back
-				//suite.Require().Equal(balanceFunder, bF)
-				//suite.Require().Equal(balanceGrantee.Sub(expClawback[0]).Amount.Uint64(), bG.Amount.Uint64())
-				//suite.Require().Equal(balanceDest.Add(expClawback[0]).Amount.Uint64(), bD.Amount.Uint64())
+				suite.Require().Equal(balanceFunder, bF)
+				suite.Require().Equal(balanceGrantee.Sub(expClawback[0]).Amount.Uint64(), bG.Amount.Uint64())
+				suite.Require().Equal(balanceDest.Add(expClawback[0]).Amount.Uint64(), bD.Amount.Uint64())
 			},
 		},
 		{
@@ -162,30 +162,30 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 				vesting = clawbackAccount.GetVestingCoins(suite.ctx.BlockTime())
 				expVestedAmount := amt.Mul(sdk.NewInt(lockup))
 				expVested := sdk.NewCoins(sdk.NewCoin(stakeDenom, expVestedAmount))
-				unvested := vestingAmtTotal.Sub(vested)
+				unvested := vestingAmtTotal.Sub(vested...)
 				suite.Require().Equal(free, vested)
 				suite.Require().Equal(expVested, vested)
 				suite.Require().True(expVestedAmount.GT(sdk.NewInt(0)))
 				suite.Require().Equal(vesting, unvested)
 
-				//balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// Perform clawback
-				//msg := types.NewMsgClawback(funder, grantee, dest)
-				//ctx := sdk.WrapSDKContext(suite.ctx)
-				//_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
-				//suite.Require().NoError(err)
-				//
-				//bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// Any unvested amount is clawed back
-				//suite.Require().Equal(balanceFunder, bF)
-				//suite.Require().Equal(balanceGrantee.Sub(vesting[0]).Amount.Uint64(), bG.Amount.Uint64())
-				//suite.Require().Equal(balanceDest.Add(vesting[0]).Amount.Uint64(), bD.Amount.Uint64())
+				balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// Perform clawback
+				msg := types.NewMsgClawback(funder, grantee, dest)
+				ctx := sdk.WrapSDKContext(suite.ctx)
+				_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
+				suite.Require().NoError(err)
+
+				bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// Any unvested amount is clawed back
+				suite.Require().Equal(balanceFunder, bF)
+				suite.Require().Equal(balanceGrantee.Sub(vesting[0]).Amount.Uint64(), bG.Amount.Uint64())
+				suite.Require().Equal(balanceDest.Add(vesting[0]).Amount.Uint64(), bD.Amount.Uint64())
 			},
 		},
 		{
@@ -201,32 +201,32 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 				free := clawbackAccount.GetVestedCoins(suite.ctx.BlockTime())
 				vesting = clawbackAccount.GetVestingCoins(suite.ctx.BlockTime())
 				expVested := sdk.NewCoins(sdk.NewCoin(stakeDenom, amt.Mul(sdk.NewInt(periodsTotal))))
-				unvested := vestingAmtTotal.Sub(vested)
+				unvested := vestingAmtTotal.Sub(vested...)
 				suite.Require().Equal(free, vested)
 				suite.Require().Equal(expVested, vested)
 				suite.Require().Equal(expVested, vestingAmtTotal)
 				suite.Require().Equal(unlocked, vestingAmtTotal)
 				suite.Require().Equal(vesting, unvested)
 				suite.Require().True(vesting.IsZero())
-				//
-				//balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// Perform clawback
-				//msg := types.NewMsgClawback(funder, grantee, dest)
-				//ctx := sdk.WrapSDKContext(suite.ctx)
-				//_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
-				//suite.Require().NoError(err)
-				//
-				//bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-				//bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-				//bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-				//
-				//// No amount is clawed back
-				//suite.Require().Equal(balanceFunder, bF)
-				//suite.Require().Equal(balanceGrantee, bG)
-				//suite.Require().Equal(balanceDest, bD)
+
+				balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// Perform clawback
+				msg := types.NewMsgClawback(funder, grantee, dest)
+				ctx := sdk.WrapSDKContext(suite.ctx)
+				_, err := suite.app.VestingKeeper.Clawback(ctx, msg)
+				suite.Require().NoError(err)
+
+				bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+				bG := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+				bD := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+				// No amount is clawed back
+				suite.Require().Equal(balanceFunder, bF)
+				suite.Require().Equal(balanceGrantee, bG)
+				suite.Require().Equal(balanceDest, bD)
 			},
 		},
 	}
@@ -238,22 +238,23 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 
 			// Create and fund periodic vesting account
 			vestingStart := suite.ctx.BlockTime()
-			//testutil.FundAccount(suite.app.BankKeeper, suite.ctx, funder, vestingAmtTotal)
-			//
-			//balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-			//balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-			//balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-			//suite.Require().True(balanceFunder.IsGTE(vestingAmtTotal[0]))
-			//suite.Require().Equal(balanceGrantee, sdk.NewInt64Coin(stakeDenom, 0))
-			//suite.Require().Equal(balanceDest, sdk.NewInt64Coin(stakeDenom, 0))
-			//
-			//msg := types.NewMsgCreateClawbackVestingAccount(funder, grantee, vestingStart, lockupPeriods, vestingPeriods)
-			//
-			//_, err := suite.app.VestingKeeper.CreateClawbackVestingAccount(ctx, msg)
-			//suite.Require().NoError(err)
-			//
-			//acc := suite.app.AccountKeeper.GetAccount(suite.ctx, grantee)
-			//clawbackAccount, _ = acc.(*types.ClawbackVestingAccount)
+			testutil.FundAccount(suite.app.BankKeeper, suite.ctx, funder, vestingAmtTotal)
+
+			balanceFunder := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+			balanceGrantee := suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+			balanceDest := suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+			suite.Require().True(balanceFunder.IsGTE(vestingAmtTotal[0]))
+			suite.Require().Equal(balanceGrantee, sdk.NewInt64Coin(stakeDenom, 0))
+			suite.Require().Equal(balanceDest, sdk.NewInt64Coin(stakeDenom, 0))
+
+			// Todo  merge = true or false [ttd]
+			msg := types.NewMsgCreateClawbackVestingAccount(funder, grantee, vestingStart, lockupPeriods, vestingPeriods, true)
+
+			_, err := suite.app.VestingKeeper.CreateClawbackVestingAccount(ctx, msg)
+			suite.Require().NoError(err)
+
+			acc := suite.app.AccountKeeper.GetAccount(suite.ctx, grantee)
+			clawbackAccount, _ = acc.(*types.ClawbackVestingAccount)
 
 			// Check if all tokens are unvested and locked at vestingStart
 			vesting = clawbackAccount.GetVestingCoins(suite.ctx.BlockTime())
@@ -263,13 +264,13 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccountsTokens() {
 			suite.Require().True(vested.IsZero())
 			suite.Require().True(unlocked.IsZero())
 
-			//bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
-			//balanceGrantee = suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
-			//balanceDest = suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
-			//
-			//suite.Require().True(bF.IsGTE(balanceFunder.Sub(vestingAmtTotal[0])))
-			//suite.Require().True(balanceGrantee.IsGTE(vestingAmtTotal[0]))
-			//suite.Require().Equal(balanceDest, sdk.NewInt64Coin(stakeDenom, 0))
+			bF := suite.app.BankKeeper.GetBalance(suite.ctx, funder, stakeDenom)
+			balanceGrantee = suite.app.BankKeeper.GetBalance(suite.ctx, grantee, stakeDenom)
+			balanceDest = suite.app.BankKeeper.GetBalance(suite.ctx, dest, stakeDenom)
+
+			suite.Require().True(bF.IsGTE(balanceFunder.Sub(vestingAmtTotal[0])))
+			suite.Require().True(balanceGrantee.IsGTE(vestingAmtTotal[0]))
+			suite.Require().Equal(balanceDest, sdk.NewInt64Coin(stakeDenom, 0))
 			tc.malleate()
 		})
 	}
@@ -331,7 +332,7 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccounts() {
 				err = suite.app.BankKeeper.SendCoins(
 					suite.ctx,
 					addr,
-					tests.GenerateAddress().Bytes(),
+					utiltx.GenerateAddress().Bytes(),
 					unvested,
 				)
 				suite.Require().Error(err, "cannot transfer tokens")
@@ -359,7 +360,7 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccounts() {
 				err = suite.app.BankKeeper.SendCoins(
 					suite.ctx,
 					addr,
-					tests.GenerateAddress().Bytes(),
+					utiltx.GenerateAddress().Bytes(),
 					vested,
 				)
 
@@ -393,7 +394,7 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccounts() {
 				err = suite.app.BankKeeper.SendCoins(
 					suite.ctx,
 					addr,
-					tests.GenerateAddress().Bytes(),
+					utiltx.GenerateAddress().Bytes(),
 					vested,
 				)
 
@@ -402,7 +403,7 @@ func (suite *KeeperTestSuite) TestCrawbackVestingAccounts() {
 				err = suite.app.BankKeeper.SendCoins(
 					suite.ctx,
 					addr,
-					tests.GenerateAddress().Bytes(),
+					utiltx.GenerateAddress().Bytes(),
 					unvested,
 				)
 				suite.Require().Error(err, "cannot transfer unvested tokens")
@@ -474,8 +475,20 @@ func (suite *KeeperTestSuite) performEthTx(clawbackAccount *types.ClawbackVestin
 	from := common.BytesToAddress(addr.Bytes())
 	nonce := suite.app.EvmKeeper.GetNonce(suite.ctx, from)
 
-	msgEthereumTx := evmtypes.NewTx(chainID, nonce, &from, nil, 100000, nil,
-		suite.app.FeeMarketKeeper.GetBaseFee(suite.ctx), big.NewInt(1), nil, &ethtypes.AccessList{})
+	ethTxParams := &evmtypes.EvmTxArgs{
+		ChainID:   chainID,
+		Nonce:     nonce,
+		To:        &from,
+		GasLimit:  100000,
+		GasPrice:  nil,
+		GasFeeCap: s.app.FeeMarketKeeper.GetBaseFee(s.ctx),
+		GasTipCap: big.NewInt(1),
+		Input:     nil,
+		Accesses:  &ethtypes.AccessList{},
+	}
+	//msgEthereumTx := evmtypes.NewTx(chainID, nonce, &from, nil, 100000, nil,
+	//	suite.app.FeeMarketKeeper.GetBaseFee(suite.ctx), big.NewInt(1), nil, &ethtypes.AccessList{})
+	msgEthereumTx := evmtypes.NewTx(ethTxParams)
 	msgEthereumTx.From = from.String()
 
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)

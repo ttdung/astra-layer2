@@ -3,7 +3,9 @@ package tests
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/ethereum/go-ethereum/common"
 	//"github.com/evmos/evmos/v12/tests"
 	"github.com/evmos/evmos/v12/x/erc20/keeper"
@@ -67,9 +69,16 @@ func (suite KeeperTestSuite) TestRegisterERC20() {
 			"force fail evm",
 			func() {
 				mockEVMKeeper := &MockEVMKeeper{}
-				sp, found := suite.app.ParamsKeeper.GetSubspace(types.ModuleName)
+				_, found := suite.app.ParamsKeeper.GetSubspace(types.ModuleName)
 				suite.Require().True(found)
-				suite.app.Erc20Keeper = keeper.NewKeeper(suite.app.GetKey("erc20"), suite.app.AppCodec(), sp, suite.app.AccountKeeper, suite.app.BankKeeper, mockEVMKeeper)
+				suite.app.Erc20Keeper = keeper.NewKeeper(
+					suite.app.GetKey("erc20"), suite.app.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName),
+					suite.app.AccountKeeper, suite.app.BankKeeper,
+					mockEVMKeeper, suite.app.StakingKeeper, suite.app.ClaimsKeeper)
+				//suite.app.Erc20Keeper = keeper.NewKeeper(suite.app.GetKey("erc20"), suite.app.AppCodec(),
+				//sp, suite.app.AccountKeeper,
+				//suite.app.BankKeeper, mockEVMKeeper)
 				mockEVMKeeper.On("EstimateGas", mock.Anything, mock.Anything).Return(&evmtypes.EstimateGasResponse{Gas: uint64(200)}, nil)
 				mockEVMKeeper.On("ApplyMessage", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil, fmt.Errorf("forced ApplyMessage error"))
 			},
@@ -85,7 +94,7 @@ func (suite KeeperTestSuite) TestRegisterERC20() {
 			suite.Require().NoError(err)
 			suite.Commit()
 			coinName := types.CreateDenom(contractAddr.String())
-			pair = types.NewTokenPair(contractAddr, coinName, true, types.OWNER_EXTERNAL)
+			pair = types.NewTokenPair(contractAddr, coinName, types.OWNER_EXTERNAL)
 
 			tc.malleate()
 
@@ -132,7 +141,7 @@ func (suite KeeperTestSuite) TestToggleConversion() {
 				contractAddr, err := suite.DeployContract(erc20Name, erc20Symbol, erc20Decimals)
 				suite.Require().NoError(err)
 				suite.Commit()
-				pair = types.NewTokenPair(contractAddr, cosmosTokenBase, true, types.OWNER_MODULE)
+				pair = types.NewTokenPair(contractAddr, cosmosTokenBase, types.OWNER_MODULE)
 			},
 			false,
 			false,
@@ -143,7 +152,7 @@ func (suite KeeperTestSuite) TestToggleConversion() {
 				contractAddr, err := suite.DeployContract(erc20Name, erc20Symbol, erc20Decimals)
 				suite.Require().NoError(err)
 				suite.Commit()
-				pair = types.NewTokenPair(contractAddr, cosmosTokenBase, true, types.OWNER_MODULE)
+				pair = types.NewTokenPair(contractAddr, cosmosTokenBase, types.OWNER_MODULE)
 				suite.app.Erc20Keeper.SetERC20Map(suite.ctx, common.HexToAddress(pair.Erc20Address), pair.GetID())
 			},
 			false,
@@ -326,9 +335,16 @@ func (suite KeeperTestSuite) TestRegisterCoin() {
 				suite.Require().NoError(err)
 
 				mockEVMKeeper := &MockEVMKeeper{}
-				sp, found := suite.app.ParamsKeeper.GetSubspace(types.ModuleName)
+				_, found := suite.app.ParamsKeeper.GetSubspace(types.ModuleName)
 				suite.Require().True(found)
-				suite.app.Erc20Keeper = keeper.NewKeeper(suite.app.GetKey("erc20"), suite.app.AppCodec(), sp, suite.app.AccountKeeper, suite.app.BankKeeper, mockEVMKeeper)
+				suite.app.Erc20Keeper = keeper.NewKeeper(
+					suite.app.GetKey("erc20"), suite.app.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName),
+					suite.app.AccountKeeper, suite.app.BankKeeper,
+					mockEVMKeeper, suite.app.StakingKeeper, suite.app.ClaimsKeeper)
+				//suite.app.Erc20Keeper = keeper.NewKeeper(suite.app.GetKey("erc20"), suite.app.AppCodec(),
+				//sp, suite.app.AccountKeeper,
+				//suite.app.BankKeeper, mockEVMKeeper)
 				mockEVMKeeper.On("EstimateGas", mock.Anything, mock.Anything).Return(&evmtypes.EstimateGasResponse{Gas: uint64(200)}, nil)
 				mockEVMKeeper.On("ApplyMessage", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil, fmt.Errorf("forced ApplyMessage error"))
 			},

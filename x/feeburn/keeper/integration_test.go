@@ -18,6 +18,7 @@ import (
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
 	"github.com/evmos/evmos/v12/encoding"
 	//"github.com/evmos/evmos/v12/tests"
+	utiltx "github.com/evmos/evmos/v12/testutil/tx"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
@@ -272,18 +273,30 @@ func sendEth(priv *ethsecp256k1.PrivKey) abci.ResponseDeliverTx {
 	privNew, _ := ethsecp256k1.GenerateKey()
 	addrRecv := common.BytesToAddress(privNew.PubKey().Address().Bytes())
 
-	msgEthereumTx := evmtypes.NewTx(s.app.EvmKeeper.ChainID(), nonce, &addrRecv,
-		big.NewInt(100),
-		100000,
-		big.NewInt(10000),
-		s.app.FeeMarketKeeper.GetBaseFee(s.ctx), big.NewInt(1), nil, &ethtypes.AccessList{})
+	//msgEthereumTx := evmtypes.NewTx(s.app.EvmKeeper.ChainID(), nonce, &addrRecv,
+	//	big.NewInt(100),
+	//	100000,
+	//	big.NewInt(10000),
+	//	s.app.FeeMarketKeeper.GetBaseFee(s.ctx), big.NewInt(1), nil, &ethtypes.AccessList{})
+	ethTxParams := &evmtypes.EvmTxArgs{
+		ChainID:   s.app.EvmKeeper.ChainID(),
+		Nonce:     nonce,
+		To:        &addrRecv,
+		GasLimit:  100000,
+		GasPrice:  big.NewInt(10000),
+		GasFeeCap: s.app.FeeMarketKeeper.GetBaseFee(s.ctx),
+		GasTipCap: big.NewInt(1),
+		Input:     nil,
+		Accesses:  &ethtypes.AccessList{},
+	}
+	msgEthereumTx := evmtypes.NewTx(ethTxParams)
 	msgEthereumTx.From = from.String()
 	return performEthTx(priv, msgEthereumTx)
 }
 
 func performEthTx(priv *ethsecp256k1.PrivKey, msgEthereumTx *evmtypes.MsgEthereumTx) abci.ResponseDeliverTx {
 	// Sign transaction
-	err := msgEthereumTx.Sign(s.ethSigner, tests.NewSigner(priv))
+	err := msgEthereumTx.Sign(s.ethSigner, utiltx.NewSigner(priv))
 	s.Require().NoError(err)
 
 	// Assemble transaction from fields

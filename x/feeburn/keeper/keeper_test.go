@@ -15,6 +15,7 @@ import (
 
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
 	//"github.com/evmos/evmos/v12/tests"
+	utiltx "github.com/evmos/evmos/v12/testutil/tx"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -70,7 +71,7 @@ func (suite *KeeperTestSuite) SetupApp() {
 	priv, err := ethsecp256k1.GenerateKey()
 	require.NoError(t, err)
 	suite.address = common.BytesToAddress(priv.PubKey().Address().Bytes())
-	suite.signer = tests.NewSigner(priv)
+	suite.signer = utiltx.NewSigner(priv)
 	suite.denom = config.BaseDenom
 
 	// consensus key

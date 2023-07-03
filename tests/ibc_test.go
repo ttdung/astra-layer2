@@ -107,13 +107,17 @@ func (suite *IBCTestingSuite) Test2() {
 
 	path := suite.pathEVM
 
-	transfer := transfertypes.NewFungibleTokenPacketData("aastra", "100", sender, receiver)
+	transfer := transfertypes.NewFungibleTokenPacketData("aastra", "100", sender, receiver, "")
 	bz := transfertypes.ModuleCdc.MustMarshalJSON(&transfer)
 	packet := channeltypes.NewPacket(bz, 1, path.EndpointA.ChannelConfig.PortID, path.EndpointA.ChannelID,
 		path.EndpointB.ChannelConfig.PortID, path.EndpointB.ChannelID, timeoutHeight, 0)
 
 	// send on endpointA
-	err = path.EndpointA.SendPacket(packet)
+	_, err = path.EndpointA.SendPacket(
+		packet.TimeoutHeight,
+		packet.TimeoutTimestamp,
+		packet.Data,
+	)
 	suite.Require().NoError(err)
 
 	// receive on endpointB
