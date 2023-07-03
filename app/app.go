@@ -99,6 +99,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
 	// unnamed import of statik for swagger UI support
 	_ "github.com/AstraProtocol/astra/v2/client/docs/statik"
+	ibctestingtypes "github.com/cosmos/ibc-go/v6/testing/types"
 	"github.com/evmos/evmos/v12/encoding"
 
 	srvflags "github.com/evmos/evmos/v12/server/flags"
@@ -874,7 +875,7 @@ func (app *Astra) GetBaseApp() *baseapp.BaseApp {
 }
 
 // GetStakingKeeper implements the TestingApp interface.
-func (app *Astra) GetStakingKeeper() stakingkeeper.Keeper {
+func (app *Astra) GetStakingKeeper() ibctestingtypes.StakingKeeper {
 	return app.StakingKeeper
 }
 

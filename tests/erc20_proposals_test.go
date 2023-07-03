@@ -5,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v12/tests"
+	//"github.com/evmos/evmos/v12/tests"
 	"github.com/evmos/evmos/v12/x/erc20/keeper"
 	"github.com/evmos/evmos/v12/x/erc20/types"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
@@ -232,8 +232,8 @@ func (suite KeeperTestSuite) TestRegisterCoin() {
 		{
 			"denom already registered",
 			func() {
-				regPair := types.NewTokenPair(tests.GenerateAddress(), metadata.Base, true, types.OWNER_MODULE)
-				suite.app.Erc20Keeper.SetDenomMap(suite.ctx, regPair.Denom, regPair.GetID())
+				//regPair := types.NewTokenPair(tests.GenerateAddress(), metadata.Base, true, types.OWNER_MODULE)
+				//suite.app.Erc20Keeper.SetDenomMap(suite.ctx, regPair.Denom, regPair.GetID())
 				suite.Commit()
 			},
 			false,

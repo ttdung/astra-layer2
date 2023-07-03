@@ -4,8 +4,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authante "github.com/cosmos/cosmos-sdk/x/auth/ante"
-
-	ethante "github.com/evmos/evmos/v12/app/ante"
 )
 
 // NewAnteHandler returns an ante handler responsible for attempting to route an
@@ -18,7 +16,7 @@ func NewAnteHandler(options HandlerOptions) sdk.AnteHandler {
 	) (newCtx sdk.Context, err error) {
 		var anteHandler sdk.AnteHandler
 
-		defer ethante.Recover(ctx.Logger(), &err)
+		//defer ethante.Recover(ctx.Logger(), &err)
 
 		txWithExtensions, ok := tx.(authante.HasExtensionOptionsTx)
 		if ok {
@@ -31,6 +29,10 @@ func NewAnteHandler(options HandlerOptions) sdk.AnteHandler {
 				case "/ethermint.types.v1.ExtensionOptionsWeb3Tx":
 					// handle as normal Cosmos SDK tx, except signature is checked for EIP712 representation
 					anteHandler = newCosmosAnteHandlerEip712(options)
+				case "/ethermint.types.v1.ExtensionOptionDynamicFeeTx":
+					// cosmos-sdk tx with dynamic fee extension
+					anteHandler = newCosmosAnteHandler(options)
+
 				default:
 					return ctx, sdkerrors.Wrapf(
 						sdkerrors.ErrUnknownExtensionOptions,

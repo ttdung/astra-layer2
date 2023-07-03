@@ -41,7 +41,6 @@ import (
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	"github.com/cosmos/cosmos-sdk/simapp/params"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -50,9 +49,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/evmos/evmos/v12/crypto/hd"
 
+	pruningtypes "github.com/cosmos/cosmos-sdk/pruning/types"
 	"github.com/evmos/evmos/v12/encoding"
 	"github.com/evmos/evmos/v12/server/config"
-	ethermint "github.com/evmos/evmos/v12/types"
+	evmostypes "github.com/evmos/evmos/v12/types"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 )
 
@@ -99,22 +99,22 @@ func DefaultConfig() Config {
 	encCfg := encoding.MakeConfig(app.ModuleBasics)
 
 	return Config{
-		Codec:             encCfg.Marshaler,
+		Codec:             encCfg.Codec,
 		TxConfig:          encCfg.TxConfig,
 		LegacyAmino:       encCfg.Amino,
 		InterfaceRegistry: encCfg.InterfaceRegistry,
 		AccountRetriever:  authtypes.AccountRetriever{},
 		AppConstructor:    NewAppConstructor(encCfg),
-		GenesisState:      app.ModuleBasics.DefaultGenesis(encCfg.Marshaler),
+		GenesisState:      app.ModuleBasics.DefaultGenesis(encCfg.Codec),
 		TimeoutCommit:     2 * time.Second,
 		ChainID:           fmt.Sprintf("astra_%d-1", tmrand.Int63n(9999999999999)+1),
 		NumValidators:     4,
-		BondDenom:         ethermint.AttoPhoton,
-		MinGasPrices:      fmt.Sprintf("0.000006%s", ethermint.AttoPhoton),
-		AccountTokens:     sdk.TokensFromConsensusPower(1000, ethermint.PowerReduction),
-		StakingTokens:     sdk.TokensFromConsensusPower(500, ethermint.PowerReduction),
-		BondedTokens:      sdk.TokensFromConsensusPower(100, ethermint.PowerReduction),
-		PruningStrategy:   storetypes.PruningOptionNothing,
+		BondDenom:         evmostypes.AttoEvmos,
+		MinGasPrices:      fmt.Sprintf("0.000006%s", evmostypes.AttoEvmos),
+		AccountTokens:     sdk.TokensFromConsensusPower(1000, evmostypes.PowerReduction),
+		StakingTokens:     sdk.TokensFromConsensusPower(500, evmostypes.PowerReduction),
+		BondedTokens:      sdk.TokensFromConsensusPower(100, evmostypes.PowerReduction),
+		PruningStrategy:   pruningtypes.PruningOptionNothing,
 		CleanupDir:        true,
 		SigningAlgo:       string(hd.EthSecp256k1Type),
 		KeyringOptions:    []keyring.Option{hd.EthSecp256k1Option()},
@@ -129,7 +129,7 @@ func NewAppConstructor(encodingCfg params.EncodingConfig) AppConstructor {
 			val.Ctx.Logger, dbm.NewMemDB(), nil, true, make(map[int64]bool), val.Ctx.Config.RootDir, 0,
 			encodingCfg,
 			simapp.EmptyAppOptions{},
-			baseapp.SetPruning(storetypes.NewPruningOptionsFromString(val.AppConfig.Pruning)),
+			baseapp.SetPruning(pruningtypes.NewPruningOptionsFromString(val.AppConfig.Pruning)),
 			baseapp.SetMinGasPrices(val.AppConfig.MinGasPrices),
 		)
 	}
@@ -216,7 +216,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 	l.Log("acquiring test network lock")
 	lock.Lock()
 
-	if !ethermint.IsValidChainID(cfg.ChainID) {
+	if !evmostypes.IsValidChainID(cfg.ChainID) {
 		return nil, fmt.Errorf("invalid chain-id: %s", cfg.ChainID)
 	}
 
@@ -369,7 +369,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 		nodeIDs[i] = nodeID
 		valPubKeys[i] = pubKey
 
-		kb, err := keyring.New(sdk.KeyringServiceName(), keyring.BackendTest, clientDir, buf, cfg.KeyringOptions...)
+		kb, err := keyring.New(sdk.KeyringServiceName(), keyring.BackendTest, clientDir, buf, cfg.Codec, cfg.KeyringOptions...)
 		if err != nil {
 			return nil, err
 		}
@@ -410,7 +410,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 
 		genFiles = append(genFiles, tmCfg.GenesisFile())
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: balances.Sort()})
-		genAccounts = append(genAccounts, &ethermint.EthAccount{
+		genAccounts = append(genAccounts, &evmostypes.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
 			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
 		})
@@ -468,7 +468,7 @@ func New(l Logger, baseDir string, cfg Config) (*Network, error) {
 			return nil, err
 		}
 
-		customAppTemplate, _ := config.AppConfig(ethermint.AttoPhoton)
+		customAppTemplate, _ := config.AppConfig(evmostypes.AttoEvmos)
 		srvconfig.SetConfigTemplate(customAppTemplate)
 		srvconfig.WriteConfigFile(filepath.Join(nodeDir, "config/app.toml"), appCfg)
 

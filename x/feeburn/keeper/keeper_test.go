@@ -14,7 +14,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
-	"github.com/evmos/evmos/v12/tests"
+	//"github.com/evmos/evmos/v12/tests"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"

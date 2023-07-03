@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	"net"
 	"os"
 	"path/filepath"
@@ -267,7 +268,7 @@ func initTestnetFiles(
 		memo := fmt.Sprintf("%s@%s:%d", nodeIDs[i], ip, listenP2pPort)
 		genFiles = append(genFiles, nodeConfig.GenesisFile())
 
-		kb, err := keyring.New(sdk.KeyringServiceName(), args.keyringBackend, nodeDir, inBuf, astrakr.Option())
+		kb, err := keyring.New(sdk.KeyringServiceName(), args.keyringBackend, nodeDir, inBuf, clientCtx.Codec, astrakr.Option())
 		if err != nil {
 			return err
 		}
@@ -349,7 +350,9 @@ func initTestnetFiles(
 
 		customAppTemplate, customAppConfig := config.AppConfig(cmdcfg.BaseDenom)
 		srvconfig.SetConfigTemplate(customAppTemplate)
-		if err := sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig); err != nil {
+
+		customTMConfig := initTendermintConfig()
+		if err := sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig, customTMConfig); err != nil {
 			return err
 		}
 
@@ -408,7 +411,7 @@ func initGenFiles(
 	stakingGenState.Params.BondDenom = coinDenom
 	appGenState[stakingtypes.ModuleName] = clientCtx.Codec.MustMarshalJSON(&stakingGenState)
 
-	var govGenState govtypes.GenesisState
+	var govGenState govv1.GenesisState
 	clientCtx.Codec.MustUnmarshalJSON(appGenState[govtypes.ModuleName], &govGenState)
 
 	govGenState.DepositParams.MinDeposit[0].Denom = coinDenom

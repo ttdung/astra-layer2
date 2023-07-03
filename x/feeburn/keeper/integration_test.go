@@ -17,7 +17,7 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
 	"github.com/evmos/evmos/v12/encoding"
-	"github.com/evmos/evmos/v12/tests"
+	//"github.com/evmos/evmos/v12/tests"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )

@@ -4,9 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/client/pruning"
+	tmcfg "github.com/tendermint/tendermint/config"
 	"io"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	"github.com/cosmos/cosmos-sdk/snapshots"
@@ -35,13 +37,14 @@ import (
 	ethermintclient "github.com/evmos/evmos/v12/client"
 	"github.com/evmos/evmos/v12/client/debug"
 	"github.com/evmos/evmos/v12/encoding"
-	ethermintserver "github.com/evmos/evmos/v12/server"
+	evmosserver "github.com/evmos/evmos/v12/server"
 	servercfg "github.com/evmos/evmos/v12/server/config"
 	srvflags "github.com/evmos/evmos/v12/server/flags"
 
 	"github.com/AstraProtocol/astra/v2/app"
 	cmdcfg "github.com/AstraProtocol/astra/v2/cmd/config"
 	astrakr "github.com/AstraProtocol/astra/v2/crypto/keyring"
+	snapshottypes "github.com/cosmos/cosmos-sdk/snapshots/types"
 )
 
 const (
@@ -53,7 +56,7 @@ const (
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
 	initClientCtx := client.Context{}.
-		WithCodec(encodingConfig.Marshaler).
+		WithCodec(encodingConfig.Codec).
 		WithInterfaceRegistry(encodingConfig.InterfaceRegistry).
 		WithTxConfig(encodingConfig.TxConfig).
 		WithLegacyAmino(encodingConfig.Amino).
@@ -94,8 +97,9 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 			// TODO: define our own token
 			customAppTemplate, customAppConfig := initAppConfig()
+			customTMConfig := initTendermintConfig()
 
-			return sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig)
+			return sdkserver.InterceptConfigsPreRunHandler(cmd, customAppTemplate, customAppConfig, customTMConfig)
 		},
 	}
 
@@ -109,6 +113,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		encCfg: encodingConfig,
 	}
 
+	a := appCreator{encodingConfig}
 	rootCmd.AddCommand(
 		ethermintclient.ValidateChainID(
 			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
@@ -125,7 +130,12 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		pruning.PruningCmd(ac.newApp),
 	)
 
-	ethermintserver.AddCommands(rootCmd, app.DefaultNodeHome, ac.newApp, ac.appExport, addModuleInitFlags)
+	evmosserver.AddCommands(
+		rootCmd,
+		evmosserver.NewDefaultStartOptions(a.newApp, app.DefaultNodeHome),
+		a.appExport,
+		addModuleInitFlags,
+	)
 
 	// add keybase, auxiliary RPC, query, and tx child commands
 	rootCmd.AddCommand(
@@ -140,7 +150,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	}
 
 	// add rosetta
-	rootCmd.AddCommand(sdkserver.RosettaCommand(encodingConfig.InterfaceRegistry, encodingConfig.Marshaler))
+	rootCmd.AddCommand(sdkserver.RosettaCommand(encodingConfig.InterfaceRegistry, encodingConfig.Codec))
 
 	return rootCmd, encodingConfig
 }
@@ -248,6 +258,11 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		panic(err)
 	}
 
+	snapshotOptions := snapshottypes.NewSnapshotOptions(
+		cast.ToUint64(appOpts.Get(sdkserver.FlagStateSyncSnapshotInterval)),
+		cast.ToUint32(appOpts.Get(sdkserver.FlagStateSyncSnapshotKeepRecent)),
+	)
+
 	astraApp := app.NewAstraApp(
 		logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
@@ -262,9 +277,9 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		baseapp.SetInterBlockCache(cache),
 		baseapp.SetTrace(cast.ToBool(appOpts.Get(sdkserver.FlagTrace))),
 		baseapp.SetIndexEvents(cast.ToStringSlice(appOpts.Get(sdkserver.FlagIndexEvents))),
-		baseapp.SetSnapshotStore(snapshotStore),
-		baseapp.SetSnapshotInterval(cast.ToUint64(appOpts.Get(sdkserver.FlagStateSyncSnapshotInterval))),
-		baseapp.SetSnapshotKeepRecent(cast.ToUint32(appOpts.Get(sdkserver.FlagStateSyncSnapshotKeepRecent))),
+		baseapp.SetSnapshot(snapshotStore, snapshotOptions),
+		//baseapp.SetSnapshotInterval(cast.ToUint64(appOpts.Get(sdkserver.FlagStateSyncSnapshotInterval))),
+		//baseapp.SetSnapshotKeepRecent(cast.ToUint32(appOpts.Get(sdkserver.FlagStateSyncSnapshotKeepRecent))),
 		baseapp.SetIAVLCacheSize(cast.ToInt(appOpts.Get(sdkserver.FlagIAVLCacheSize))),
 		baseapp.SetIAVLDisableFastNode(cast.ToBool(appOpts.Get(sdkserver.FlagDisableIAVLFastNode))),
 	)
@@ -295,4 +310,19 @@ func (a appCreator) appExport(
 	}
 
 	return astraApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs)
+}
+
+// initTendermintConfig helps to override default Tendermint Config values.
+// return tmcfg.DefaultConfig if no custom configuration is required for the application.
+func initTendermintConfig() *tmcfg.Config {
+	cfg := tmcfg.DefaultConfig()
+	cfg.Consensus.TimeoutCommit = time.Second * 3
+	// use v0 since v1 severely impacts the node's performance
+	cfg.Mempool.Version = tmcfg.MempoolV0
+
+	// to put a higher strain on node memory, use these values:
+	// cfg.P2P.MaxNumInboundPeers = 100
+	// cfg.P2P.MaxNumOutboundPeers = 40
+
+	return cfg
 }
