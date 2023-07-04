@@ -530,11 +530,11 @@ func NewAstraApp(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		// Ethermint app modules
-		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(authtypes.ModuleName)),
-		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(authtypes.ModuleName)),
+		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
+		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
 		// Astra app modules
 		mint.NewAppModule(appCodec, app.MintKeeper, app.AccountKeeper),
-		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper, app.GetSubspace(authtypes.ModuleName)),
+		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper, app.GetSubspace(erc20types.ModuleName)),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		feeburn.NewAppModule(appCodec, app.FeeBurnKeeper, app.AccountKeeper, app.BankKeeper),
 	)
@@ -661,8 +661,8 @@ func NewAstraApp(
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		//evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(app.Name())),
-		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(authtypes.ModuleName)),
-		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(authtypes.ModuleName)),
+		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
+		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
 	)
 
 	app.sm.RegisterStoreDecoders()

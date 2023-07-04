@@ -206,6 +206,5 @@ replace (
 	github.com/evmos/evmos/v12 => github.com/dungtt-astra/evmos/v12 v12.1.5-astra-alpha
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/tendermint/tendermint => github.com/cometbft/cometbft v0.34.28
-//github.com/btcsuite/btcutil => github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 //google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
