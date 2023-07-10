@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
+	tmrand "github.com/tendermint/tendermint/libs/rand"
 	"net"
 	"os"
 	"path/filepath"
@@ -15,7 +16,6 @@ import (
 
 	"github.com/spf13/cobra"
 	tmconfig "github.com/tendermint/tendermint/config"
-	tmrand "github.com/tendermint/tendermint/libs/rand"
 	"github.com/tendermint/tendermint/types"
 	tmtime "github.com/tendermint/tendermint/types/time"
 
@@ -212,6 +212,7 @@ func initTestnetFiles(
 	args initArgs,
 ) error {
 	if args.chainID == "" {
+		//args.chainID = "9000"
 		args.chainID = fmt.Sprintf("astra_%d-1", tmrand.Int63n(9999999999999)+1)
 	}
 
