@@ -7,7 +7,6 @@ require (
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/ibc-go/v6 v6.1.1
 	github.com/ethereum/go-ethereum v1.10.26
-	//github.com/evmos/ethermint v0.22.0
 	github.com/evmos/evmos/v12 v12.1.5
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.3
@@ -203,7 +202,7 @@ replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
 	github.com/btcsuite/btcd => github.com/btcsuite/btcd v0.22.2
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
-	github.com/evmos/evmos/v12 => github.com/dungtt-astra/evmos/v12 v12.1.5-astra-alpha
+	github.com/evmos/evmos/v12 => github.com/dungtt-astra/evmos/v12 v12.1.5-beta
 	//github.com/evmos/evmos/v12 => /Users/dungtran/stella/sourcecode/evmos
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/tendermint/tendermint => github.com/cometbft/cometbft v0.34.28
