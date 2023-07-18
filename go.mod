@@ -203,8 +203,8 @@ replace (
 	github.com/btcsuite/btcd => github.com/btcsuite/btcd v0.22.2
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
 	github.com/evmos/evmos/v12 => github.com/dungtt-astra/evmos/v12 v12.1.5-beta
-	//github.com/evmos/evmos/v12 => /Users/dungtran/stella/sourcecode/evmos
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 	github.com/tendermint/tendermint => github.com/cometbft/cometbft v0.34.28
 //google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
