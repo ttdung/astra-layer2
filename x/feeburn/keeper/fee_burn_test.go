@@ -55,7 +55,8 @@ func (suite *KeeperTestSuite) TestBurnSuccess() {
 			supplyAfter := suite.app.BankKeeper.GetSupply(suite.ctx, config.BaseDenom)
 			totalFeeBurn := params.FeeBurn.MulInt(sdk.NewInt(int64(i))).RoundInt()
 			suite.Require().Equal(supplyBefore.Amount.Sub(totalFeeBurn), supplyAfter.Amount)
-			suite.Require().Equal(true, totalFeeBurn.ToDec().Equal(totalFeeBurnAfter.Sub(totalFeeBurnBefore)))
+			//suite.Require().Equal(true, totalFeeBurn.ToDec().Equal(totalFeeBurnAfter.Sub(totalFeeBurnBefore)))
+			suite.Require().Equal(totalFeeBurn, totalFeeBurnAfter.Sub(totalFeeBurnBefore))
 		}
 	}
 }
@@ -84,7 +85,7 @@ func (suite *KeeperTestSuite) TestBurnWhenFeeNegative() {
 			// when fee is negative then fee burn is zero
 			totalFeeBurn := params.FeeBurn.MulInt(sdk.NewInt(int64(0))).RoundInt()
 			suite.Require().Equal(supplyBefore.Amount.Sub(totalFeeBurn), supplyAfter.Amount)
-			suite.Require().Equal(true, totalFeeBurn.ToDec().Equal(totalFeeBurnAfter.Sub(totalFeeBurnBefore)))
+			suite.Require().Equal(totalFeeBurn, totalFeeBurnAfter.Sub(totalFeeBurnBefore))
 		}
 	}
 }
@@ -117,7 +118,7 @@ func (suite *KeeperTestSuite) TestBurnWhenManyFeeDenom() {
 				totalFeeBurn = params.FeeBurn.MulInt(sdk.NewInt(int64(0))).RoundInt()
 			}
 			suite.Require().Equal(supplyBefore.Amount.Sub(totalFeeBurn), supplyAfter.Amount)
-			suite.Require().Equal(true, totalFeeBurn.ToDec().Equal(totalFeeBurnAfter.Sub(totalFeeBurnBefore)))
+			suite.Require().Equal(totalFeeBurn, totalFeeBurnAfter.Sub(totalFeeBurnBefore))
 		}
 	}
 }
