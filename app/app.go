@@ -123,6 +123,9 @@ import (
 	"github.com/evmos/evmos/v12/x/vesting"
 	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
+
+	inflationkeeper "github.com/evmos/evmos/v12/x/inflation/keeper"
+	revenuekeeper "github.com/evmos/evmos/v12/x/revenue/v1/keeper"
 )
 
 func init() {
@@ -249,6 +252,10 @@ type Astra struct {
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
+
+	// Evmos keepers
+	InflationKeeper inflationkeeper.Keeper
+	RevenueKeeper   revenuekeeper.Keeper
 
 	// Ethermint keepers
 	Erc20Keeper     erc20keeper.Keeper
