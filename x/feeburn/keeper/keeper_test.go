@@ -91,7 +91,7 @@ func (suite *KeeperTestSuite) SetupApp() {
 	require.NoError(t, err)
 	suite.consAddress = sdk.ConsAddress(privCons.PubKey().Address())
 	header := testutil.NewHeader(
-		1, time.Now().UTC(), "astra_11110-1", suite.consAddress, nil, nil,
+		1, time.Now().UTC(), "astra_11115-1", suite.consAddress, nil, nil,
 	)
 	suite.ctx = suite.app.BaseApp.NewContext(false, header)
 	queryHelper := baseapp.NewQueryServerTestHelper(suite.ctx, suite.app.InterfaceRegistry())
@@ -102,10 +102,11 @@ func (suite *KeeperTestSuite) SetupApp() {
 	evmtypes.RegisterQueryServer(queryHelperEvm, suite.app.EvmKeeper)
 	suite.queryClientEvm = evmtypes.NewQueryClient(queryHelperEvm)
 
-	params := revtypes.DefaultParams()
-	params.EnableRevenue = true
-	err = suite.app.RevenueKeeper.SetParams(suite.ctx, params)
-	require.NoError(t, err)
+	//params := revtypes.DefaultParams()
+	//params.EnableRevenue = true
+	//fmt.Println("===============.... suite.app.RevenueKeeper", suite.app.RevenueKeeper)
+	//err = suite.app.RevenueKeeper.SetParams(suite.ctx, params)
+	//require.NoError(t, err)
 
 	stakingParams := suite.app.StakingKeeper.GetParams(suite.ctx)
 	stakingParams.BondDenom = suite.denom
@@ -116,10 +117,10 @@ func (suite *KeeperTestSuite) SetupApp() {
 	err = suite.app.EvmKeeper.SetParams(suite.ctx, evmParams)
 	require.NoError(t, err)
 
-	inflationParams := suite.app.InflationKeeper.GetParams(suite.ctx)
-	inflationParams.EnableInflation = false
-	err = suite.app.InflationKeeper.SetParams(suite.ctx, inflationParams)
-	require.NoError(t, err)
+	//inflationParams := suite.app.InflationKeeper.GetParams(suite.ctx)
+	//inflationParams.EnableInflation = false
+	//err = suite.app.InflationKeeper.SetParams(suite.ctx, inflationParams)
+	//require.NoError(t, err)
 
 	// Set Validator
 	valAddr := sdk.ValAddress(suite.address.Bytes())

@@ -7,6 +7,8 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	client2 "github.com/cosmos/cosmos-sdk/x/gov/client"
 	"github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
+	inflationkeeper "github.com/evmos/evmos/v12/x/inflation/keeper"
+	revenuekeeper "github.com/evmos/evmos/v12/x/revenue/v1/keeper"
 	"io"
 	"net/http"
 	"os"
@@ -123,9 +125,6 @@ import (
 	"github.com/evmos/evmos/v12/x/vesting"
 	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
-
-	inflationkeeper "github.com/evmos/evmos/v12/x/inflation/keeper"
-	revenuekeeper "github.com/evmos/evmos/v12/x/revenue/v1/keeper"
 )
 
 func init() {
