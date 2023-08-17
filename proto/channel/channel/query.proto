@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package channel.channel;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "channel/channel/params.proto";
+import "channel/channel/channel.proto";
+
+option go_package = "channel/x/channel/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/channel/channel/params";
+  
+  }
+  
+  // Queries a list of Channel items.
+  rpc Channel    (QueryGetChannelRequest) returns (QueryGetChannelResponse) {
+    option (google.api.http).get = "/channel/channel/channel/{index}";
+  
+  }
+  rpc ChannelAll (QueryAllChannelRequest) returns (QueryAllChannelResponse) {
+    option (google.api.http).get = "/channel/channel/channel";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetChannelRequest {
+  string index = 1;
+}
+
+message QueryGetChannelResponse {
+  Channel channel = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllChannelRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllChannelResponse {
+  repeated Channel                                channel    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

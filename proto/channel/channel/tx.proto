@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package channel.channel;
+
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "channel/x/channel/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc Openchannel (MsgOpenchannel) returns (MsgOpenchannelResponse);
+}
+message MsgOpenchannel {
+  string creator      = 1;
+  string partA        = 2;
+  string partB        = 3;
+  cosmos.base.v1beta1.Coin coinA        = 4;
+  cosmos.base.v1beta1.Coin coinB        = 5;
+  string multisigAddr = 6;
+  string sequence     = 7;
+}
+
+message MsgOpenchannelResponse {
+  string id = 1;
+}
+

@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	v1 "github.com/AstraProtocol/astra/v2/app/upgrades/v1"
-	v2 "github.com/AstraProtocol/astra/v2/app/upgrades/v2"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	client2 "github.com/cosmos/cosmos-sdk/x/gov/client"
 	"github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
@@ -115,6 +114,7 @@ import (
 	feemarketkeeper "github.com/evmos/evmos/v12/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
+	channelmodule "astra/x/channel"
 	"github.com/AstraProtocol/astra/v2/app/ante"
 	astraconfig "github.com/AstraProtocol/astra/v2/cmd/config"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
@@ -185,6 +185,7 @@ var (
 		feemarket.AppModuleBasic{},
 		erc20.AppModuleBasic{},
 		feeburn.AppModuleBasic{},
+		channelmodule.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -955,13 +956,13 @@ func (app *Astra) setupUpgradeHandlers() {
 	)
 
 	// v2 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		v2.UpgradeName,
-		v2.CreateUpgradeHandler(
-			app.mm, app.configurator,
-			app.StakingKeeper,
-		),
-	)
+	//app.UpgradeKeeper.SetUpgradeHandler(
+	//	v2.UpgradeName,
+	//	v2.CreateUpgradeHandler(
+	//		app.mm, app.configurator,
+	//		app.StakingKeeper,
+	//	),
+	//)
 
 }
 

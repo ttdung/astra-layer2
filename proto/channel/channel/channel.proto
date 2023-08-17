@@ -1,0 +1,15 @@
+syntax = "proto3";
+package channel.channel;
+
+option go_package = "channel/x/channel/types";
+
+message Channel {
+  string index = 1; 
+  string multisigAddr = 2; 
+  string partA = 3; 
+  string partB = 4; 
+  string denom = 5; 
+  string sequence = 6; 
+  
+}
+
