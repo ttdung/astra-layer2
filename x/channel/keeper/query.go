@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"channel/x/channel/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 var _ types.QueryServer = Keeper{}

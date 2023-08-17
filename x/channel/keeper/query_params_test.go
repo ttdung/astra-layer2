@@ -3,9 +3,9 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "channel/testutil/keeper"
-	"channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	testkeeper "github.com/dungtt-astra/astra/testutil/keeper"
+	"github.com/dungtt-astra/astra/x/channel/types"
 	"github.com/stretchr/testify/require"
 )
 

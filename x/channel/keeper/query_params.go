@@ -3,8 +3,8 @@ package keeper
 import (
 	"context"
 
-	"channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

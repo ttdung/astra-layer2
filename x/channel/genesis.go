@@ -1,9 +1,9 @@
 package channel
 
 import (
-	"channel/x/channel/keeper"
-	"channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/x/channel/keeper"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 // InitGenesis initializes the module's state from a provided genesis state.

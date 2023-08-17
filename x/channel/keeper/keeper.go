@@ -9,7 +9,7 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/tendermint/tendermint/libs/log"
 
-	"channel/x/channel/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 type (
