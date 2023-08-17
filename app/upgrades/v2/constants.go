@@ -1,11 +1,10 @@
-package v1
+package v2
 
 const (
 	// UpgradeName is the shared upgrade plan name for mainnet and testnet
-	UpgradeName = "v2.2.4-rc"
+	UpgradeName = "v2.2.6"
 
-	//UpgradeHeight = 74000
-	UpgradeHeight = 7
+	UpgradeHeight = 6
 
 	UpgradeInfo = ``
 )

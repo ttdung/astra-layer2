@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	v1 "github.com/AstraProtocol/astra/v2/app/upgrades/v1"
+	v2 "github.com/AstraProtocol/astra/v2/app/upgrades/v2"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	client2 "github.com/cosmos/cosmos-sdk/x/gov/client"
 	"github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
@@ -401,14 +402,7 @@ func NewAstraApp(
 		tkeys[feemarkettypes.TransientKey],
 		app.GetSubspace(feemarkettypes.ModuleName),
 	)
-	app.FeeMarketKeeper = feemarketkeeper.NewKeeper(
-		appCodec, authtypes.NewModuleAddress(govtypes.ModuleName),
-		keys[feemarkettypes.StoreKey],
-		tkeys[feemarkettypes.TransientKey],
-		app.GetSubspace(feemarkettypes.ModuleName),
-	)
 
-	// Create Ethermint keepers
 	app.EvmKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], authtypes.NewModuleAddress(govtypes.ModuleName),
 		app.AccountKeeper, app.BankKeeper, &stakingKeeper, app.FeeMarketKeeper,
@@ -959,4 +953,27 @@ func (app *Astra) setupUpgradeHandlers() {
 			app.ParamsKeeper,
 		),
 	)
+
+	// v2 upgrade handler
+	app.UpgradeKeeper.SetUpgradeHandler(
+		v2.UpgradeName,
+		v2.CreateUpgradeHandler(
+			app.mm, app.configurator,
+			app.StakingKeeper,
+		),
+	)
+
+}
+
+func setMinCommissionRate(ctx sdk.Context, sk stakingkeeper.Keeper) {
+	stakingParams := stakingtypes.Params{
+		UnbondingTime:     sk.UnbondingTime(ctx),
+		MaxValidators:     sk.MaxValidators(ctx),
+		MaxEntries:        sk.MaxEntries(ctx),
+		HistoricalEntries: sk.HistoricalEntries(ctx),
+		BondDenom:         sk.BondDenom(ctx),
+		MinCommissionRate: sdk.NewDecWithPrec(5, 2), // 5%
+	}
+
+	sk.SetParams(ctx, stakingParams)
 }
