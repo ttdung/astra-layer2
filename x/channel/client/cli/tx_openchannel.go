@@ -3,6 +3,7 @@ package cli
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"log"
 	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -38,6 +39,8 @@ func CmdOpenchannel() *cobra.Command {
 			if err != nil {
 				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid multisig address (%s)", err)
 			}
+
+			log.Println("==============... msg argPartA:", argPartA)
 
 			cmd.Flags().Set(flags.FlagFrom, argMultisigAddr)
 			clientCtx, err := client.GetClientTxContext(cmd)
