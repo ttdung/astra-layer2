@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package channel.channel;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "channel/channel/params.proto";
+import "channel/channel/channel.proto";
+import "channel/channel/commitment.proto";
+import "channel/channel/fwdcommitment.proto";
+
+option go_package = "channel/x/channel/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/channel/channel/params";
+  
+  }
+  
+  // Queries a list of Channel items.
+  rpc Channel    (QueryGetChannelRequest) returns (QueryGetChannelResponse) {
+    option (google.api.http).get = "/channel/channel/channel/{index}";
+  
+  }
+  rpc ChannelAll (QueryAllChannelRequest) returns (QueryAllChannelResponse) {
+    option (google.api.http).get = "/channel/channel/channel";
+  
+  }
+  
+  // Queries a list of Commitment items.
+  rpc Commitment    (QueryGetCommitmentRequest) returns (QueryGetCommitmentResponse) {
+    option (google.api.http).get = "/channel/channel/commitment/{index}";
+  
+  }
+  rpc CommitmentAll (QueryAllCommitmentRequest) returns (QueryAllCommitmentResponse) {
+    option (google.api.http).get = "/channel/channel/commitment";
+  
+  }
+  
+  // Queries a list of Fwdcommitment items.
+  rpc Fwdcommitment    (QueryGetFwdcommitmentRequest) returns (QueryGetFwdcommitmentResponse) {
+    option (google.api.http).get = "/channel/channel/fwdcommitment/{index}";
+  
+  }
+  rpc FwdcommitmentAll (QueryAllFwdcommitmentRequest) returns (QueryAllFwdcommitmentResponse) {
+    option (google.api.http).get = "/channel/channel/fwdcommitment";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetChannelRequest {
+  string index = 1;
+}
+
+message QueryGetChannelResponse {
+  Channel channel = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllChannelRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllChannelResponse {
+  repeated Channel                                channel    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetCommitmentRequest {
+  string index = 1;
+}
+
+message QueryGetCommitmentResponse {
+  Commitment commitment = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllCommitmentRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllCommitmentResponse {
+  repeated Commitment                             commitment = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetFwdcommitmentRequest {
+  string index = 1;
+}
+
+message QueryGetFwdcommitmentResponse {
+  Fwdcommitment fwdcommitment = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllFwdcommitmentRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllFwdcommitmentResponse {
+  repeated Fwdcommitment                          fwdcommitment = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination    = 2;
+}
+

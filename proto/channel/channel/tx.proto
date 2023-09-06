@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+package channel.channel;
+
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "channel/x/channel/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc Openchannel            (MsgOpenchannel           ) returns (MsgOpenchannelResponse           );
+  rpc Closechannel           (MsgClosechannel          ) returns (MsgClosechannelResponse          );
+  rpc Commitment             (MsgCommitment            ) returns (MsgCommitmentResponse            );
+  rpc WithdrawTimelock       (MsgWithdrawTimelock      ) returns (MsgWithdrawTimelockResponse      );
+  rpc WithdrawHashlock       (MsgWithdrawHashlock      ) returns (MsgWithdrawHashlockResponse      );
+  rpc Fund                   (MsgFund                  ) returns (MsgFundResponse                  );
+  rpc Acceptfund             (MsgAcceptfund            ) returns (MsgAcceptfundResponse            );
+  rpc Sendercommit           (MsgSendercommit          ) returns (MsgSendercommitResponse          );
+  rpc Receivercommit         (MsgReceivercommit        ) returns (MsgReceivercommitResponse        );
+  rpc Senderwithdrawtimelock (MsgSenderwithdrawtimelock) returns (MsgSenderwithdrawtimelockResponse);
+  rpc Senderwithdrawhashlock (MsgSenderwithdrawhashlock) returns (MsgSenderwithdrawhashlockResponse);
+  rpc Receiverwithdraw       (MsgReceiverwithdraw      ) returns (MsgReceiverwithdrawResponse      );
+}
+message MsgOpenchannel {
+  string                   creator      = 1;
+  string                   partA        = 2;
+  string                   partB        = 3;
+  cosmos.base.v1beta1.Coin coinA        = 4;
+  cosmos.base.v1beta1.Coin coinB        = 5;
+  string                   multisigAddr = 6;
+  string                   sequence     = 7;
+}
+
+message MsgOpenchannelResponse {
+  string id = 1;
+}
+
+message MsgClosechannel {
+  string                   creator      = 1;
+  string                   multisigAddr = 2;
+  string                   partA        = 3;
+  cosmos.base.v1beta1.Coin coinA        = 4;
+  string                   partB        = 5;
+  cosmos.base.v1beta1.Coin coinB        = 6;
+  string                   channelid    = 7;
+}
+
+message MsgClosechannelResponse {}
+
+message MsgCommitment {
+  string                   creator       = 1;
+  string                   multisigAddr  = 2;
+  string                   creatoraddr   = 3;
+  string                   partneraddr   = 4;
+  string                   hashcode      = 5;
+  uint64                   numblock      = 6;
+  cosmos.base.v1beta1.Coin cointocreator = 7;
+  cosmos.base.v1beta1.Coin cointohtlc    = 8;
+  string                   channelid     = 9;
+}
+
+message MsgCommitmentResponse {
+  string id = 1;
+}
+
+message MsgWithdrawTimelock {
+  string creator = 1;
+  string to      = 2;
+  string index   = 3;
+}
+
+message MsgWithdrawTimelockResponse {}
+
+message MsgWithdrawHashlock {
+  string creator = 1;
+  string to      = 2;
+  string index   = 3;
+  string secret  = 4;
+}
+
+message MsgWithdrawHashlockResponse {}
+
+message MsgFund {
+  string                   creator       = 1;
+  string                   creatoraddr   = 2;
+  string                   channelid     = 3;
+  cosmos.base.v1beta1.Coin cointoPartner = 4;
+  string                   hashcode      = 5;
+  uint64                   numblock      = 6;
+  string                   multisigAddr  = 7;
+}
+
+message MsgFundResponse {
+  string id = 1;
+}
+
+message MsgAcceptfund {
+  string                   creator       = 1;
+  string                   creatoraddr   = 2;
+  string                   channelid     = 3;
+  cosmos.base.v1beta1.Coin cointoCreator = 4;
+  string                   hashcode      = 5;
+  uint64                   numblock      = 6;
+  string                   multisigAddr  = 7;
+}
+
+message MsgAcceptfundResponse {
+  string id = 1;
+}
+
+message MsgSendercommit {
+  string                   creator          =  1;
+  string                   senderAddr       =  2;
+  string                   channelid        =  3;
+  cosmos.base.v1beta1.Coin cointosender     =  4;
+  cosmos.base.v1beta1.Coin cointohtlc       =  5;
+  cosmos.base.v1beta1.Coin cointransfer     =  6;
+  string                   hashcodehtlc     =  7;
+  uint64                   timelockhtlc     =  8;
+  string                   hashcodedest     =  9;
+  uint64                   timelockreceiver = 10;
+  uint64                   timelocksender   = 11;
+  string                   multisigAddr     = 12;
+}
+
+message MsgSendercommitResponse {
+  string htlcIndex     = 1;
+  string transferIndex = 2;
+}
+
+message MsgReceivercommit {
+  string                   creator        =  1;
+  string                   receiverAddr   =  2;
+  string                   channelid      =  3;
+  cosmos.base.v1beta1.Coin cointoreceiver =  4;
+  cosmos.base.v1beta1.Coin cointohtlc     =  5;
+  cosmos.base.v1beta1.Coin cointransfer   =  6;
+  string                   hashcodehtlc   =  7;
+  uint64                   timelockhtlc   =  8;
+  string                   hashcodedest   =  9;
+  uint64                   timelocksender = 10;
+  string                   multisigAddr   = 11;
+}
+
+message MsgReceivercommitResponse {
+  string htlcIndex     = 1;
+  string transferIndex = 2;
+}
+
+message MsgSenderwithdrawtimelock {
+  string creator       = 1;
+  string transferindex = 2;
+  string to            = 3;
+}
+
+message MsgSenderwithdrawtimelockResponse {}
+
+message MsgSenderwithdrawhashlock {
+  string creator       = 1;
+  string transferindex = 2;
+  string to            = 3;
+  string secret        = 4;
+}
+
+message MsgSenderwithdrawhashlockResponse {}
+
+message MsgReceiverwithdraw {
+  string creator       = 1;
+  string transferindex = 2;
+  string to            = 3;
+  string secret        = 4;
+}
+
+message MsgReceiverwithdrawResponse {}
+

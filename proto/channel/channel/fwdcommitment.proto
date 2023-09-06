@@ -1,0 +1,21 @@
+syntax = "proto3";
+package channel.channel;
+
+option go_package = "channel/x/channel/types";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+message Fwdcommitment {
+  string index = 1; 
+  string channelid = 2; 
+  string multisigAddr = 3; 
+  string senderAddr = 4; 
+  string receiverAddr = 5; 
+  uint64 timelocksender = 6;
+  uint64 timelockreceiver = 7;
+  string hashcodehtlc = 8; 
+  string hashcodedest = 9;
+  cosmos.base.v1beta1.Coin cointransfer = 10;
+  string creator = 11;
+}
+

@@ -1,0 +1,20 @@
+syntax = "proto3";
+package channel.channel;
+
+option go_package = "channel/x/channel/types";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+message Commitment {
+  string index = 1; 
+  string multisigAddr = 2; 
+  string creatoraddr = 3; 
+  string partneraddr = 4; 
+  string hashcode = 5; 
+  uint64 numblock = 6;
+  cosmos.base.v1beta1.Coin cointocreator = 7;
+  cosmos.base.v1beta1.Coin cointohtlc = 8;
+  string channelid = 9; 
+  
+}
+

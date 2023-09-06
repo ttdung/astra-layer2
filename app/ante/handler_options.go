@@ -1,6 +1,7 @@
 package ante
 
 import (
+	channelante "github.com/AstraProtocol/astra/v3/x/channel/ante"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -20,6 +21,8 @@ import (
 	feeburntypes "github.com/AstraProtocol/astra/v3/x/feeburn/types"
 	anteutils "github.com/evmos/evmos/v12/app/ante/utils"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
+
+	channelkeeper "github.com/AstraProtocol/astra/channel/x/channel/keeper"
 )
 
 // HandlerOptions defines the list of module keepers required to run the Evmos
@@ -39,6 +42,7 @@ type HandlerOptions struct {
 	SigGasConsumer     func(meter sdk.GasMeter, sig signing.SignatureV2, params authtypes.Params) error
 	Cdc                codec.BinaryCodec
 	MaxTxGasWanted     uint64
+	ChannelKeeper      *channelkeeper.Keeper
 }
 
 // Validate checks if the keepers are defined
@@ -67,6 +71,9 @@ func (options HandlerOptions) Validate() error {
 	if options.EvmKeeper == nil {
 		return sdkerrors.Wrap(sdkerrors.ErrLogic, "evm keeper is required for AnteHandler")
 	}
+	if options.ChannelKeeper == nil {
+		return sdkerrors.Wrap(sdkerrors.ErrLogic, "channel keeper is required for AnteHandler")
+	}
 	return nil
 }
 
@@ -84,6 +91,7 @@ func newEthAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		evmante.NewEthAccountVerificationDecorator(options.AccountKeeper, options.EvmKeeper),
 		evmante.NewCanTransferDecorator(options.EvmKeeper),
 		NewEthVestingTransactionDecorator(options.AccountKeeper), // TODO(thanhnv): sync with evmos
+		channelante.NewLnMsgDecorator(options.ChannelKeeper, options.BankKeeper),
 		evmante.NewEthGasConsumeDecorator(options.BankKeeper, options.DistributionKeeper, options.EvmKeeper, options.StakingKeeper, options.MaxTxGasWanted),
 		evmante.NewEthIncrementSenderSequenceDecorator(options.AccountKeeper),
 		evmante.NewGasWantedDecorator(options.EvmKeeper, options.FeeMarketKeeper),
@@ -113,6 +121,7 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 			options.FeegrantKeeper, nil), // see https://github.com/cosmos/cosmos-sdk/blob/release/v0.46.x/CHANGELOG.md#api-breaking-changes-5
 		feeburnante.NewFeeBurnDecorator(options.BankKeeperFork, options.FeeBurnKeeper),
 		NewVestingDelegationDecorator(options.AccountKeeper, options.StakingKeeper, options.Cdc), // TODO(thanhnv): sync with evmos
+		channelante.NewLnMsgDecorator(options.ChannelKeeper, options.BankKeeper),
 		// SetPubKeyDecorator must be called before all signature verification decorators
 		ante.NewSetPubKeyDecorator(options.AccountKeeper),
 		ante.NewValidateSigCountDecorator(options.AccountKeeper),

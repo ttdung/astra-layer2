@@ -125,6 +125,10 @@ import (
 	"github.com/evmos/evmos/v12/x/vesting"
 	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
+
+	channelmodule "github.com/AstraProtocol/astra/channel/x/channel"
+	channelmodulekeeper "github.com/AstraProtocol/astra/channel/x/channel/keeper"
+	channelmoduletypes "github.com/AstraProtocol/astra/channel/x/channel/types"
 )
 
 func init() {
@@ -187,6 +191,7 @@ var (
 		feemarket.AppModuleBasic{},
 		erc20.AppModuleBasic{},
 		feeburn.AppModuleBasic{},
+		channelmodule.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -201,6 +206,7 @@ var (
 		evmtypes.ModuleName:            {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 		feeBurnTypes.ModuleName:        {authtypes.Burner},
 		erc20types.ModuleName:          {authtypes.Minter, authtypes.Burner},
+		channelmoduletypes.ModuleName:  {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 	}
 
 	// module accounts that are allowed to receive tokens
@@ -264,6 +270,9 @@ type Astra struct {
 	FeeBurnKeeper feeBurnKeeper.Keeper
 	Erc20Keeper   erc20keeper.Keeper
 
+	// Channel keeper
+	ChannelKeeper channelmodulekeeper.Keeper
+
 	// the module manager
 	mm *module.Manager
 
@@ -321,6 +330,7 @@ func NewAstraApp(
 		erc20types.StoreKey,
 		vestingtypes.StoreKey,
 		feeBurnTypes.StoreKey,
+		channelmoduletypes.StoreKey,
 	)
 
 	// Add the EVM transient store key
@@ -492,6 +502,16 @@ func NewAstraApp(
 		),
 	)
 
+	app.ChannelKeeper = *channelmodulekeeper.NewKeeper(
+		appCodec,
+		keys[channelmoduletypes.StoreKey],
+		keys[channelmoduletypes.MemStoreKey],
+		app.GetSubspace(channelmoduletypes.ModuleName),
+
+		app.BankKeeper,
+	)
+	channelModule := channelmodule.NewAppModule(appCodec, app.ChannelKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// Create Transfer Stack
 
 	// SendPacket, since it is originating from the application to core IBC:
@@ -569,6 +589,7 @@ func NewAstraApp(
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper, app.GetSubspace(erc20types.ModuleName)),
 		vesting.NewAppModule(app.VestingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		feeburn.NewAppModule(appCodec, app.FeeBurnKeeper, app.AccountKeeper, app.BankKeeper),
+		channelModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -601,6 +622,7 @@ func NewAstraApp(
 		vestingtypes.ModuleName,
 		erc20types.ModuleName,
 		feeBurnTypes.ModuleName,
+		channelmoduletypes.ModuleName,
 	)
 
 	// NOTE: fee market module must go last in order to retrieve the block gas used.
@@ -628,6 +650,7 @@ func NewAstraApp(
 		vestingtypes.ModuleName,
 		erc20types.ModuleName,
 		feeBurnTypes.ModuleName,
+		channelmoduletypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -663,6 +686,7 @@ func NewAstraApp(
 		feeBurnTypes.ModuleName,
 		// NOTE: crisis module must go at the end to check for invariants on each module
 		crisistypes.ModuleName,
+		channelmoduletypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -694,6 +718,7 @@ func NewAstraApp(
 		transferModule,
 		evm.NewAppModule(app.EvmKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
 		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
+		channelModule,
 	)
 
 	app.sm.RegisterStoreDecoders()
@@ -722,6 +747,7 @@ func NewAstraApp(
 		SigGasConsumer:     SigVerificationGasConsumer,
 		Cdc:                appCodec,
 		MaxTxGasWanted:     maxGasWanted,
+		ChannelKeeper:      &app.ChannelKeeper,
 	}
 
 	if err := options.Validate(); err != nil {
@@ -981,6 +1007,7 @@ func initParamsKeeper(
 	paramsKeeper.Subspace(minttypes.ModuleName)
 	paramsKeeper.Subspace(erc20types.ModuleName)
 	paramsKeeper.Subspace(feeBurnTypes.ModuleName)
+	paramsKeeper.Subspace(channelmoduletypes.ModuleName)
 	return paramsKeeper
 }
 

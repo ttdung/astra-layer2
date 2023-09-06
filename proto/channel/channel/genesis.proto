@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package channel.channel;
+
+import "gogoproto/gogo.proto";
+import "channel/channel/params.proto";
+import "channel/channel/channel.proto";
+import "channel/channel/commitment.proto";
+import "channel/channel/fwdcommitment.proto";
+
+option go_package = "channel/x/channel/types";
+
+// GenesisState defines the channel module's genesis state.
+message GenesisState {
+           Params        params            = 1 [(gogoproto.nullable) = false];
+  repeated Channel       channelList       = 2 [(gogoproto.nullable) = false];
+  repeated Commitment    commitmentList    = 3 [(gogoproto.nullable) = false];
+  repeated Fwdcommitment fwdcommitmentList = 4 [(gogoproto.nullable) = false];
+}
+
