@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/dungtt-astra/astra/channel/testutil/network"
-	"github.com/dungtt-astra/astra/channel/testutil/nullify"
-	"github.com/dungtt-astra/astra/channel/x/channel/client/cli"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/testutil/network"
+	"github.com/dungtt-astra/astra/testutil/nullify"
+	"github.com/dungtt-astra/astra/x/channel/client/cli"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 // Prevent strconv unused error

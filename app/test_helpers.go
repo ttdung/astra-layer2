@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	minttypes "github.com/AstraProtocol/astra/v3/x/mint/types"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
@@ -10,6 +9,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/cosmos/ibc-go/v6/testing/mock"
+	minttypes "github.com/dungtt-astra/astra/v3/x/mint/types"
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/simapp"
@@ -24,7 +24,7 @@ import (
 	"github.com/evmos/evmos/v12/encoding"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
-	"github.com/AstraProtocol/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 )
 
 func init() {

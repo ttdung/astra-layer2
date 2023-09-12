@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AstraProtocol/astra.git"
+    "url": "git+https://github.com/dungtt-astra/astra.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AstraProtocol/astra/issues"
+    "url": "https://github.com/dungtt-astra/astra/issues"
   },
-  "homepage": "https://github.com/AstraProtocol/astra#readme"
+  "homepage": "https://github.com/dungtt-astra/astra#readme"
 }

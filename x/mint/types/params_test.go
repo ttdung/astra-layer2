@@ -2,9 +2,9 @@ package types
 
 import (
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 	"github.com/stretchr/testify/suite"
 	"github.com/tendermint/tendermint/libs/rand"
 	"testing"

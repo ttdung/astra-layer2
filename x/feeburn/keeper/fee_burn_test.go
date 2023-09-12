@@ -1,11 +1,11 @@
 package keeper_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/cmd/config"
-	"github.com/AstraProtocol/astra/v3/x/feeburn/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/x/feeburn/types"
 )
 
 func (suite *KeeperTestSuite) TestBurnErrorWhenFeeCollectorIsZeroAmount() {

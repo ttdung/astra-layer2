@@ -3,11 +3,11 @@ package keeper
 import (
 	"context"
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/x/channel/pubkey"
+	"github.com/dungtt-astra/astra/v3/x/channel/pubkey"
 	"log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 func (k msgServer) Openchannel(goCtx context.Context, msg *types.MsgOpenchannel) (*types.MsgOpenchannelResponse, error) {

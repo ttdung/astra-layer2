@@ -3,11 +3,11 @@ package simulation
 import (
 	"math/rand"
 
-	"github.com/dungtt-astra/astra/channel/x/channel/keeper"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+	"github.com/dungtt-astra/astra/x/channel/keeper"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 func SimulateMsgFund(

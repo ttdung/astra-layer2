@@ -1,9 +1,9 @@
 package ante
 
 import (
-	feeburntype "github.com/AstraProtocol/astra/v3/x/feeburn/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	feeburntype "github.com/dungtt-astra/astra/v3/x/feeburn/types"
 )
 
 // FeeBurnDecorator Run his after we already deduct the fee from the account with

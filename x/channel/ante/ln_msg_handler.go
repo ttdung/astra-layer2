@@ -2,14 +2,14 @@ package ante
 
 import (
 	"fmt"
-	"github.com/dungtt-astra/astra/channel/x/channel/pubkey"
+	"github.com/dungtt-astra/astra/x/channel/pubkey"
 
 	"math/big"
 
-	channelkeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
+	channelkeeper "github.com/dungtt-astra/astra/x/channel/keeper"
+	"github.com/dungtt-astra/astra/x/channel/types"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 )
 

@@ -1,10 +1,10 @@
 package keeper_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/x/mint/keeper"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/keeper"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 	"math/rand"
 )

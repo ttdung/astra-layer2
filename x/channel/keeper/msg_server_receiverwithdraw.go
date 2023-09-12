@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 func (k msgServer) Receiverwithdraw(goCtx context.Context, msg *types.MsgReceiverwithdraw) (*types.MsgReceiverwithdrawResponse, error) {

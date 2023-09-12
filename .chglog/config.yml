@@ -2,7 +2,7 @@ style: github
 template: CHANGELOG.tpl.md
 info:
   title: CHANGELOG
-  repository_url: https://github.com/AstraProtocol/astra
+  repository_url: https://github.com/dungtt-astra/astra
 options:
   commits:
     # filters:

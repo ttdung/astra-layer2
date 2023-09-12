@@ -1,4 +1,4 @@
-module github.com/AstraProtocol/astra/v3
+module github.com/dungtt-astra/astra/v3
 
 go 1.18
 
@@ -7,7 +7,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.46.13
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/ibc-go/v6 v6.2.0
-	github.com/dungtt-astra/astra/channel v0.0.0-00010101000000-000000000000
+	github.com/dungtt-astra/astra v0.46.13-integrate-alpha.1
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/evmos/evmos/v12 v12.1.6
 	github.com/gogo/protobuf v1.3.3
@@ -202,7 +202,7 @@ replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
 	github.com/cosmos/cosmos-sdk => /Users/dungtran/stella/sourcecode/cosmos-sdk
-	github.com/dungtt-astra/astra/channel => /Users/dungtran/stella/sourcecode/astra
+	github.com/dungtt-astra/astra => /Users/dungtran/stella/sourcecode/astra
 	github.com/evmos/evmos/v12 => github.com/AstraProtocol/evmos/v12 v12.1.6-astra-v4
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7

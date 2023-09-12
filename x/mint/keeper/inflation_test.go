@@ -2,10 +2,10 @@ package keeper_test
 
 import (
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 	"math/rand"
 )
 

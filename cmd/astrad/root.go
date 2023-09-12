@@ -41,9 +41,9 @@ import (
 	servercfg "github.com/evmos/evmos/v12/server/config"
 	srvflags "github.com/evmos/evmos/v12/server/flags"
 
-	"github.com/AstraProtocol/astra/v3/app"
-	cmdcfg "github.com/AstraProtocol/astra/v3/cmd/config"
-	astrakr "github.com/AstraProtocol/astra/v3/crypto/keyring"
+	"github.com/dungtt-astra/astra/v3/app"
+	cmdcfg "github.com/dungtt-astra/astra/v3/cmd/config"
+	astrakr "github.com/dungtt-astra/astra/v3/crypto/keyring"
 )
 
 const (

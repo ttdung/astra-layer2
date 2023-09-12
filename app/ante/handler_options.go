@@ -1,7 +1,6 @@
 package ante
 
 import (
-	channelante "github.com/AstraProtocol/astra/v3/x/channel/ante"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -12,17 +11,18 @@ import (
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 	ibcante "github.com/cosmos/ibc-go/v6/modules/core/ante"
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
+	channelante "github.com/dungtt-astra/astra/v3/x/channel/ante"
 	cosmosante "github.com/evmos/evmos/v12/app/ante/cosmos"
 
 	evmante "github.com/evmos/evmos/v12/app/ante/evm"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 
-	feeburnante "github.com/AstraProtocol/astra/v3/x/feeburn/ante"
-	feeburntypes "github.com/AstraProtocol/astra/v3/x/feeburn/types"
+	feeburnante "github.com/dungtt-astra/astra/v3/x/feeburn/ante"
+	feeburntypes "github.com/dungtt-astra/astra/v3/x/feeburn/types"
 	anteutils "github.com/evmos/evmos/v12/app/ante/utils"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
 
-	channelkeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
+	channelkeeper "github.com/dungtt-astra/astra/x/channel/keeper"
 )
 
 // HandlerOptions defines the list of module keepers required to run the Evmos

@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 )
 
 // GetMinter returns the current Minter.

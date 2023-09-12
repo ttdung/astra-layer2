@@ -1,10 +1,10 @@
 package ante_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/cmd/config"
-	"github.com/AstraProtocol/astra/v3/x/feeburn/ante"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/x/feeburn/ante"
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
 	"math"
 )

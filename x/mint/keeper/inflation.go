@@ -1,9 +1,9 @@
 package keeper
 
 import (
-	"github.com/AstraProtocol/astra/v3/cmd/config"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 	ethermint "github.com/evmos/evmos/v12/types"
 )
 
@@ -46,8 +46,8 @@ func (k Keeper) MintCoins(ctx sdk.Context, newCoin sdk.Coin) error {
 // AllocateInflation allocates coins from the inflation to external
 // modules according to allocation proportions:
 //   - staking rewards -> sdk `auth` module fee collector
-// 	 - foundation -> a multi-sig address of the Astra Foundation
-//	 - community pool -> sdk `dist` module community pool
+//   - foundation -> a multi-sig address of the Astra Foundation
+//   - community pool -> sdk `dist` module community pool
 func (k Keeper) AllocateInflation(ctx sdk.Context, mintedCoin sdk.Coin) error {
 	params := k.GetParams(ctx)
 	distribution := params.InflationDistribution

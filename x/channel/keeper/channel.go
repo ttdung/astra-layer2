@@ -3,7 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 // SetChannel set a specific channel in the store from its index

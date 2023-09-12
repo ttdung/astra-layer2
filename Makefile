@@ -13,7 +13,7 @@ ASTRA_BINARY = astrad
 ASTRA_DIR = astra
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./app
-HTTPS_GIT := https://github.com/AstraProtocol/astra.git
+HTTPS_GIT := https://github.com/dungtt-astra/astra.git
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
 NAMESPACE := AstraProtocol
@@ -292,7 +292,7 @@ update-swagger-docs: statik
 .PHONY: update-swagger-docs
 
 godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/AstraProtocol/astra/types"
+	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/dungtt-astra/astra/types"
 	godoc -http=:6060
 
 # Start docs site at localhost:8080
@@ -445,7 +445,7 @@ lint-fix-contracts:
 format:
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs gofmt -w -s
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs misspell -w
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs goimports -w -local github.com/AstraProtocol/astra
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs goimports -w -local github.com/dungtt-astra/astra
 .PHONY: format
 
 ###############################################################################
@@ -562,7 +562,7 @@ localnet-show-logstream:
 ###                                Releasing                                ###
 ###############################################################################
 
-PACKAGE_NAME:=github.com/AstraProtocol/astra
+PACKAGE_NAME:=github.com/dungtt-astra/astra
 GOLANG_CROSS_VERSION  = v1.18
 GOPATH ?= '$(HOME)/go'
 release-dry-run:

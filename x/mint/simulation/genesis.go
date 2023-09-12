@@ -5,12 +5,12 @@ package simulation
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 	"math/rand"
 
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 )
 
 // Simulation parameter constants

@@ -3,12 +3,12 @@ package v1
 import (
 	"time"
 
-	"github.com/AstraProtocol/astra/v3/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	paramskeeper "github.com/cosmos/cosmos-sdk/x/params/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	"github.com/dungtt-astra/astra/v3/types"
 )
 
 // CreateUpgradeHandler creates an SDK upgrade handler for v1

@@ -9,8 +9,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	"github.com/stretchr/testify/require"
 
-	"github.com/AstraProtocol/astra/v3/app"
-	astrad "github.com/AstraProtocol/astra/v3/cmd/astrad"
+	"github.com/dungtt-astra/astra/v3/app"
+	astrad "github.com/dungtt-astra/astra/v3/cmd/astrad"
 )
 
 func TestInitCmd(t *testing.T) {

@@ -3,14 +3,14 @@ package app
 import (
 	"context"
 	"encoding/json"
-	v1 "github.com/AstraProtocol/astra/v3/app/upgrades/v1"
-	v3 "github.com/AstraProtocol/astra/v3/app/upgrades/v3"
 	"github.com/cosmos/cosmos-sdk/client/grpc/node"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	ibctestingtypes "github.com/cosmos/ibc-go/v6/testing/types"
+	v1 "github.com/dungtt-astra/astra/v3/app/upgrades/v1"
+	v3 "github.com/dungtt-astra/astra/v3/app/upgrades/v3"
 	"github.com/evmos/evmos/v12/x/erc20"
 	erc20client "github.com/evmos/evmos/v12/x/erc20/client"
 	erc20keeper "github.com/evmos/evmos/v12/x/erc20/keeper"
@@ -20,12 +20,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/AstraProtocol/astra/v3/x/feeburn"
-	feeBurnKeeper "github.com/AstraProtocol/astra/v3/x/feeburn/keeper"
-	feeBurnTypes "github.com/AstraProtocol/astra/v3/x/feeburn/types"
-	"github.com/AstraProtocol/astra/v3/x/mint"
-	mintkeeper "github.com/AstraProtocol/astra/v3/x/mint/keeper"
-	minttypes "github.com/AstraProtocol/astra/v3/x/mint/types"
+	"github.com/dungtt-astra/astra/v3/x/feeburn"
+	feeBurnKeeper "github.com/dungtt-astra/astra/v3/x/feeburn/keeper"
+	feeBurnTypes "github.com/dungtt-astra/astra/v3/x/feeburn/types"
+	"github.com/dungtt-astra/astra/v3/x/mint"
+	mintkeeper "github.com/dungtt-astra/astra/v3/x/mint/keeper"
+	minttypes "github.com/dungtt-astra/astra/v3/x/mint/types"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -108,7 +108,7 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v6/testing"
 
 	// unnamed import of statik for swagger UI support
-	_ "github.com/AstraProtocol/astra/v3/client/docs/statik"
+	_ "github.com/dungtt-astra/astra/v3/client/docs/statik"
 	"github.com/evmos/evmos/v12/encoding"
 
 	srvflags "github.com/evmos/evmos/v12/server/flags"
@@ -121,14 +121,14 @@ import (
 	feemarketkeeper "github.com/evmos/evmos/v12/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
-	"github.com/AstraProtocol/astra/v3/app/ante"
+	"github.com/dungtt-astra/astra/v3/app/ante"
 	"github.com/evmos/evmos/v12/x/vesting"
 	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
 
-	channelmodule "github.com/dungtt-astra/astra/channel/x/channel"
-	channelmodulekeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
-	channelmoduletypes "github.com/dungtt-astra/astra/channel/x/channel/types"
+	channelmodule "github.com/dungtt-astra/astra/x/channel"
+	channelmodulekeeper "github.com/dungtt-astra/astra/x/channel/keeper"
+	channelmoduletypes "github.com/dungtt-astra/astra/x/channel/types"
 )
 
 func init() {

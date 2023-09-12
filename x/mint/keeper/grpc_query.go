@@ -2,10 +2,10 @@ package keeper
 
 import (
 	"context"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 )
 
 var _ types.QueryServer = Keeper{}

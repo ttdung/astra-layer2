@@ -9,9 +9,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"github.com/dungtt-astra/astra/channel/testutil/sample"
-	channelsimulation "github.com/dungtt-astra/astra/channel/x/channel/simulation"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/testutil/sample"
+	channelsimulation "github.com/dungtt-astra/astra/x/channel/simulation"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 // avoid unused import issue

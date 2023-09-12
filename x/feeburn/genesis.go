@@ -1,9 +1,9 @@
 package feeburn
 
 import (
-	"github.com/AstraProtocol/astra/v3/x/feeburn/keeper"
-	"github.com/AstraProtocol/astra/v3/x/feeburn/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/feeburn/keeper"
+	"github.com/dungtt-astra/astra/v3/x/feeburn/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis

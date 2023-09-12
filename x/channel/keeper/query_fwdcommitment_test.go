@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	keepertest "github.com/dungtt-astra/astra/channel/testutil/keeper"
-	"github.com/dungtt-astra/astra/channel/testutil/nullify"
-	"github.com/dungtt-astra/astra/channel/x/channel/types"
+	keepertest "github.com/dungtt-astra/astra/testutil/keeper"
+	"github.com/dungtt-astra/astra/testutil/nullify"
+	"github.com/dungtt-astra/astra/x/channel/types"
 )
 
 // Prevent strconv unused error

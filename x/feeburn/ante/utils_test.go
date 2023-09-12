@@ -1,12 +1,12 @@
 package ante_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/app"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	"github.com/dungtt-astra/astra/v3/app"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 	"github.com/evmos/evmos/v12/crypto/ethsecp256k1"
 	"github.com/evmos/evmos/v12/encoding"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"

@@ -1,14 +1,14 @@
 
 <a name="v2.2.5"></a>
-## [v2.2.5](https://github.com/AstraProtocol/astra/compare/v2.2.4...v2.2.5) (2023-03-18)
+## [v2.2.5](https://github.com/dungtt-astra/astra/compare/v2.2.4...v2.2.5) (2023-03-18)
 
 ### Feat
 
-* Vesting account cannot delegate, create validator ([#181](https://github.com/AstraProtocol/astra/issues/181))
+* Vesting account cannot delegate, create validator ([#181](https://github.com/dungtt-astra/astra/issues/181))
 
 
 <a name="v2.2.5-rc"></a>
-## [v2.2.5-rc](https://github.com/AstraProtocol/astra/compare/v2.2.4...v2.2.5-rc) (2023-03-17)
+## [v2.2.5-rc](https://github.com/dungtt-astra/astra/compare/v2.2.4...v2.2.5-rc) (2023-03-17)
 
 ### Chore
 
@@ -42,7 +42,7 @@
 ### Fix
 
 * fix validate vesting account
-* integer overflow ([#161](https://github.com/AstraProtocol/astra/issues/161))
+* integer overflow ([#161](https://github.com/dungtt-astra/astra/issues/161))
 * totalBurnAmount incorrect
 * miss feeburn in ante handler
 
@@ -53,7 +53,7 @@
 * remove default MinGasPrice
 * remove upgrade handler
 * add default DefaultMinGasPrice, DefaultMinGasMultiplier
-* add handler errror ([#160](https://github.com/AstraProtocol/astra/issues/160))
+* add handler errror ([#160](https://github.com/dungtt-astra/astra/issues/160))
 * update proto
 * reorder module
 * update astra app
@@ -63,7 +63,7 @@
 * check fee burn when test fail
 * update unittest for mint module
 * update integration tests
-* update test_fee_payer ([#159](https://github.com/AstraProtocol/astra/issues/159))
+* update test_fee_payer ([#159](https://github.com/dungtt-astra/astra/issues/159))
 * update test_fee_payer
 * update integration tests for mint
 * update integration test cases
@@ -76,23 +76,23 @@
 
 
 <a name="v2.2.4"></a>
-## [v2.2.4](https://github.com/AstraProtocol/astra/compare/v2.2.4-rc...v2.2.4) (2023-02-01)
+## [v2.2.4](https://github.com/dungtt-astra/astra/compare/v2.2.4-rc...v2.2.4) (2023-02-01)
 
 ### Feat
 
-* add module mint, feeburn ([#157](https://github.com/AstraProtocol/astra/issues/157))
+* add module mint, feeburn ([#157](https://github.com/dungtt-astra/astra/issues/157))
 
 
 <a name="v2.2.4-rc"></a>
-## [v2.2.4-rc](https://github.com/AstraProtocol/astra/compare/v2.2.3-rc...v2.2.4-rc) (2023-01-12)
+## [v2.2.4-rc](https://github.com/dungtt-astra/astra/compare/v2.2.3-rc...v2.2.4-rc) (2023-01-12)
 
 
 <a name="v2.2.3-rc"></a>
-## [v2.2.3-rc](https://github.com/AstraProtocol/astra/compare/v2.2.2-rc...v2.2.3-rc) (2023-01-12)
+## [v2.2.3-rc](https://github.com/dungtt-astra/astra/compare/v2.2.2-rc...v2.2.3-rc) (2023-01-12)
 
 
 <a name="v2.2.2-rc"></a>
-## [v2.2.2-rc](https://github.com/AstraProtocol/astra/compare/v2.2.1-rc...v2.2.2-rc) (2023-01-11)
+## [v2.2.2-rc](https://github.com/dungtt-astra/astra/compare/v2.2.1-rc...v2.2.2-rc) (2023-01-11)
 
 ### Refactor
 
@@ -101,7 +101,7 @@
 
 
 <a name="v2.2.1-rc"></a>
-## [v2.2.1-rc](https://github.com/AstraProtocol/astra/compare/v2.2.0-rc...v2.2.1-rc) (2023-01-05)
+## [v2.2.1-rc](https://github.com/dungtt-astra/astra/compare/v2.2.0-rc...v2.2.1-rc) (2023-01-05)
 
 ### Refactor
 
@@ -109,7 +109,7 @@
 
 
 <a name="v2.2.0-rc"></a>
-## [v2.2.0-rc](https://github.com/AstraProtocol/astra/compare/v2.1.3...v2.2.0-rc) (2023-01-05)
+## [v2.2.0-rc](https://github.com/dungtt-astra/astra/compare/v2.1.3...v2.2.0-rc) (2023-01-05)
 
 ### Chore
 
@@ -133,13 +133,13 @@
 
 ### Fix
 
-* integer overflow ([#161](https://github.com/AstraProtocol/astra/issues/161))
+* integer overflow ([#161](https://github.com/dungtt-astra/astra/issues/161))
 * totalBurnAmount incorrect
 * miss feeburn in ante handler
 
 ### Refactor
 
-* add handler errror ([#160](https://github.com/AstraProtocol/astra/issues/160))
+* add handler errror ([#160](https://github.com/dungtt-astra/astra/issues/160))
 * update proto
 * reorder module
 * update astra app
@@ -148,7 +148,7 @@
 
 * update unittest for mint module
 * update integration tests
-* update test_fee_payer ([#159](https://github.com/AstraProtocol/astra/issues/159))
+* update test_fee_payer ([#159](https://github.com/dungtt-astra/astra/issues/159))
 * update test_fee_payer
 * update integration tests for mint
 * update integration test cases
@@ -161,177 +161,177 @@
 
 
 <a name="v2.1.3"></a>
-## [v2.1.3](https://github.com/AstraProtocol/astra/compare/v2.1.2...v2.1.3) (2022-11-11)
+## [v2.1.3](https://github.com/dungtt-astra/astra/compare/v2.1.2...v2.1.3) (2022-11-11)
 
 ### Chore
 
-* update go release amd64 ([#136](https://github.com/AstraProtocol/astra/issues/136))
+* update go release amd64 ([#136](https://github.com/dungtt-astra/astra/issues/136))
 
 
 <a name="v2.1.2"></a>
-## [v2.1.2](https://github.com/AstraProtocol/astra/compare/v2.1.1...v2.1.2) (2022-10-24)
+## [v2.1.2](https://github.com/dungtt-astra/astra/compare/v2.1.1...v2.1.2) (2022-10-24)
 
 ### Deps
 
-* upgrade evmos to v6.1.3-astra ([#129](https://github.com/AstraProtocol/astra/issues/129))
-* upgrade evmos to cosmos-sdk v0.45.9 ([#128](https://github.com/AstraProtocol/astra/issues/128))
+* upgrade evmos to v6.1.3-astra ([#129](https://github.com/dungtt-astra/astra/issues/129))
+* upgrade evmos to cosmos-sdk v0.45.9 ([#128](https://github.com/dungtt-astra/astra/issues/128))
 
 
 <a name="v2.1.1"></a>
-## [v2.1.1](https://github.com/AstraProtocol/astra/compare/v2.1.0...v2.1.1) (2022-10-20)
+## [v2.1.1](https://github.com/dungtt-astra/astra/compare/v2.1.0...v2.1.1) (2022-10-20)
 
 
 <a name="v2.1.0"></a>
-## [v2.1.0](https://github.com/AstraProtocol/astra/compare/v2.0.1...v2.1.0) (2022-09-19)
+## [v2.1.0](https://github.com/dungtt-astra/astra/compare/v2.0.1...v2.1.0) (2022-09-19)
 
 
 <a name="v2.0.1"></a>
-## [v2.0.1](https://github.com/AstraProtocol/astra/compare/v2.0.0...v2.0.1) (2022-09-13)
+## [v2.0.1](https://github.com/dungtt-astra/astra/compare/v2.0.0...v2.0.1) (2022-09-13)
 
 ### Fix
 
-* double supply when add genesis vesting ([#108](https://github.com/AstraProtocol/astra/issues/108))
+* double supply when add genesis vesting ([#108](https://github.com/dungtt-astra/astra/issues/108))
 
 
 <a name="v2.0.0"></a>
-## [v2.0.0](https://github.com/AstraProtocol/astra/compare/v1.2.2...v2.0.0) (2022-08-23)
+## [v2.0.0](https://github.com/dungtt-astra/astra/compare/v1.2.2...v2.0.0) (2022-08-23)
 
 ### Chore
 
-* update go version and remove package.json ([#100](https://github.com/AstraProtocol/astra/issues/100))
+* update go version and remove package.json ([#100](https://github.com/dungtt-astra/astra/issues/100))
 
 ### Deps
 
-* bump ethermint, go-ethereum version ([#98](https://github.com/AstraProtocol/astra/issues/98))
+* bump ethermint, go-ethereum version ([#98](https://github.com/dungtt-astra/astra/issues/98))
 
 ### Docs
 
-* update inflation specs ([#96](https://github.com/AstraProtocol/astra/issues/96))
+* update inflation specs ([#96](https://github.com/dungtt-astra/astra/issues/96))
 
 
 <a name="v1.2.2"></a>
-## [v1.2.2](https://github.com/AstraProtocol/astra/compare/v1.2.1...v1.2.2) (2022-08-15)
+## [v1.2.2](https://github.com/dungtt-astra/astra/compare/v1.2.1...v1.2.2) (2022-08-15)
 
 ### Deps
 
-* Bump cosmos-sdk to v0.45.7, ibc-go to v3.2.0 ([#94](https://github.com/AstraProtocol/astra/issues/94))
-* Bump Ethermint version to v0.18.0 ([#90](https://github.com/AstraProtocol/astra/issues/90))
+* Bump cosmos-sdk to v0.45.7, ibc-go to v3.2.0 ([#94](https://github.com/dungtt-astra/astra/issues/94))
+* Bump Ethermint version to v0.18.0 ([#90](https://github.com/dungtt-astra/astra/issues/90))
 
 ### Docs
 
-* update tokenomics numbers ([#88](https://github.com/AstraProtocol/astra/issues/88))
+* update tokenomics numbers ([#88](https://github.com/dungtt-astra/astra/issues/88))
 
 ### Fix
 
-* update docs ([#87](https://github.com/AstraProtocol/astra/issues/87))
-* build tag rocksdb ([#84](https://github.com/AstraProtocol/astra/issues/84))
+* update docs ([#87](https://github.com/dungtt-astra/astra/issues/87))
+* build tag rocksdb ([#84](https://github.com/dungtt-astra/astra/issues/84))
 
 ### Test
 
-* update inflation unit-tests ([#92](https://github.com/AstraProtocol/astra/issues/92))
+* update inflation unit-tests ([#92](https://github.com/dungtt-astra/astra/issues/92))
 
 
 <a name="v1.2.1"></a>
-## [v1.2.1](https://github.com/AstraProtocol/astra/compare/v1.2.0...v1.2.1) (2022-08-03)
+## [v1.2.1](https://github.com/dungtt-astra/astra/compare/v1.2.0...v1.2.1) (2022-08-03)
 
 
 <a name="v1.2.0"></a>
-## [v1.2.0](https://github.com/AstraProtocol/astra/compare/v1.1.0...v1.2.0) (2022-08-01)
+## [v1.2.0](https://github.com/dungtt-astra/astra/compare/v1.1.0...v1.2.0) (2022-08-01)
 
 ### Deps
 
-* bump ethermint to 0.17.3-astra ([#77](https://github.com/AstraProtocol/astra/issues/77))
+* bump ethermint to 0.17.3-astra ([#77](https://github.com/dungtt-astra/astra/issues/77))
 
 ### Fix
 
-* update version ethermint ([#79](https://github.com/AstraProtocol/astra/issues/79))
+* update version ethermint ([#79](https://github.com/dungtt-astra/astra/issues/79))
 
 
 <a name="v1.1.0"></a>
-## [v1.1.0](https://github.com/AstraProtocol/astra/compare/v1.0.0...v1.1.0) (2022-07-28)
+## [v1.1.0](https://github.com/dungtt-astra/astra/compare/v1.0.0...v1.1.0) (2022-07-28)
 
 ### Chore
 
-* add changelog ([#73](https://github.com/AstraProtocol/astra/issues/73))
+* add changelog ([#73](https://github.com/dungtt-astra/astra/issues/73))
 
 
 <a name="v1.0.0"></a>
-## [v1.0.0](https://github.com/AstraProtocol/astra/compare/v0.3.2...v1.0.0) (2022-07-13)
+## [v1.0.0](https://github.com/dungtt-astra/astra/compare/v0.3.2...v1.0.0) (2022-07-13)
 
 ### Docs
 
-* add codecov ([#60](https://github.com/AstraProtocol/astra/issues/60))
+* add codecov ([#60](https://github.com/dungtt-astra/astra/issues/60))
 
 ### Feat
 
-* add module fees and update evmos to v6 ([#59](https://github.com/AstraProtocol/astra/issues/59))
+* add module fees and update evmos to v6 ([#59](https://github.com/dungtt-astra/astra/issues/59))
 
 ### Fix
 
-* update codeql ([#65](https://github.com/AstraProtocol/astra/issues/65))
+* update codeql ([#65](https://github.com/dungtt-astra/astra/issues/65))
 
 ### Refactor
 
-* remove mint ([#72](https://github.com/AstraProtocol/astra/issues/72))
-* update swagger ([#68](https://github.com/AstraProtocol/astra/issues/68))
+* remove mint ([#72](https://github.com/dungtt-astra/astra/issues/72))
+* update swagger ([#68](https://github.com/dungtt-astra/astra/issues/68))
 
 ### Test
 
-* add test ([#70](https://github.com/AstraProtocol/astra/issues/70))
+* add test ([#70](https://github.com/dungtt-astra/astra/issues/70))
 
 
 <a name="v0.3.2"></a>
-## [v0.3.2](https://github.com/AstraProtocol/astra/compare/v0.3.1...v0.3.2) (2022-06-23)
+## [v0.3.2](https://github.com/dungtt-astra/astra/compare/v0.3.1...v0.3.2) (2022-06-23)
 
 ### All
 
-* bump version Astra to v2 ([#43](https://github.com/AstraProtocol/astra/issues/43))
+* bump version Astra to v2 ([#43](https://github.com/dungtt-astra/astra/issues/43))
 
 ### Bump
 
-* ibc to v3.1.0 ([#45](https://github.com/AstraProtocol/astra/issues/45))
+* ibc to v3.1.0 ([#45](https://github.com/dungtt-astra/astra/issues/45))
 
 ### Deps
 
-* bump go-ethereum version from v1.10.16 -> v1.10.17 ([#48](https://github.com/AstraProtocol/astra/issues/48))
-* bump go-ethereum version from v1.10.16 -> v1.10.18 ([#46](https://github.com/AstraProtocol/astra/issues/46))
+* bump go-ethereum version from v1.10.16 -> v1.10.17 ([#48](https://github.com/dungtt-astra/astra/issues/48))
+* bump go-ethereum version from v1.10.16 -> v1.10.18 ([#46](https://github.com/dungtt-astra/astra/issues/46))
 
 ### Refactor
 
-* update workflows and bot ([#55](https://github.com/AstraProtocol/astra/issues/55))
-* remove module epoch ([#53](https://github.com/AstraProtocol/astra/issues/53))
+* update workflows and bot ([#55](https://github.com/dungtt-astra/astra/issues/55))
+* remove module epoch ([#53](https://github.com/dungtt-astra/astra/issues/53))
 
 
 <a name="v0.3.1"></a>
-## [v0.3.1](https://github.com/AstraProtocol/astra/compare/v0.3.0...v0.3.1) (2022-06-13)
+## [v0.3.1](https://github.com/dungtt-astra/astra/compare/v0.3.0...v0.3.1) (2022-06-13)
 
 ### Feat
 
-* add github workflows ([#42](https://github.com/AstraProtocol/astra/issues/42))
+* add github workflows ([#42](https://github.com/dungtt-astra/astra/issues/42))
 
 
 <a name="v0.3.0"></a>
-## [v0.3.0](https://github.com/AstraProtocol/astra/compare/v0.2.0...v0.3.0) (2022-06-10)
+## [v0.3.0](https://github.com/dungtt-astra/astra/compare/v0.2.0...v0.3.0) (2022-06-10)
 
 ### Deps
 
-* bump ethermint to v0.16.1 ([#41](https://github.com/AstraProtocol/astra/issues/41))
+* bump ethermint to v0.16.1 ([#41](https://github.com/dungtt-astra/astra/issues/41))
 
 ### Fix
 
-* buf protoc was moved to buf alpha protoc ([#25](https://github.com/AstraProtocol/astra/issues/25))
+* buf protoc was moved to buf alpha protoc ([#25](https://github.com/dungtt-astra/astra/issues/25))
 
 
 <a name="v0.2.0"></a>
-## [v0.2.0](https://github.com/AstraProtocol/astra/compare/v0.2.1...v0.2.0) (2022-05-18)
+## [v0.2.0](https://github.com/dungtt-astra/astra/compare/v0.2.1...v0.2.0) (2022-05-18)
 
 
 <a name="v0.2.1"></a>
-## [v0.2.1](https://github.com/AstraProtocol/astra/compare/v0.1.0...v0.2.1) (2022-05-18)
+## [v0.2.1](https://github.com/dungtt-astra/astra/compare/v0.1.0...v0.2.1) (2022-05-18)
 
 ### Refactor
 
-* off fork testnet ([#19](https://github.com/AstraProtocol/astra/issues/19))
+* off fork testnet ([#19](https://github.com/dungtt-astra/astra/issues/19))
 
 ### Test
 
@@ -350,10 +350,10 @@
 
 ### Pull Requests
 
-* Merge pull request [#12](https://github.com/AstraProtocol/astra/issues/12) from AstraProtocol/dependabot/go_modules/github.com/tharsis/evmos/v4-4.0.1
-* Merge pull request [#11](https://github.com/AstraProtocol/astra/issues/11) from AstraProtocol/test/erc20
-* Merge pull request [#10](https://github.com/AstraProtocol/astra/issues/10) from AstraProtocol/update/evmos
-* Merge pull request [#8](https://github.com/AstraProtocol/astra/issues/8) from AstraProtocol/add_tests
+* Merge pull request [#12](https://github.com/dungtt-astra/astra/issues/12) from AstraProtocol/dependabot/go_modules/github.com/tharsis/evmos/v4-4.0.1
+* Merge pull request [#11](https://github.com/dungtt-astra/astra/issues/11) from AstraProtocol/test/erc20
+* Merge pull request [#10](https://github.com/dungtt-astra/astra/issues/10) from AstraProtocol/update/evmos
+* Merge pull request [#8](https://github.com/dungtt-astra/astra/issues/8) from AstraProtocol/add_tests
 
 
 <a name="v0.1.0"></a>
@@ -376,9 +376,9 @@
 
 ### Pull Requests
 
-* Merge pull request [#6](https://github.com/AstraProtocol/astra/issues/6) from AstraProtocol/upgrade_blockperyear
-* Merge pull request [#2](https://github.com/AstraProtocol/astra/issues/2) from AstraProtocol/dependabot/go_modules/github.com/tendermint/tendermint-0.35.4
-* Merge pull request [#5](https://github.com/AstraProtocol/astra/issues/5) from AstraProtocol/add_test
-* Merge pull request [#4](https://github.com/AstraProtocol/astra/issues/4) from AstraProtocol/ci
-* Merge pull request [#1](https://github.com/AstraProtocol/astra/issues/1) from AstraProtocol/ci
+* Merge pull request [#6](https://github.com/dungtt-astra/astra/issues/6) from AstraProtocol/upgrade_blockperyear
+* Merge pull request [#2](https://github.com/dungtt-astra/astra/issues/2) from AstraProtocol/dependabot/go_modules/github.com/tendermint/tendermint-0.35.4
+* Merge pull request [#5](https://github.com/dungtt-astra/astra/issues/5) from AstraProtocol/add_test
+* Merge pull request [#4](https://github.com/dungtt-astra/astra/issues/4) from AstraProtocol/ci
+* Merge pull request [#1](https://github.com/dungtt-astra/astra/issues/1) from AstraProtocol/ci
 

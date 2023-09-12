@@ -38,4 +38,4 @@ make install
         pytest -m staking -vv
 
 
-Or check out the latest [release](https://github.com/AstraProtocol/astra/releases).
+Or check out the latest [release](https://github.com/dungtt-astra/astra/releases).

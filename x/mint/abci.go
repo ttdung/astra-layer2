@@ -3,10 +3,10 @@ package mint
 import (
 	"time"
 
-	"github.com/AstraProtocol/astra/v3/x/mint/keeper"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/keeper"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 )
 
 // BeginBlocker mints new tokens for the previous block.

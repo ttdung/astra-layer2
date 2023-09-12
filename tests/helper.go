@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
-	feeburntype "github.com/AstraProtocol/astra/v3/x/feeburn/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
+	feeburntype "github.com/dungtt-astra/astra/v3/x/feeburn/types"
 	"github.com/ethereum/go-ethereum/core"
 	"github.com/ethereum/go-ethereum/core/vm"
 	utiltx "github.com/evmos/evmos/v12/testutil/tx"
@@ -47,8 +47,8 @@ import (
 	evm "github.com/evmos/evmos/v12/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v12/x/feemarket/types"
 
-	"github.com/AstraProtocol/astra/v3/app"
-	"github.com/AstraProtocol/astra/v3/contracts"
+	"github.com/dungtt-astra/astra/v3/app"
+	"github.com/dungtt-astra/astra/v3/contracts"
 	"github.com/evmos/evmos/v12/x/erc20/types"
 )
 

@@ -1,7 +1,7 @@
 package keeper_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/x/feeburn/types"
+	"github.com/dungtt-astra/astra/v3/x/feeburn/types"
 )
 
 func (suite *KeeperTestSuite) TestParams() {

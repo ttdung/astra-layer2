@@ -1,10 +1,10 @@
 package app
 
 import (
-	v1 "github.com/AstraProtocol/astra/v3/app/upgrades/v1"
-	"github.com/AstraProtocol/astra/v3/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	v1 "github.com/dungtt-astra/astra/v3/app/upgrades/v1"
+	"github.com/dungtt-astra/astra/v3/types"
 )
 
 // BeginBlockForks executes any necessary fork logic based upon the current block height.

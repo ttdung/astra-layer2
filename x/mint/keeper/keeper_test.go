@@ -1,11 +1,11 @@
 package keeper_test
 
 import (
-	"github.com/AstraProtocol/astra/v3/app"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/app"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 	evm "github.com/evmos/evmos/v12/x/evm/types"
 	"github.com/onsi/ginkgo/v2"
 	"github.com/onsi/gomega"

@@ -2,8 +2,8 @@ package keeper
 
 import (
 	"fmt"
-	"github.com/AstraProtocol/astra/v3/x/mint/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/v3/x/mint/types"
 )
 
 // GetTotalMintProvision returns the total amount of minted provision via block rewards.

@@ -2,12 +2,12 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/AstraProtocol/astra/v3/cmd/config"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/ibc-go/v6/testing/mock"
+	"github.com/dungtt-astra/astra/v3/cmd/config"
 	tmtypes "github.com/tendermint/tendermint/types"
 	"os"
 	"testing"
