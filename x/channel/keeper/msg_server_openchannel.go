@@ -3,24 +3,29 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"github.com/AstraProtocol/astra/v3/x/channel/pubkey"
 	"log"
 
-	"github.com/AstraProtocol/astra/channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/channel/x/channel/types"
 )
 
 func (k msgServer) Openchannel(goCtx context.Context, msg *types.MsgOpenchannel) (*types.MsgOpenchannelResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	addrA, err := sdk.AccAddressFromBech32(msg.PartA)
+	pubkeyA, err := pubkey.NewPKAccount(msg.PartA)
+	//addrA, err := sdk.AccAddressFromBech32(msg.PartA)
 	if err != nil {
 		return nil, err
 	}
+	addrA := pubkeyA.AccAddress()
 
-	addrB, err := sdk.AccAddressFromBech32(msg.PartB)
+	pubkeyB, err := pubkey.NewPKAccount(msg.PartB)
+	//addrB, err := sdk.AccAddressFromBech32(msg.PartB)
 	if err != nil {
 		return nil, err
 	}
+	addrB := pubkeyB.AccAddress()
 
 	multiAddr := msg.GetSigners()[0]
 

@@ -5,7 +5,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"strconv"
 
-	"github.com/AstraProtocol/astra/channel/x/channel/types"
+	"github.com/dungtt-astra/astra/channel/x/channel/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -25,15 +25,15 @@ func CmdOpenchannel() *cobra.Command {
 			argMultisigAddr := args[4]
 			argSequence := args[5]
 
-			_, err = sdk.AccAddressFromBech32(argPartA)
-			if err != nil {
-				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partA address (%s)", err)
-			}
-
-			_, err = sdk.AccAddressFromBech32(argPartB)
-			if err != nil {
-				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partB address (%s)", err)
-			}
+			//_, err = sdk.AccAddressFromBech32(argPartA)
+			//if err != nil {
+			//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partA address (%s)", err)
+			//}
+			//
+			//_, err = sdk.AccAddressFromBech32(argPartB)
+			//if err != nil {
+			//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partB address (%s)", err)
+			//}
 
 			_, err = sdk.AccAddressFromBech32(argMultisigAddr)
 			if err != nil {

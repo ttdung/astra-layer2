@@ -4,10 +4,10 @@ go 1.18
 
 require (
 	cosmossdk.io/math v1.0.0-rc.0
-	github.com/AstraProtocol/astra/channel v0.0.0-00010101000000-000000000000
 	github.com/cosmos/cosmos-sdk v0.46.13
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/ibc-go/v6 v6.2.0
+	github.com/dungtt-astra/astra/channel v0.0.0-00010101000000-000000000000
 	github.com/ethereum/go-ethereum v1.10.26
 	github.com/evmos/evmos/v12 v12.1.6
 	github.com/gogo/protobuf v1.3.3
@@ -21,7 +21,7 @@ require (
 	github.com/spf13/cast v1.5.0
 	github.com/spf13/cobra v1.7.0
 	github.com/stretchr/testify v1.8.2
-	github.com/tendermint/tendermint v0.34.28
+	github.com/tendermint/tendermint v0.34.29
 	github.com/tendermint/tm-db v0.6.7
 	go.opencensus.io v0.24.0
 	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4
@@ -200,8 +200,9 @@ require (
 
 replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.1.7-0.20210622111912-ef00f8ac3d76
-	github.com/AstraProtocol/astra/channel => /Users/dungtran/stella/sourcecode/astra
 	github.com/confio/ics23/go => github.com/cosmos/cosmos-sdk/ics23/go v0.8.0
+	github.com/cosmos/cosmos-sdk => /Users/dungtran/stella/sourcecode/cosmos-sdk
+	github.com/dungtt-astra/astra/channel => /Users/dungtran/stella/sourcecode/astra
 	github.com/evmos/evmos/v12 => github.com/AstraProtocol/evmos/v12 v12.1.6-astra-v4
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7

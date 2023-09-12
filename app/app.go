@@ -126,9 +126,9 @@ import (
 	vestingkeeper "github.com/evmos/evmos/v12/x/vesting/keeper"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
 
-	channelmodule "github.com/AstraProtocol/astra/channel/x/channel"
-	channelmodulekeeper "github.com/AstraProtocol/astra/channel/x/channel/keeper"
-	channelmoduletypes "github.com/AstraProtocol/astra/channel/x/channel/types"
+	channelmodule "github.com/dungtt-astra/astra/channel/x/channel"
+	channelmodulekeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
+	channelmoduletypes "github.com/dungtt-astra/astra/channel/x/channel/types"
 )
 
 func init() {

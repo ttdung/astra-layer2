@@ -6,8 +6,8 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/AstraProtocol/astra/channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/channel/x/channel/types"
 )
 
 func (k msgServer) Senderwithdrawhashlock(goCtx context.Context, msg *types.MsgSenderwithdrawhashlock) (*types.MsgSenderwithdrawhashlockResponse, error) {

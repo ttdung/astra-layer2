@@ -2,11 +2,12 @@ package ante
 
 import (
 	"fmt"
-	//"github.com/AstraProtocol/astra/v3/x/channel/types"
+	"github.com/dungtt-astra/astra/channel/x/channel/pubkey"
+
 	"math/big"
 
-	channelkeeper "github.com/AstraProtocol/astra/channel/x/channel/keeper"
-	"github.com/AstraProtocol/astra/channel/x/channel/types"
+	channelkeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
+	"github.com/dungtt-astra/astra/channel/x/channel/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
@@ -30,11 +31,8 @@ func NewLnMsgDecorator(channelkeeper *channelkeeper.Keeper,
 }
 
 func (lnmsg LnMsgDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
-	params := lnmsg.ChannelKeeper.GetParams(ctx)
-	fmt.Println("params=========================================:", params)
-	//ethCfg := params.ChainConfig.EthereumConfig(gwd.evmKeeper.ChainID())
+
 	blockHeight := big.NewInt(ctx.BlockHeight())
-	//isLondon := ethCfg.IsLondon(blockHeight)
 
 	fmt.Println("blockHeight=========================================:", blockHeight)
 
@@ -44,6 +42,7 @@ func (lnmsg LnMsgDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool
 	}
 
 	msg := authTx.GetMsgs()[0]
+	fmt.Println("msg========:", msg)
 
 	switch m := msg.(type) {
 	case *types.MsgClosechannel:
@@ -107,6 +106,33 @@ func (lnmsg LnMsgDecorator) validateOpenChannelTx(ctx sdk.Context, authTx authsi
 	// validate the same coin
 	if m.CoinA.Denom != m.CoinB.Denom {
 		return fmt.Errorf("cannot create channel from different coin denoms")
+	}
+
+	// verify each party
+	pubkeyA, err := pubkey.NewPKAccount(m.PartA)
+	if err != nil {
+		return err
+	}
+	pubkeyB, err := pubkey.NewPKAccount(m.PartB)
+	if err != nil {
+		return err
+	}
+
+	multisigAddr, _, err := pubkey.CreateMulSignAccountFromTwoAccount(pubkeyA.PublicKey(), pubkeyB.PublicKey(), 2)
+	if err != nil {
+		return err
+	}
+	multisigAddr1, _, err := pubkey.CreateMulSignAccountFromTwoAccount(pubkeyB.PublicKey(), pubkeyA.PublicKey(), 2)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("====================...multisigAddr:", multisigAddr)
+	fmt.Println("====================...multisigAddr1:", multisigAddr1)
+	fmt.Println("====================...m.MultisigAddr:", m.MultisigAddr)
+
+	if multisigAddr != m.MultisigAddr {
+		return fmt.Errorf("multisig and parties do not match")
 	}
 
 	return nil

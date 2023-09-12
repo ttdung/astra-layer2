@@ -1,9 +1,9 @@
 package keeper
 
 import (
-	"github.com/AstraProtocol/astra/channel/x/channel/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/dungtt-astra/astra/channel/x/channel/types"
 )
 
 // SetFwdcommitment set a specific fwdcommitment in the store from its index

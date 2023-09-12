@@ -22,7 +22,7 @@ import (
 	anteutils "github.com/evmos/evmos/v12/app/ante/utils"
 	vestingtypes "github.com/evmos/evmos/v12/x/vesting/types"
 
-	channelkeeper "github.com/AstraProtocol/astra/channel/x/channel/keeper"
+	channelkeeper "github.com/dungtt-astra/astra/channel/x/channel/keeper"
 )
 
 // HandlerOptions defines the list of module keepers required to run the Evmos
