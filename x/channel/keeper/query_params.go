@@ -4,7 +4,7 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

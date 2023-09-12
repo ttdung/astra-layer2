@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 )
 
 func (k msgServer) WithdrawTimelock(goCtx context.Context, msg *types.MsgWithdrawTimelock) (*types.MsgWithdrawTimelockResponse, error) {

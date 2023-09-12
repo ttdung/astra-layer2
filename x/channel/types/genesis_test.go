@@ -3,7 +3,7 @@ package types_test
 import (
 	"testing"
 
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 	"github.com/stretchr/testify/require"
 )
 

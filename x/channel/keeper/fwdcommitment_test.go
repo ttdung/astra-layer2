@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	keepertest "github.com/dungtt-astra/astra/testutil/keeper"
-	"github.com/dungtt-astra/astra/testutil/nullify"
-	"github.com/dungtt-astra/astra/x/channel/keeper"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	keepertest "github.com/dungtt-astra/astra/v3/testutil/keeper"
+	"github.com/dungtt-astra/astra/v3/testutil/nullify"
+	"github.com/dungtt-astra/astra/v3/x/channel/keeper"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 	"github.com/stretchr/testify/require"
 )
 

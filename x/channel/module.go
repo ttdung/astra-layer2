@@ -16,9 +16,9 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	"github.com/dungtt-astra/astra/x/channel/client/cli"
-	"github.com/dungtt-astra/astra/x/channel/keeper"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/client/cli"
+	"github.com/dungtt-astra/astra/v3/x/channel/keeper"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 )
 
 var (

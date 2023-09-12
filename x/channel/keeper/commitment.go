@@ -3,7 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 )
 
 // SetCommitment set a specific commitment in the store from its index

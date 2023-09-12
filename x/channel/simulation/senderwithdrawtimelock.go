@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/dungtt-astra/astra/x/channel/keeper"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/keeper"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 )
 
 func SimulateMsgSenderwithdrawtimelock(

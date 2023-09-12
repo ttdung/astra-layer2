@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"testing"
 
-	testkeeper "github.com/dungtt-astra/astra/testutil/keeper"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	testkeeper "github.com/dungtt-astra/astra/v3/testutil/keeper"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 	"github.com/stretchr/testify/require"
 )
 

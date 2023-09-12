@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/dungtt-astra/astra/x/channel/types"
+	"github.com/dungtt-astra/astra/v3/x/channel/types"
 )
 
 func (k msgServer) Acceptfund(goCtx context.Context, msg *types.MsgAcceptfund) (*types.MsgAcceptfundResponse, error) {
