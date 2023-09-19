@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"github.com/dungtt-astra/astra/v3/x/channel/pubkey"
 
-	"math/big"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	channelkeeper "github.com/dungtt-astra/astra/v3/x/channel/keeper"
@@ -32,24 +30,29 @@ func NewLnMsgDecorator(channelkeeper *channelkeeper.Keeper,
 
 func (lnmsg LnMsgDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
 
-	blockHeight := big.NewInt(ctx.BlockHeight())
-
-	fmt.Println("blockHeight=========================================:", blockHeight)
-
 	authTx, ok := tx.(authsigning.SigVerifiableTx) //(sdk.FeeTx)
 	if !ok {
 		return next(ctx, tx, simulate)
 	}
 
 	msg := authTx.GetMsgs()[0]
-	fmt.Println("msg========:", msg)
+	fmt.Println("msg==============================================:", msg)
 
 	switch m := msg.(type) {
 	case *types.MsgClosechannel:
 		err = lnmsg.validateCloseChannelTx(ctx, authTx, m)
 	case *types.MsgOpenchannel:
 		err = lnmsg.validateOpenChannelTx(ctx, authTx, m)
-
+	case *types.MsgCommitment:
+		err = lnmsg.validateCommitmentTx(ctx, authTx, m)
+	case *types.MsgWithdrawHashlock:
+		err = lnmsg.validateWithdrawHashlockTx(m)
+	case *types.MsgWithdrawTimelock:
+		err = lnmsg.validateWithdrawTimelockTx(m)
+	case *types.MsgFund:
+		err = lnmsg.validateFundTx(ctx, authTx, m)
+	case *types.MsgAcceptfund:
+		err = lnmsg.validateAcceptFundTx(ctx, authTx, m)
 	}
 
 	if err != nil {
@@ -59,19 +62,149 @@ func (lnmsg LnMsgDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool
 	return next(ctx, tx, simulate)
 }
 
-func (lnmsg LnMsgDecorator) validateCloseChannelTx(ctx sdk.Context, authTx authsigning.SigVerifiableTx, m *types.MsgClosechannel) error {
-
-	c, found := lnmsg.ChannelKeeper.GetChannel(ctx, m.Channelid)
+func (lnmsg LnMsgDecorator) isMatchingMultisig(ctx sdk.Context, channelId string, multisig string) error {
+	c, found := lnmsg.ChannelKeeper.GetChannel(ctx, channelId)
 	if !found {
-		return fmt.Errorf("do not found channel id:", m.Channelid)
+		return fmt.Errorf("do not found channel id:", channelId)
 	}
 
 	// verify correct multisig address or not
-	if m.MultisigAddr != c.MultisigAddr {
+	if multisig != c.MultisigAddr {
 		return fmt.Errorf("wrong multisig address, expected:", c.MultisigAddr)
 	}
 
+	return nil
+}
+
+func (lnmsg LnMsgDecorator) validateWithdrawTimelockTx(m *types.MsgWithdrawTimelock) error {
+
+	_, err := sdk.AccAddressFromBech32(m.To)
+
+	return err
+}
+
+func (lnmsg LnMsgDecorator) validateWithdrawHashlockTx(m *types.MsgWithdrawHashlock) error {
+
+	_, err := sdk.AccAddressFromBech32(m.To)
+
+	return err
+}
+
+func (lnmsg LnMsgDecorator) validateAcceptFundTx(ctx sdk.Context, authTx authsigning.SigVerifiableTx, m *types.MsgAcceptfund) error {
+
+	if err := lnmsg.isMatchingMultisig(ctx, m.Channelid, m.MultisigAddr); err != nil {
+		return err
+	}
+
+	_, err := sdk.AccAddressFromBech32(m.Creatoraddr)
+	if err != nil {
+		return err
+	}
+
 	multisig, err := sdk.AccAddressFromBech32(m.MultisigAddr)
+	if err != nil {
+		return err
+	}
+
+	// verify right signer or not
+	if !multisig.Equals(authTx.GetSigners()[0]) {
+		return fmt.Errorf("wrong signer, expected:", multisig.String())
+	}
+
+	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.CointoCreator.Denom)
+
+	// verify amount to withdraw
+	if m.CointoCreator.Amount.Int64() > amt.Amount.Int64() {
+		return fmt.Errorf("exceed amount of token can be sent")
+	}
+
+	return nil
+}
+
+func (lnmsg LnMsgDecorator) validateFundTx(ctx sdk.Context, authTx authsigning.SigVerifiableTx, m *types.MsgFund) error {
+
+	if err := lnmsg.isMatchingMultisig(ctx, m.Channelid, m.MultisigAddr); err != nil {
+		return err
+	}
+
+	_, err := sdk.AccAddressFromBech32(m.Creatoraddr)
+	if err != nil {
+		return err
+	}
+
+	multisig, err := sdk.AccAddressFromBech32(m.MultisigAddr)
+	if err != nil {
+		return err
+	}
+
+	// verify right signer or not
+	if !multisig.Equals(authTx.GetSigners()[0]) {
+		return fmt.Errorf("wrong signer, expected:", multisig.String())
+	}
+
+	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.CointoPartner.Denom)
+
+	// verify amount to withdraw
+	if m.CointoPartner.Amount.Int64() > amt.Amount.Int64() {
+		return fmt.Errorf("exceed amount of token can be sent")
+	}
+
+	return nil
+}
+
+func (lnmsg LnMsgDecorator) validateCommitmentTx(ctx sdk.Context, authTx authsigning.SigVerifiableTx, m *types.MsgCommitment) error {
+
+	if err := lnmsg.isMatchingMultisig(ctx, m.Channelid, m.MultisigAddr); err != nil {
+		return err
+	}
+
+	_, err := sdk.AccAddressFromBech32(m.Creatoraddr)
+	if err != nil {
+		return err
+	}
+
+	_, err = sdk.AccAddressFromBech32(m.Partneraddr)
+	if err != nil {
+		return err
+	}
+
+	multisig, err := sdk.AccAddressFromBech32(m.MultisigAddr)
+	if err != nil {
+		return err
+	}
+
+	// verify right signer or not
+	if !multisig.Equals(authTx.GetSigners()[0]) {
+		return fmt.Errorf("wrong signer, expected:", multisig.String())
+	}
+
+	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.Cointocreator.Denom)
+
+	// verify amount to withdraw
+	if m.Cointohtlc.Amount.Int64()+m.Cointocreator.Amount.Int64() > amt.Amount.Int64() {
+		return fmt.Errorf("exceed amount of token can be sent")
+	}
+
+	return nil
+}
+
+func (lnmsg LnMsgDecorator) validateCloseChannelTx(ctx sdk.Context, authTx authsigning.SigVerifiableTx, m *types.MsgClosechannel) error {
+
+	if err := lnmsg.isMatchingMultisig(ctx, m.Channelid, m.MultisigAddr); err != nil {
+		return err
+	}
+
+	multisig, err := sdk.AccAddressFromBech32(m.MultisigAddr)
+	if err != nil {
+		return err
+	}
+
+	_, err = sdk.AccAddressFromBech32(m.PartA)
+	if err != nil {
+		return err
+	}
+
+	_, err = sdk.AccAddressFromBech32(m.PartB)
 	if err != nil {
 		return err
 	}
@@ -122,17 +255,12 @@ func (lnmsg LnMsgDecorator) validateOpenChannelTx(ctx sdk.Context, authTx authsi
 	if err != nil {
 		return err
 	}
-	multisigAddr1, _, err := pubkey.CreateMulSignAccountFromTwoAccount(pubkeyB.PublicKey(), pubkeyA.PublicKey(), 2)
-	if err != nil {
-		return err
-	}
 
-	fmt.Println("====================...multisigAddr:", multisigAddr)
-	fmt.Println("====================...multisigAddr1:", multisigAddr1)
-	fmt.Println("====================...m.MultisigAddr:", m.MultisigAddr)
+	//fmt.Println("====================...multisigAddr:", multisigAddr)
+	//fmt.Println("====================...m.MultisigAddr:", m.MultisigAddr)
 
 	if multisigAddr != m.MultisigAddr {
-		return fmt.Errorf("multisig and parties do not match")
+		return fmt.Errorf("Multisig and parties do not match")
 	}
 
 	return nil

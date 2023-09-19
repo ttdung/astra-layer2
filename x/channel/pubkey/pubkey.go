@@ -1,6 +1,7 @@
 package pubkey
 
 import (
+	"encoding/hex"
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
 	cryptoTypes "github.com/cosmos/cosmos-sdk/crypto/types"
@@ -17,14 +18,18 @@ type PKAccount struct {
 }
 
 func NewPKAccount(pubkey string) (*PKAccount, error) {
-	//pubkey = strings.Split(strings.Split(pubkey, "{")[1], "}")[0]
 
-	//key, err := hex.DecodeString(pubkey)
-	//if err != nil {
-	//	return nil, err
-	//}
-
-	key := []byte(pubkey)
+	var key []byte
+	if strings.Contains(pubkey, "{") {
+		pubkey = strings.Split(strings.Split(pubkey, "{")[1], "}")[0]
+		k, err := hex.DecodeString(pubkey)
+		if err != nil {
+			return nil, err
+		}
+		key = k
+	} else {
+		key = []byte(pubkey)
+	}
 
 	return &PKAccount{
 		//publicKey: secp256k1.PubKey{

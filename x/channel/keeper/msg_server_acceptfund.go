@@ -68,7 +68,7 @@ func (k msgServer) Acceptfund(goCtx context.Context, msg *types.MsgAcceptfund) (
 	if coin_htlc.Amount.IsPositive() {
 		err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, from, types.ModuleName, sdk.Coins{coin_htlc})
 		if err != nil {
-			return nil, fmt.Errorf("@@@ SendCoinsFromAccountToModule failed, Addr: %v, balance: %v ",
+			return nil, fmt.Errorf("SendCoinsFromAccountToModule failed, Addr: %v, balance: %v ",
 				val.MultisigAddr, coin_channel.Amount.Uint64())
 		}
 	}
