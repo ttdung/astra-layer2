@@ -9,7 +9,7 @@ const TypeMsgAcceptfund = "acceptfund"
 
 var _ sdk.Msg = &MsgAcceptfund{}
 
-func NewMsgAcceptfund(creator string, creatoraddr string, channelid string, cointoCreator *sdk.Coin, hashcode string, numblock uint64, multisigAddr string) *MsgAcceptfund {
+func NewMsgAcceptfund(creator string, creatoraddr string, channelid string, cointoCreator []*sdk.Coin, hashcode string, numblock uint64, multisigAddr string) *MsgAcceptfund {
 	return &MsgAcceptfund{
 		Creator:       creator,
 		Creatoraddr:   creatoraddr,

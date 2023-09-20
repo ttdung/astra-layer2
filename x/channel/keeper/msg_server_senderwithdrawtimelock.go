@@ -32,9 +32,13 @@ func (k msgServer) Senderwithdrawtimelock(goCtx context.Context, msg *types.MsgS
 	if k.bankKeeper.BlockedAddr(to) {
 		err = fmt.Errorf("%s is not allowed to receive funds", msg.To)
 	} else {
-		err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*val.Cointransfer})
-		if err != nil {
-			return nil, err
+		for _, coin := range val.Cointransfer {
+			if coin.Amount.IsPositive() {
+				err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*coin})
+				if err != nil {
+					return nil, err
+				}
+			}
 		}
 	}
 

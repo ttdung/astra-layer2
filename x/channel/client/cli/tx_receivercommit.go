@@ -3,6 +3,7 @@ package cli
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -36,23 +37,40 @@ func CmdReceivercommit() *cobra.Command {
 				return err
 			}
 
-			decCoin, err := sdk.ParseDecCoin(args[2])
-			if err != nil {
-				return err
-			}
-			argCointoreceiver, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+			var argCointoreceiver, argCointohtlc, argCointransfer []*sdk.Coin
 
-			decCoin, err = sdk.ParseDecCoin(args[3])
-			if err != nil {
-				return err
+			arg2 := strings.Split(args[2], ":")
+			argCointoreceiver = make([]*sdk.Coin, len(arg2))
+			for i, coin := range arg2 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				argCointoreceiver[i] = &c
 			}
-			argCointohtlc, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
 
-			decCoin, err = sdk.ParseDecCoin(args[4])
-			if err != nil {
-				return err
+			arg3 := strings.Split(args[3], ":")
+			argCointohtlc = make([]*sdk.Coin, len(arg3))
+			for i, coin := range arg3 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				argCointohtlc[i] = &c
 			}
-			argCointransfer, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+
+			arg4 := strings.Split(args[4], ":")
+			argCointransfer = make([]*sdk.Coin, len(arg4))
+			for i, coin := range arg4 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				argCointransfer[i] = &c
+			}
 
 			argTimelockhtlc, err := strconv.ParseUint(args[6], 10, 64)
 			if err != nil {
@@ -68,9 +86,9 @@ func CmdReceivercommit() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				argReceiverAddr,
 				argChannelid,
-				&argCointoreceiver,
-				&argCointohtlc,
-				&argCointransfer,
+				argCointoreceiver,
+				argCointohtlc,
+				argCointransfer,
 				argHashcodehtlc,
 				argTimelockhtlc,
 				argHashcodedest,

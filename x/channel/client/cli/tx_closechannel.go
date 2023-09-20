@@ -4,6 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -48,25 +49,39 @@ func CmdClosechannel() *cobra.Command {
 				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid toB address (%s)", err)
 			}
 
-			decCoin, err := sdk.ParseDecCoin(argCoinA)
-			if err != nil {
-				return err
-			}
-			coinA, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+			var coinA, coinB []*sdk.Coin
 
-			decCoin, err = sdk.ParseDecCoin(argCoinB)
-			if err != nil {
-				return err
+			argcoin := strings.Split(argCoinA, ":")
+			coinA = make([]*sdk.Coin, len(argcoin))
+
+			for i, coin := range argcoin {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinA[i] = &c
 			}
-			coinB, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+
+			argcoin = strings.Split(argCoinB, ":")
+			coinB = make([]*sdk.Coin, len(argcoin))
+
+			for i, coin := range argcoin {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinB[i] = &c
+			}
 
 			msg := types.NewMsgClosechannel(
 				clientCtx.GetFromAddress().String(),
 				argMultisigAddr,
 				argPartA,
-				&coinA,
+				coinA,
 				argPartB,
-				&coinB,
+				coinB,
 				argChannelid,
 			)
 			if err := msg.ValidateBasic(); err != nil {

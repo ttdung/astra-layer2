@@ -33,9 +33,17 @@ func (k msgServer) Senderwithdrawhashlock(goCtx context.Context, msg *types.MsgS
 		return nil, err
 	}
 
-	err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*val.Cointransfer})
-	if err != nil {
-		return nil, err
+	if k.bankKeeper.BlockedAddr(to) {
+		err = fmt.Errorf("%s is not allowed to receive funds", msg.To)
+	} else {
+		for _, coin := range val.Cointransfer {
+			if coin.Amount.IsPositive() {
+				err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*coin})
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
 	}
 
 	k.Keeper.RemoveFwdcommitment(ctx, msg.Transferindex)

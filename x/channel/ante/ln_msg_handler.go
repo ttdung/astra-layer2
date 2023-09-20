@@ -111,13 +111,13 @@ func (lnmsg LnMsgDecorator) validateAcceptFundTx(ctx sdk.Context, authTx authsig
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
-	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.CointoCreator.Denom)
-
 	// verify amount to withdraw
-	if m.CointoCreator.Amount.Int64() > amt.Amount.Int64() {
-		return fmt.Errorf("exceed amount of token can be sent")
+	for _, coin := range m.CointoCreator {
+		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
+		if coin.Amount.Int64() > amt.Amount.Int64() {
+			return fmt.Errorf("exceed amount of token can be sent")
+		}
 	}
-
 	return nil
 }
 
@@ -142,13 +142,13 @@ func (lnmsg LnMsgDecorator) validateFundTx(ctx sdk.Context, authTx authsigning.S
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
-	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.CointoPartner.Denom)
-
 	// verify amount to withdraw
-	if m.CointoPartner.Amount.Int64() > amt.Amount.Int64() {
-		return fmt.Errorf("exceed amount of token can be sent")
+	for _, coin := range m.CointoPartner {
+		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
+		if coin.Amount.Int64() > amt.Amount.Int64() {
+			return fmt.Errorf("exceed amount of token can be sent")
+		}
 	}
-
 	return nil
 }
 
@@ -178,11 +178,12 @@ func (lnmsg LnMsgDecorator) validateCommitmentTx(ctx sdk.Context, authTx authsig
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
-	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.Cointocreator.Denom)
-
 	// verify amount to withdraw
-	if m.Cointohtlc.Amount.Int64()+m.Cointocreator.Amount.Int64() > amt.Amount.Int64() {
-		return fmt.Errorf("exceed amount of token can be sent")
+	for i, coin := range m.Cointocreator {
+		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
+		if m.Cointohtlc[i].Amount.Int64()+m.Cointocreator[i].Amount.Int64() > amt.Amount.Int64() {
+			return fmt.Errorf("exceed amount of token can be sent")
+		}
 	}
 
 	return nil
@@ -214,11 +215,12 @@ func (lnmsg LnMsgDecorator) validateCloseChannelTx(ctx sdk.Context, authTx auths
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
-	amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, m.CoinA.Denom)
-
 	// verify amount to withdraw
-	if m.CoinA.Amount.Int64()+m.CoinB.Amount.Int64() > amt.Amount.Int64() {
-		return fmt.Errorf("exceed amount of token can be withdrawn", m.Channelid)
+	for i, coin := range m.CoinA {
+		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
+		if m.CoinA[i].Amount.Int64()+m.CoinB[i].Amount.Int64() > amt.Amount.Int64() {
+			return fmt.Errorf("exceed amount of token can be withdrawn", m.Channelid)
+		}
 	}
 
 	return nil
@@ -237,10 +239,11 @@ func (lnmsg LnMsgDecorator) validateOpenChannelTx(ctx sdk.Context, authTx authsi
 	}
 
 	// validate the same coin
-	if m.CoinA.Denom != m.CoinB.Denom {
-		return fmt.Errorf("cannot create channel from different coin denoms")
+	for i, _ := range m.CoinA {
+		if m.CoinA[i].Denom != m.CoinB[i].Denom {
+			return fmt.Errorf("cannot create channel from different coin denoms")
+		}
 	}
-
 	// verify each party
 	pubkeyA, err := pubkey.NewPKAccount(m.PartA)
 	if err != nil {

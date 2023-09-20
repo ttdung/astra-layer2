@@ -45,16 +45,21 @@ func (k msgServer) Fund(goCtx context.Context, msg *types.MsgFund) (*types.MsgFu
 
 	cointoPartner := msg.CointoPartner
 
-	coinChannel := k.Keeper.bankKeeper.GetBalance(ctx, multisigAddr, cointoPartner.Denom)
+	coinChannel := make([]sdk.Coin, len(cointoPartner))
 
-	ctx.Logger().Info("@@@@ balance of addr", val.MultisigAddr,
-		" balance:", coinChannel.Amount.Uint64(), " cointoPartner:", cointoPartner.Amount.Uint64())
+	for i, coin := range cointoPartner {
+		coinChannel[i] = k.Keeper.bankKeeper.GetBalance(ctx, multisigAddr, coin.Denom)
+	}
+	//ctx.Logger().Info("@@@@ balance of addr", val.MultisigAddr,
+	//	" balance:", coinChannel.Amount.Uint64(), " cointoPartner:", cointoPartner.Amount.Uint64())
 
 	// Send to LockTx (other) or HashTx (creator)
-	if cointoPartner.Amount.IsPositive() {
-		err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, multisigAddr, types.ModuleName, sdk.Coins{*cointoPartner})
-		if err != nil {
-			return nil, fmt.Errorf("@@@ SendCoinsFromAccountToModule failed balance of addr: %v, balance: %v", val.MultisigAddr, cointoPartner.Amount.Uint64())
+	for _, coin := range cointoPartner {
+		if coin.Amount.IsPositive() {
+			err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, multisigAddr, types.ModuleName, sdk.Coins{*coin})
+			if err != nil {
+				return nil, fmt.Errorf("@@@ SendCoinsFromAccountToModule failed balance of addr: %v, balance: %v", val.MultisigAddr, coin.Amount.Uint64())
+			}
 		}
 	}
 
@@ -86,14 +91,23 @@ func (k msgServer) Fund(goCtx context.Context, msg *types.MsgFund) (*types.MsgFu
 		return nil, err
 	}
 
-	coin_fundside := coinChannel.Sub(*cointoPartner)
-	if coin_fundside.Amount.IsPositive() {
-		err = k.bankKeeper.SendCoins(ctx, multisigAddr, to, sdk.Coins{sdk.Coin{coin_fundside.Denom, coin_fundside.Amount}})
-		if err != nil {
-			return nil, fmt.Errorf("SendCoins failed balance of addr %v, balance %v, amount %v",
-				val.MultisigAddr,
-				coinChannel.Amount.Uint64(),
-				coin_fundside.Amount.Uint64())
+	coin_fundside := make([]sdk.Coin, len(cointoPartner))
+
+	for i, coin := range cointoPartner {
+		coin_fundside[i] = coinChannel[i].Sub(*coin)
+		if coin_fundside[i].Amount.IsPositive() {
+			err = k.bankKeeper.SendCoins(ctx,
+				multisigAddr,
+				to,
+				sdk.Coins{sdk.Coin{
+					coin_fundside[i].Denom,
+					coin_fundside[i].Amount}})
+			if err != nil {
+				return nil, fmt.Errorf("SendCoins failed balance of addr %v, balance %v, amount %v",
+					val.MultisigAddr,
+					coinChannel[i].Amount.Uint64(),
+					coin_fundside[i].Amount.Uint64())
+			}
 		}
 	}
 

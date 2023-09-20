@@ -9,7 +9,7 @@ const TypeMsgReceivercommit = "receivercommit"
 
 var _ sdk.Msg = &MsgReceivercommit{}
 
-func NewMsgReceivercommit(creator string, receiverAddr string, channelid string, cointoreceiver *sdk.Coin, cointohtlc *sdk.Coin, cointransfer *sdk.Coin, hashcodehtlc string, timelockhtlc uint64, hashcodedest string, timelocksender uint64, multisigAddr string) *MsgReceivercommit {
+func NewMsgReceivercommit(creator string, receiverAddr string, channelid string, cointoreceiver []*sdk.Coin, cointohtlc []*sdk.Coin, cointransfer []*sdk.Coin, hashcodehtlc string, timelockhtlc uint64, hashcodedest string, timelocksender uint64, multisigAddr string) *MsgReceivercommit {
 	return &MsgReceivercommit{
 		Creator:        creator,
 		ReceiverAddr:   receiverAddr,

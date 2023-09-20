@@ -9,7 +9,7 @@ const TypeMsgOpenchannel = "openchannel"
 
 var _ sdk.Msg = &MsgOpenchannel{}
 
-func NewMsgOpenchannel(creator string, partA string, partB string, coinA *sdk.Coin, coinB *sdk.Coin, multisigAddr string, sequence string) *MsgOpenchannel {
+func NewMsgOpenchannel(creator string, partA string, partB string, coinA []*sdk.Coin, coinB []*sdk.Coin, multisigAddr string, sequence string) *MsgOpenchannel {
 	return &MsgOpenchannel{
 		Creator:      creator,
 		PartA:        partA,

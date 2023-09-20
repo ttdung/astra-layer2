@@ -47,9 +47,13 @@ func (k msgServer) Receiverwithdraw(goCtx context.Context, msg *types.MsgReceive
 		return nil, err
 	}
 
-	err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*val.Cointransfer})
-	if err != nil {
-		return nil, err
+	for _, coin := range val.Cointransfer {
+		if coin.Amount.IsPositive() {
+			err = k.Keeper.bankKeeper.SendCoinsFromModuleToAccount(ctx, types.ModuleName, to, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	k.Keeper.RemoveFwdcommitment(ctx, msg.Transferindex)

@@ -4,6 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -25,15 +26,15 @@ func CmdOpenchannel() *cobra.Command {
 			argMultisigAddr := args[4]
 			argSequence := args[5]
 
-			//_, err = sdk.AccAddressFromBech32(argPartA)
-			//if err != nil {
-			//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partA address (%s)", err)
-			//}
-			//
-			//_, err = sdk.AccAddressFromBech32(argPartB)
-			//if err != nil {
-			//	return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partB address (%s)", err)
-			//}
+			_, err = sdk.AccAddressFromBech32(argPartA)
+			if err != nil {
+				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partA address (%s)", err)
+			}
+
+			_, err = sdk.AccAddressFromBech32(argPartB)
+			if err != nil {
+				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partB address (%s)", err)
+			}
 
 			_, err = sdk.AccAddressFromBech32(argMultisigAddr)
 			if err != nil {
@@ -46,24 +47,36 @@ func CmdOpenchannel() *cobra.Command {
 				return err
 			}
 
-			decCoin, err := sdk.ParseDecCoin(args[2])
-			if err != nil {
-				return err
-			}
-			coinA, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+			var coinA, coinB []*sdk.Coin
+			arg2 := strings.Split(args[2], ":")
 
-			decCoin, err = sdk.ParseDecCoin(args[3])
-			if err != nil {
-				return err
+			coinA = make([]*sdk.Coin, len(arg2))
+			for i, coin := range arg2 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinA[i] = &c
 			}
-			coinB, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+
+			arg3 := strings.Split(args[3], ":")
+			coinB = make([]*sdk.Coin, len(arg3))
+			for i, coin := range arg3 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinB[i] = &c
+			}
 
 			msg := types.NewMsgOpenchannel(
 				clientCtx.GetFromAddress().String(),
 				argPartA,
 				argPartB,
-				&coinA,
-				&coinB,
+				coinA,
+				coinB,
 				argMultisigAddr,
 				argSequence,
 			)

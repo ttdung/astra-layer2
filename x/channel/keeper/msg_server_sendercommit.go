@@ -36,20 +36,24 @@ func (k msgServer) Sendercommit(goCtx context.Context, msg *types.MsgSendercommi
 	}
 
 	// Send coin to creator of commitment
-	if msg.Cointosender.Amount.IsPositive() {
-		err = k.bankKeeper.SendCoins(ctx, fromMultisig, toSender, sdk.Coins{*msg.Cointosender})
-		if err != nil {
-			return nil, err
+	for _, coin := range msg.Cointosender {
+		if coin.Amount.IsPositive() {
+			err = k.bankKeeper.SendCoins(ctx, fromMultisig, toSender, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
 	// Send to HTLC
 	htlcIndex := ""
 	CointoHTLC := msg.Cointohtlc
-	if CointoHTLC.Amount.IsPositive() {
-		err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, fromMultisig, types.ModuleName, sdk.Coins{*CointoHTLC})
-		if err != nil {
-			return nil, err
+	for _, coin := range CointoHTLC {
+		if coin.Amount.IsPositive() {
+			err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, fromMultisig, types.ModuleName, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -73,10 +77,12 @@ func (k msgServer) Sendercommit(goCtx context.Context, msg *types.MsgSendercommi
 
 	// Send to FwdContract
 	CointoFC := msg.Cointransfer
-	if CointoFC.Amount.IsPositive() {
-		err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, fromMultisig, types.ModuleName, sdk.Coins{*CointoFC})
-		if err != nil {
-			return nil, err
+	for _, coin := range CointoFC {
+		if coin.Amount.IsPositive() {
+			err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, fromMultisig, types.ModuleName, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 

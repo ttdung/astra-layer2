@@ -25,8 +25,8 @@ message MsgOpenchannel {
   string                   creator      = 1;
   string                   partA        = 2;
   string                   partB        = 3;
-  cosmos.base.v1beta1.Coin coinA        = 4;
-  cosmos.base.v1beta1.Coin coinB        = 5;
+  repeated cosmos.base.v1beta1.Coin coinA        = 4;
+  repeated cosmos.base.v1beta1.Coin coinB        = 5;
   string                   multisigAddr = 6;
   string                   sequence     = 7;
 }
@@ -39,9 +39,9 @@ message MsgClosechannel {
   string                   creator      = 1;
   string                   multisigAddr = 2;
   string                   partA        = 3;
-  cosmos.base.v1beta1.Coin coinA        = 4;
+  repeated cosmos.base.v1beta1.Coin coinA        = 4;
   string                   partB        = 5;
-  cosmos.base.v1beta1.Coin coinB        = 6;
+  repeated cosmos.base.v1beta1.Coin coinB        = 6;
   string                   channelid    = 7;
 }
 
@@ -54,8 +54,8 @@ message MsgCommitment {
   string                   partneraddr   = 4;
   string                   hashcode      = 5;
   uint64                   numblock      = 6;
-  cosmos.base.v1beta1.Coin cointocreator = 7;
-  cosmos.base.v1beta1.Coin cointohtlc    = 8;
+  repeated cosmos.base.v1beta1.Coin cointocreator = 7;
+  repeated cosmos.base.v1beta1.Coin cointohtlc    = 8;
   string                   channelid     = 9;
 }
 
@@ -84,7 +84,7 @@ message MsgFund {
   string                   creator       = 1;
   string                   creatoraddr   = 2;
   string                   channelid     = 3;
-  cosmos.base.v1beta1.Coin cointoPartner = 4;
+  repeated cosmos.base.v1beta1.Coin cointoPartner = 4;
   string                   hashcode      = 5;
   uint64                   numblock      = 6;
   string                   multisigAddr  = 7;
@@ -98,7 +98,7 @@ message MsgAcceptfund {
   string                   creator       = 1;
   string                   creatoraddr   = 2;
   string                   channelid     = 3;
-  cosmos.base.v1beta1.Coin cointoCreator = 4;
+  repeated cosmos.base.v1beta1.Coin cointoCreator = 4;
   string                   hashcode      = 5;
   uint64                   numblock      = 6;
   string                   multisigAddr  = 7;
@@ -112,9 +112,9 @@ message MsgSendercommit {
   string                   creator          =  1;
   string                   senderAddr       =  2;
   string                   channelid        =  3;
-  cosmos.base.v1beta1.Coin cointosender     =  4;
-  cosmos.base.v1beta1.Coin cointohtlc       =  5;
-  cosmos.base.v1beta1.Coin cointransfer     =  6;
+  repeated cosmos.base.v1beta1.Coin cointosender     =  4;
+  repeated cosmos.base.v1beta1.Coin cointohtlc       =  5;
+  repeated cosmos.base.v1beta1.Coin cointransfer     =  6;
   string                   hashcodehtlc     =  7;
   uint64                   timelockhtlc     =  8;
   string                   hashcodedest     =  9;
@@ -132,9 +132,9 @@ message MsgReceivercommit {
   string                   creator        =  1;
   string                   receiverAddr   =  2;
   string                   channelid      =  3;
-  cosmos.base.v1beta1.Coin cointoreceiver =  4;
-  cosmos.base.v1beta1.Coin cointohtlc     =  5;
-  cosmos.base.v1beta1.Coin cointransfer   =  6;
+  repeated cosmos.base.v1beta1.Coin cointoreceiver =  4;
+  repeated cosmos.base.v1beta1.Coin cointohtlc     =  5;
+  repeated cosmos.base.v1beta1.Coin cointransfer   =  6;
   string                   hashcodehtlc   =  7;
   uint64                   timelockhtlc   =  8;
   string                   hashcodedest   =  9;

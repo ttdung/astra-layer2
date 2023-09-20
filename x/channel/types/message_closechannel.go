@@ -9,7 +9,7 @@ const TypeMsgClosechannel = "closechannel"
 
 var _ sdk.Msg = &MsgClosechannel{}
 
-func NewMsgClosechannel(creator string, multisigAddr string, partA string, coinA *sdk.Coin, partB string, coinB *sdk.Coin, channelid string) *MsgClosechannel {
+func NewMsgClosechannel(creator string, multisigAddr string, partA string, coinA []*sdk.Coin, partB string, coinB []*sdk.Coin, channelid string) *MsgClosechannel {
 	return &MsgClosechannel{
 		Creator:      creator,
 		MultisigAddr: multisigAddr,

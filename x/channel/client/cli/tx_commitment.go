@@ -3,6 +3,7 @@ package cli
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -39,17 +40,29 @@ func CmdCommitment() *cobra.Command {
 				return err
 			}
 
-			decCoin, err := sdk.ParseDecCoin(args[5])
-			if err != nil {
-				return err
-			}
-			coinToCreator, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+			var coinToCreator, coinHtlc []*sdk.Coin
 
-			decCoin, err = sdk.ParseDecCoin(args[6])
-			if err != nil {
-				return err
+			arg5 := strings.Split(args[5], ":")
+			coinToCreator = make([]*sdk.Coin, len(arg5))
+			for i, coin := range arg5 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinToCreator[i] = &c
 			}
-			coinHtlc, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+
+			arg6 := strings.Split(args[6], ":")
+			coinHtlc = make([]*sdk.Coin, len(arg6))
+			for i, coin := range arg6 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				coinHtlc[i] = &c
+			}
 
 			msg := types.NewMsgCommitment(
 				clientCtx.GetFromAddress().String(),
@@ -58,8 +71,8 @@ func CmdCommitment() *cobra.Command {
 				argPartneraddr,
 				argHashcode,
 				argNumblock,
-				&coinToCreator,
-				&coinHtlc,
+				coinToCreator,
+				coinHtlc,
 				argChannelid,
 			)
 			if err := msg.ValidateBasic(); err != nil {

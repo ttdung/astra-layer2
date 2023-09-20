@@ -3,6 +3,7 @@ package cli
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -30,11 +31,18 @@ func CmdFund() *cobra.Command {
 				return err
 			}
 
-			decCoin, err := sdk.ParseDecCoin(args[2])
-			if err != nil {
-				return err
+			var argCointoPartner []*sdk.Coin
+			arg2 := strings.Split(args[2], ":")
+
+			argCointoPartner = make([]*sdk.Coin, len(arg2))
+			for i, coin := range arg2 {
+				decCoin, err := sdk.ParseDecCoin(coin)
+				if err != nil {
+					return err
+				}
+				c, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
+				argCointoPartner[i] = &c
 			}
-			argCointoPartner, _ := sdk.NormalizeDecCoin(decCoin).TruncateDecimal()
 
 			argNumblock, err := strconv.ParseUint(args[4], 10, 64)
 			if err != nil {
@@ -45,7 +53,7 @@ func CmdFund() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				argCreatoraddr,
 				argChannelid,
-				&argCointoPartner,
+				argCointoPartner,
 				argHashcode,
 				argNumblock,
 				argMultisigAddr,

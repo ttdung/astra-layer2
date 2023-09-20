@@ -9,7 +9,7 @@ const TypeMsgSendercommit = "sendercommit"
 
 var _ sdk.Msg = &MsgSendercommit{}
 
-func NewMsgSendercommit(creator string, senderAddr string, channelid string, cointosender *sdk.Coin, cointohtlc *sdk.Coin, cointransfer *sdk.Coin, hashcodehtlc string, timelockhtlc uint64, hashcodedest string, timelockreceiver uint64, timelocksender uint64, multisigAddr string) *MsgSendercommit {
+func NewMsgSendercommit(creator string, senderAddr string, channelid string, cointosender []*sdk.Coin, cointohtlc []*sdk.Coin, cointransfer []*sdk.Coin, hashcodehtlc string, timelockhtlc uint64, hashcodedest string, timelockreceiver uint64, timelocksender uint64, multisigAddr string) *MsgSendercommit {
 	return &MsgSendercommit{
 		Creator:          creator,
 		SenderAddr:       senderAddr,

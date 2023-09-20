@@ -29,13 +29,13 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type MsgOpenchannel struct {
-	Creator      string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	PartA        string      `protobuf:"bytes,2,opt,name=partA,proto3" json:"partA,omitempty"`
-	PartB        string      `protobuf:"bytes,3,opt,name=partB,proto3" json:"partB,omitempty"`
-	CoinA        *types.Coin `protobuf:"bytes,4,opt,name=coinA,proto3" json:"coinA,omitempty"`
-	CoinB        *types.Coin `protobuf:"bytes,5,opt,name=coinB,proto3" json:"coinB,omitempty"`
-	MultisigAddr string      `protobuf:"bytes,6,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
-	Sequence     string      `protobuf:"bytes,7,opt,name=sequence,proto3" json:"sequence,omitempty"`
+	Creator      string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	PartA        string        `protobuf:"bytes,2,opt,name=partA,proto3" json:"partA,omitempty"`
+	PartB        string        `protobuf:"bytes,3,opt,name=partB,proto3" json:"partB,omitempty"`
+	CoinA        []*types.Coin `protobuf:"bytes,4,rep,name=coinA,proto3" json:"coinA,omitempty"`
+	CoinB        []*types.Coin `protobuf:"bytes,5,rep,name=coinB,proto3" json:"coinB,omitempty"`
+	MultisigAddr string        `protobuf:"bytes,6,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Sequence     string        `protobuf:"bytes,7,opt,name=sequence,proto3" json:"sequence,omitempty"`
 }
 
 func (m *MsgOpenchannel) Reset()         { *m = MsgOpenchannel{} }
@@ -92,14 +92,14 @@ func (m *MsgOpenchannel) GetPartB() string {
 	return ""
 }
 
-func (m *MsgOpenchannel) GetCoinA() *types.Coin {
+func (m *MsgOpenchannel) GetCoinA() []*types.Coin {
 	if m != nil {
 		return m.CoinA
 	}
 	return nil
 }
 
-func (m *MsgOpenchannel) GetCoinB() *types.Coin {
+func (m *MsgOpenchannel) GetCoinB() []*types.Coin {
 	if m != nil {
 		return m.CoinB
 	}
@@ -165,13 +165,13 @@ func (m *MsgOpenchannelResponse) GetId() string {
 }
 
 type MsgClosechannel struct {
-	Creator      string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	MultisigAddr string      `protobuf:"bytes,2,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
-	PartA        string      `protobuf:"bytes,3,opt,name=partA,proto3" json:"partA,omitempty"`
-	CoinA        *types.Coin `protobuf:"bytes,4,opt,name=coinA,proto3" json:"coinA,omitempty"`
-	PartB        string      `protobuf:"bytes,5,opt,name=partB,proto3" json:"partB,omitempty"`
-	CoinB        *types.Coin `protobuf:"bytes,6,opt,name=coinB,proto3" json:"coinB,omitempty"`
-	Channelid    string      `protobuf:"bytes,7,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	Creator      string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	MultisigAddr string        `protobuf:"bytes,2,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	PartA        string        `protobuf:"bytes,3,opt,name=partA,proto3" json:"partA,omitempty"`
+	CoinA        []*types.Coin `protobuf:"bytes,4,rep,name=coinA,proto3" json:"coinA,omitempty"`
+	PartB        string        `protobuf:"bytes,5,opt,name=partB,proto3" json:"partB,omitempty"`
+	CoinB        []*types.Coin `protobuf:"bytes,6,rep,name=coinB,proto3" json:"coinB,omitempty"`
+	Channelid    string        `protobuf:"bytes,7,opt,name=channelid,proto3" json:"channelid,omitempty"`
 }
 
 func (m *MsgClosechannel) Reset()         { *m = MsgClosechannel{} }
@@ -228,7 +228,7 @@ func (m *MsgClosechannel) GetPartA() string {
 	return ""
 }
 
-func (m *MsgClosechannel) GetCoinA() *types.Coin {
+func (m *MsgClosechannel) GetCoinA() []*types.Coin {
 	if m != nil {
 		return m.CoinA
 	}
@@ -242,7 +242,7 @@ func (m *MsgClosechannel) GetPartB() string {
 	return ""
 }
 
-func (m *MsgClosechannel) GetCoinB() *types.Coin {
+func (m *MsgClosechannel) GetCoinB() []*types.Coin {
 	if m != nil {
 		return m.CoinB
 	}
@@ -293,15 +293,15 @@ func (m *MsgClosechannelResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgClosechannelResponse proto.InternalMessageInfo
 
 type MsgCommitment struct {
-	Creator       string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	MultisigAddr  string      `protobuf:"bytes,2,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
-	Creatoraddr   string      `protobuf:"bytes,3,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
-	Partneraddr   string      `protobuf:"bytes,4,opt,name=partneraddr,proto3" json:"partneraddr,omitempty"`
-	Hashcode      string      `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
-	Numblock      uint64      `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
-	Cointocreator *types.Coin `protobuf:"bytes,7,opt,name=cointocreator,proto3" json:"cointocreator,omitempty"`
-	Cointohtlc    *types.Coin `protobuf:"bytes,8,opt,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
-	Channelid     string      `protobuf:"bytes,9,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	Creator       string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	MultisigAddr  string        `protobuf:"bytes,2,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Creatoraddr   string        `protobuf:"bytes,3,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
+	Partneraddr   string        `protobuf:"bytes,4,opt,name=partneraddr,proto3" json:"partneraddr,omitempty"`
+	Hashcode      string        `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
+	Numblock      uint64        `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
+	Cointocreator []*types.Coin `protobuf:"bytes,7,rep,name=cointocreator,proto3" json:"cointocreator,omitempty"`
+	Cointohtlc    []*types.Coin `protobuf:"bytes,8,rep,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
+	Channelid     string        `protobuf:"bytes,9,opt,name=channelid,proto3" json:"channelid,omitempty"`
 }
 
 func (m *MsgCommitment) Reset()         { *m = MsgCommitment{} }
@@ -379,14 +379,14 @@ func (m *MsgCommitment) GetNumblock() uint64 {
 	return 0
 }
 
-func (m *MsgCommitment) GetCointocreator() *types.Coin {
+func (m *MsgCommitment) GetCointocreator() []*types.Coin {
 	if m != nil {
 		return m.Cointocreator
 	}
 	return nil
 }
 
-func (m *MsgCommitment) GetCointohtlc() *types.Coin {
+func (m *MsgCommitment) GetCointohtlc() []*types.Coin {
 	if m != nil {
 		return m.Cointohtlc
 	}
@@ -645,13 +645,13 @@ func (m *MsgWithdrawHashlockResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_MsgWithdrawHashlockResponse proto.InternalMessageInfo
 
 type MsgFund struct {
-	Creator       string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Creatoraddr   string      `protobuf:"bytes,2,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
-	Channelid     string      `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
-	CointoPartner *types.Coin `protobuf:"bytes,4,opt,name=cointoPartner,proto3" json:"cointoPartner,omitempty"`
-	Hashcode      string      `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
-	Numblock      uint64      `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
-	MultisigAddr  string      `protobuf:"bytes,7,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Creator       string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Creatoraddr   string        `protobuf:"bytes,2,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
+	Channelid     string        `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	CointoPartner []*types.Coin `protobuf:"bytes,4,rep,name=cointoPartner,proto3" json:"cointoPartner,omitempty"`
+	Hashcode      string        `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
+	Numblock      uint64        `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
+	MultisigAddr  string        `protobuf:"bytes,7,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
 }
 
 func (m *MsgFund) Reset()         { *m = MsgFund{} }
@@ -708,7 +708,7 @@ func (m *MsgFund) GetChannelid() string {
 	return ""
 }
 
-func (m *MsgFund) GetCointoPartner() *types.Coin {
+func (m *MsgFund) GetCointoPartner() []*types.Coin {
 	if m != nil {
 		return m.CointoPartner
 	}
@@ -781,13 +781,13 @@ func (m *MsgFundResponse) GetId() string {
 }
 
 type MsgAcceptfund struct {
-	Creator       string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Creatoraddr   string      `protobuf:"bytes,2,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
-	Channelid     string      `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
-	CointoCreator *types.Coin `protobuf:"bytes,4,opt,name=cointoCreator,proto3" json:"cointoCreator,omitempty"`
-	Hashcode      string      `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
-	Numblock      uint64      `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
-	MultisigAddr  string      `protobuf:"bytes,7,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Creator       string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Creatoraddr   string        `protobuf:"bytes,2,opt,name=creatoraddr,proto3" json:"creatoraddr,omitempty"`
+	Channelid     string        `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	CointoCreator []*types.Coin `protobuf:"bytes,4,rep,name=cointoCreator,proto3" json:"cointoCreator,omitempty"`
+	Hashcode      string        `protobuf:"bytes,5,opt,name=hashcode,proto3" json:"hashcode,omitempty"`
+	Numblock      uint64        `protobuf:"varint,6,opt,name=numblock,proto3" json:"numblock,omitempty"`
+	MultisigAddr  string        `protobuf:"bytes,7,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
 }
 
 func (m *MsgAcceptfund) Reset()         { *m = MsgAcceptfund{} }
@@ -844,7 +844,7 @@ func (m *MsgAcceptfund) GetChannelid() string {
 	return ""
 }
 
-func (m *MsgAcceptfund) GetCointoCreator() *types.Coin {
+func (m *MsgAcceptfund) GetCointoCreator() []*types.Coin {
 	if m != nil {
 		return m.CointoCreator
 	}
@@ -917,18 +917,18 @@ func (m *MsgAcceptfundResponse) GetId() string {
 }
 
 type MsgSendercommit struct {
-	Creator          string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	SenderAddr       string      `protobuf:"bytes,2,opt,name=senderAddr,proto3" json:"senderAddr,omitempty"`
-	Channelid        string      `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
-	Cointosender     *types.Coin `protobuf:"bytes,4,opt,name=cointosender,proto3" json:"cointosender,omitempty"`
-	Cointohtlc       *types.Coin `protobuf:"bytes,5,opt,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
-	Cointransfer     *types.Coin `protobuf:"bytes,6,opt,name=cointransfer,proto3" json:"cointransfer,omitempty"`
-	Hashcodehtlc     string      `protobuf:"bytes,7,opt,name=hashcodehtlc,proto3" json:"hashcodehtlc,omitempty"`
-	Timelockhtlc     uint64      `protobuf:"varint,8,opt,name=timelockhtlc,proto3" json:"timelockhtlc,omitempty"`
-	Hashcodedest     string      `protobuf:"bytes,9,opt,name=hashcodedest,proto3" json:"hashcodedest,omitempty"`
-	Timelockreceiver uint64      `protobuf:"varint,10,opt,name=timelockreceiver,proto3" json:"timelockreceiver,omitempty"`
-	Timelocksender   uint64      `protobuf:"varint,11,opt,name=timelocksender,proto3" json:"timelocksender,omitempty"`
-	MultisigAddr     string      `protobuf:"bytes,12,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Creator          string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	SenderAddr       string        `protobuf:"bytes,2,opt,name=senderAddr,proto3" json:"senderAddr,omitempty"`
+	Channelid        string        `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	Cointosender     []*types.Coin `protobuf:"bytes,4,rep,name=cointosender,proto3" json:"cointosender,omitempty"`
+	Cointohtlc       []*types.Coin `protobuf:"bytes,5,rep,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
+	Cointransfer     []*types.Coin `protobuf:"bytes,6,rep,name=cointransfer,proto3" json:"cointransfer,omitempty"`
+	Hashcodehtlc     string        `protobuf:"bytes,7,opt,name=hashcodehtlc,proto3" json:"hashcodehtlc,omitempty"`
+	Timelockhtlc     uint64        `protobuf:"varint,8,opt,name=timelockhtlc,proto3" json:"timelockhtlc,omitempty"`
+	Hashcodedest     string        `protobuf:"bytes,9,opt,name=hashcodedest,proto3" json:"hashcodedest,omitempty"`
+	Timelockreceiver uint64        `protobuf:"varint,10,opt,name=timelockreceiver,proto3" json:"timelockreceiver,omitempty"`
+	Timelocksender   uint64        `protobuf:"varint,11,opt,name=timelocksender,proto3" json:"timelocksender,omitempty"`
+	MultisigAddr     string        `protobuf:"bytes,12,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
 }
 
 func (m *MsgSendercommit) Reset()         { *m = MsgSendercommit{} }
@@ -985,21 +985,21 @@ func (m *MsgSendercommit) GetChannelid() string {
 	return ""
 }
 
-func (m *MsgSendercommit) GetCointosender() *types.Coin {
+func (m *MsgSendercommit) GetCointosender() []*types.Coin {
 	if m != nil {
 		return m.Cointosender
 	}
 	return nil
 }
 
-func (m *MsgSendercommit) GetCointohtlc() *types.Coin {
+func (m *MsgSendercommit) GetCointohtlc() []*types.Coin {
 	if m != nil {
 		return m.Cointohtlc
 	}
 	return nil
 }
 
-func (m *MsgSendercommit) GetCointransfer() *types.Coin {
+func (m *MsgSendercommit) GetCointransfer() []*types.Coin {
 	if m != nil {
 		return m.Cointransfer
 	}
@@ -1101,17 +1101,17 @@ func (m *MsgSendercommitResponse) GetTransferIndex() string {
 }
 
 type MsgReceivercommit struct {
-	Creator        string      `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ReceiverAddr   string      `protobuf:"bytes,2,opt,name=receiverAddr,proto3" json:"receiverAddr,omitempty"`
-	Channelid      string      `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
-	Cointoreceiver *types.Coin `protobuf:"bytes,4,opt,name=cointoreceiver,proto3" json:"cointoreceiver,omitempty"`
-	Cointohtlc     *types.Coin `protobuf:"bytes,5,opt,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
-	Cointransfer   *types.Coin `protobuf:"bytes,6,opt,name=cointransfer,proto3" json:"cointransfer,omitempty"`
-	Hashcodehtlc   string      `protobuf:"bytes,7,opt,name=hashcodehtlc,proto3" json:"hashcodehtlc,omitempty"`
-	Timelockhtlc   uint64      `protobuf:"varint,8,opt,name=timelockhtlc,proto3" json:"timelockhtlc,omitempty"`
-	Hashcodedest   string      `protobuf:"bytes,9,opt,name=hashcodedest,proto3" json:"hashcodedest,omitempty"`
-	Timelocksender uint64      `protobuf:"varint,10,opt,name=timelocksender,proto3" json:"timelocksender,omitempty"`
-	MultisigAddr   string      `protobuf:"bytes,11,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
+	Creator        string        `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ReceiverAddr   string        `protobuf:"bytes,2,opt,name=receiverAddr,proto3" json:"receiverAddr,omitempty"`
+	Channelid      string        `protobuf:"bytes,3,opt,name=channelid,proto3" json:"channelid,omitempty"`
+	Cointoreceiver []*types.Coin `protobuf:"bytes,4,rep,name=cointoreceiver,proto3" json:"cointoreceiver,omitempty"`
+	Cointohtlc     []*types.Coin `protobuf:"bytes,5,rep,name=cointohtlc,proto3" json:"cointohtlc,omitempty"`
+	Cointransfer   []*types.Coin `protobuf:"bytes,6,rep,name=cointransfer,proto3" json:"cointransfer,omitempty"`
+	Hashcodehtlc   string        `protobuf:"bytes,7,opt,name=hashcodehtlc,proto3" json:"hashcodehtlc,omitempty"`
+	Timelockhtlc   uint64        `protobuf:"varint,8,opt,name=timelockhtlc,proto3" json:"timelockhtlc,omitempty"`
+	Hashcodedest   string        `protobuf:"bytes,9,opt,name=hashcodedest,proto3" json:"hashcodedest,omitempty"`
+	Timelocksender uint64        `protobuf:"varint,10,opt,name=timelocksender,proto3" json:"timelocksender,omitempty"`
+	MultisigAddr   string        `protobuf:"bytes,11,opt,name=multisigAddr,proto3" json:"multisigAddr,omitempty"`
 }
 
 func (m *MsgReceivercommit) Reset()         { *m = MsgReceivercommit{} }
@@ -1168,21 +1168,21 @@ func (m *MsgReceivercommit) GetChannelid() string {
 	return ""
 }
 
-func (m *MsgReceivercommit) GetCointoreceiver() *types.Coin {
+func (m *MsgReceivercommit) GetCointoreceiver() []*types.Coin {
 	if m != nil {
 		return m.Cointoreceiver
 	}
 	return nil
 }
 
-func (m *MsgReceivercommit) GetCointohtlc() *types.Coin {
+func (m *MsgReceivercommit) GetCointohtlc() []*types.Coin {
 	if m != nil {
 		return m.Cointohtlc
 	}
 	return nil
 }
 
-func (m *MsgReceivercommit) GetCointransfer() *types.Coin {
+func (m *MsgReceivercommit) GetCointransfer() []*types.Coin {
 	if m != nil {
 		return m.Cointransfer
 	}
@@ -1610,75 +1610,75 @@ func init() {
 func init() { proto.RegisterFile("channel/channel/tx.proto", fileDescriptor_89a552858311affe) }
 
 var fileDescriptor_89a552858311affe = []byte{
-	// 1080 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x58, 0xcf, 0x6f, 0x1b, 0x45,
-	0x14, 0x8e, 0x7f, 0xc5, 0xf5, 0xb3, 0xe3, 0x96, 0x05, 0xd2, 0x8d, 0x29, 0x8b, 0xbb, 0x44, 0x6d,
-	0x14, 0x21, 0x5b, 0x09, 0x27, 0x0e, 0x08, 0xd9, 0x91, 0x10, 0x1c, 0x2c, 0x90, 0x29, 0xaa, 0x14,
-	0x09, 0xc1, 0x66, 0x77, 0x62, 0xaf, 0x6a, 0xef, 0x9a, 0x9d, 0x49, 0x1b, 0x0e, 0x48, 0x48, 0x48,
-	0x9c, 0x39, 0xf0, 0x47, 0x71, 0xec, 0x91, 0x23, 0x4a, 0xf8, 0x23, 0x90, 0xb8, 0xa0, 0x9d, 0x5f,
-	0x9e, 0x1d, 0xcf, 0x7a, 0xdd, 0x52, 0x72, 0xe9, 0xc9, 0x9a, 0x37, 0xdf, 0x9b, 0xf7, 0xe6, 0x9b,
-	0x6f, 0xde, 0xbc, 0x35, 0xd8, 0xfe, 0xd4, 0x8b, 0x22, 0x34, 0xeb, 0x8b, 0x5f, 0x72, 0xd9, 0x5b,
-	0x24, 0x31, 0x89, 0xad, 0xdb, 0xdc, 0xd2, 0xe3, 0xbf, 0x1d, 0xc7, 0x8f, 0xf1, 0x3c, 0xc6, 0xfd,
-	0x33, 0x0f, 0xa3, 0xfe, 0xd3, 0xa3, 0x33, 0x44, 0xbc, 0xa3, 0xbe, 0x1f, 0x87, 0x11, 0x73, 0x70,
-	0xff, 0x2e, 0x41, 0x7b, 0x84, 0x27, 0x5f, 0x2c, 0x50, 0xc4, 0x5d, 0x2c, 0x1b, 0xea, 0x7e, 0x82,
-	0x3c, 0x12, 0x27, 0x76, 0xa9, 0x5b, 0x3a, 0x68, 0x8c, 0xc5, 0xd0, 0x7a, 0x0b, 0x6a, 0x0b, 0x2f,
-	0x21, 0x03, 0xbb, 0x4c, 0xed, 0x6c, 0x20, 0xac, 0x43, 0xbb, 0xb2, 0xb4, 0x0e, 0xad, 0x3e, 0xd4,
-	0xd2, 0x30, 0x03, 0xbb, 0xda, 0x2d, 0x1d, 0x34, 0x8f, 0xf7, 0x7a, 0x2c, 0x91, 0x5e, 0x9a, 0x48,
-	0x8f, 0x27, 0xd2, 0x3b, 0x89, 0xc3, 0x68, 0xcc, 0x70, 0xc2, 0x61, 0x68, 0xd7, 0x36, 0x72, 0x18,
-	0x5a, 0x2e, 0xb4, 0xe6, 0x17, 0x33, 0x12, 0xe2, 0x70, 0x32, 0x08, 0x82, 0xc4, 0xde, 0xa6, 0xe1,
-	0x33, 0x36, 0xab, 0x03, 0xb7, 0x30, 0xfa, 0xfe, 0x02, 0x45, 0x3e, 0xb2, 0xeb, 0x74, 0x5e, 0x8e,
-	0xdd, 0x03, 0xd8, 0xcd, 0xee, 0x7c, 0x8c, 0xf0, 0x22, 0x8e, 0x30, 0xb2, 0xda, 0x50, 0x0e, 0x03,
-	0xbe, 0xf9, 0x72, 0x18, 0xb8, 0xff, 0x94, 0xe0, 0xf6, 0x08, 0x4f, 0x4e, 0x66, 0x31, 0x46, 0xc5,
-	0x2c, 0xe9, 0x79, 0x95, 0x0d, 0x79, 0x49, 0x26, 0x2b, 0x2a, 0x93, 0x2f, 0xcc, 0x99, 0xa4, 0xbe,
-	0x66, 0xa0, 0x7e, 0x48, 0x19, 0xd9, 0x84, 0xc9, 0x7b, 0xd0, 0xe0, 0xdb, 0x0a, 0x03, 0x4e, 0xd3,
-	0xd2, 0xe0, 0xee, 0xc1, 0x5d, 0x6d, 0xf3, 0x82, 0x28, 0xf7, 0xba, 0x0c, 0x3b, 0xe9, 0x5c, 0x3c,
-	0x9f, 0x87, 0x64, 0x8e, 0x22, 0xf2, 0x1f, 0x69, 0xe9, 0x42, 0x93, 0xc3, 0xbd, 0x14, 0xc2, 0xc8,
-	0x51, 0x4d, 0x29, 0x22, 0xdd, 0x64, 0x84, 0x18, 0xa2, 0xca, 0x10, 0x8a, 0x29, 0x3d, 0xf2, 0xa9,
-	0x87, 0xa7, 0x7e, 0x1c, 0x20, 0x4e, 0x8b, 0x1c, 0xa7, 0x73, 0xd1, 0xc5, 0xfc, 0x6c, 0x16, 0xfb,
-	0x4f, 0x28, 0x39, 0xd5, 0xb1, 0x1c, 0x5b, 0x9f, 0xc0, 0x4e, 0xca, 0x06, 0x89, 0x45, 0xfe, 0xf5,
-	0x22, 0xf6, 0xb2, 0x78, 0xeb, 0x23, 0x00, 0x66, 0x98, 0x92, 0x99, 0x6f, 0xdf, 0x2a, 0xf2, 0x56,
-	0xc0, 0xd9, 0x03, 0x68, 0xe8, 0x07, 0xf0, 0x10, 0xde, 0xce, 0x90, 0x9c, 0xab, 0xd3, 0xaf, 0xe1,
-	0xcd, 0x11, 0x9e, 0x3c, 0x0e, 0xc9, 0x34, 0x48, 0xbc, 0x67, 0x8f, 0xc2, 0x39, 0xa2, 0x3b, 0xcb,
-	0x3f, 0x93, 0x36, 0x94, 0x49, 0xcc, 0x4f, 0xa2, 0x4c, 0xe2, 0x54, 0x4f, 0x61, 0x14, 0xa0, 0x4b,
-	0x21, 0x4b, 0x3a, 0x70, 0xdf, 0x85, 0x77, 0x0c, 0xcb, 0x4a, 0x11, 0xcc, 0x33, 0x51, 0x3f, 0xf3,
-	0xf0, 0xf4, 0x55, 0x44, 0xb5, 0x76, 0x61, 0x1b, 0x23, 0x3f, 0x41, 0x84, 0x1f, 0x32, 0x1f, 0x69,
-	0xd9, 0x88, 0x70, 0x32, 0x9b, 0x9f, 0xca, 0x50, 0x1f, 0xe1, 0xc9, 0xa7, 0x17, 0x51, 0xb0, 0x26,
-	0x05, 0x4d, 0x68, 0xe5, 0x55, 0xa1, 0x65, 0x8e, 0xa4, 0xa2, 0x1d, 0xc9, 0x52, 0x2c, 0x5f, 0x32,
-	0xe5, 0x15, 0xdf, 0xd8, 0x2c, 0xfe, 0xa5, 0x55, 0xaa, 0xdf, 0xa2, 0xfa, 0xea, 0x2d, 0x72, 0xef,
-	0xd3, 0x6a, 0x95, 0x32, 0x90, 0xab, 0x94, 0x5f, 0xd8, 0xc5, 0x1d, 0xf8, 0x3e, 0x5a, 0x90, 0xf3,
-	0x1b, 0xe2, 0xea, 0x84, 0xaf, 0xbf, 0x29, 0x57, 0x1c, 0xff, 0xbf, 0x72, 0xc5, 0xee, 0xd6, 0x92,
-	0x87, 0x7c, 0xc6, 0xaa, 0x94, 0xd5, 0xaf, 0x50, 0x14, 0xa0, 0xc4, 0xa7, 0x77, 0x71, 0x0d, 0x67,
-	0x0e, 0x00, 0xa6, 0x48, 0xa5, 0xd4, 0x29, 0x96, 0x02, 0xc6, 0x3e, 0x86, 0x16, 0x63, 0x80, 0x79,
-	0x14, 0x13, 0x96, 0x81, 0x6b, 0x85, 0xa8, 0xf6, 0x22, 0x85, 0x48, 0x44, 0x4e, 0xbc, 0x08, 0x9f,
-	0xa3, 0xa4, 0xf8, 0x05, 0xc9, 0xc0, 0x53, 0xc6, 0xc5, 0xc9, 0xd0, 0xd8, 0x9c, 0x71, 0xd5, 0x96,
-	0x62, 0x08, 0x2f, 0x21, 0xb2, 0x50, 0x56, 0xc7, 0x19, 0x9b, 0xba, 0x4e, 0x80, 0x30, 0xe1, 0x25,
-	0x31, 0x63, 0xb3, 0x0e, 0xe1, 0x8e, 0xf0, 0x49, 0x90, 0x8f, 0xc2, 0xa7, 0x28, 0xb1, 0x81, 0xae,
-	0xb5, 0x62, 0xb7, 0x1e, 0x40, 0x5b, 0xd8, 0x38, 0xa5, 0x4d, 0x8a, 0xd4, 0xac, 0x2b, 0x8a, 0x69,
-	0x19, 0x14, 0xf3, 0x0d, 0x7d, 0x0e, 0x55, 0x1d, 0x48, 0xcd, 0xdc, 0x83, 0x46, 0x9a, 0xfe, 0xe7,
-	0xb4, 0x98, 0x31, 0x45, 0x2c, 0x0d, 0xd6, 0x3e, 0xec, 0x08, 0xa2, 0x18, 0x82, 0xc9, 0x22, 0x6b,
-	0x74, 0xff, 0xaa, 0xc0, 0x1b, 0x23, 0x3c, 0x19, 0xf3, 0xd4, 0x0b, 0x95, 0xe6, 0x42, 0x4b, 0x6c,
-	0x53, 0x7d, 0x56, 0x55, 0x5b, 0x81, 0xda, 0x06, 0xd0, 0x66, 0x0a, 0x90, 0x34, 0x16, 0xea, 0x4d,
-	0x73, 0x78, 0x4d, 0x14, 0xb7, 0xaa, 0x22, 0xd8, 0x48, 0x45, 0x4d, 0x83, 0x8a, 0xbe, 0x85, 0xbd,
-	0x95, 0x53, 0x7e, 0xa5, 0x3a, 0x7a, 0x42, 0x03, 0x30, 0x99, 0x3e, 0xe3, 0x8f, 0x25, 0x29, 0xee,
-	0x08, 0x94, 0xc5, 0x43, 0xd3, 0xe2, 0xec, 0x6d, 0x66, 0x2f, 0x78, 0x45, 0xbc, 0xe0, 0xee, 0xfb,
-	0x70, 0x3f, 0x37, 0x98, 0x7c, 0x99, 0x7f, 0x2e, 0x19, 0x52, 0x9a, 0x16, 0xb7, 0x0b, 0x2f, 0x95,
-	0x52, 0x6e, 0xfb, 0x60, 0x4a, 0x75, 0xaa, 0x37, 0x11, 0x3f, 0xd2, 0x96, 0x46, 0x9c, 0x8e, 0x80,
-	0xdd, 0x58, 0x8e, 0xac, 0xc5, 0xd1, 0xc3, 0x8b, 0xec, 0x8e, 0x7f, 0x6b, 0x40, 0x65, 0x84, 0x27,
-	0xd6, 0x63, 0x68, 0xaa, 0xdf, 0x6d, 0xef, 0xf5, 0xb4, 0x8f, 0xbf, 0x5e, 0xf6, 0xf3, 0xa6, 0xf3,
-	0xb0, 0x00, 0x20, 0xf5, 0x77, 0x0a, 0xad, 0xcc, 0xb7, 0x4e, 0xd7, 0xe4, 0xa8, 0x22, 0x3a, 0x07,
-	0x45, 0x08, 0xb9, 0xf6, 0x23, 0x00, 0xe5, 0x73, 0xc1, 0x31, 0xfa, 0xc9, 0xf9, 0xce, 0x83, 0xf5,
-	0xf3, 0x72, 0xd5, 0x73, 0xb8, 0xb3, 0xd2, 0xf6, 0xee, 0x9b, 0x7c, 0x75, 0x54, 0xe7, 0x83, 0x4d,
-	0x50, 0xa6, 0x38, 0xb2, 0xd1, 0x5d, 0x1b, 0x47, 0xa0, 0xd6, 0xc7, 0xd1, 0xbb, 0x58, 0x6b, 0x08,
-	0x55, 0xd6, 0xc1, 0x9a, 0xbc, 0xd2, 0x99, 0x4e, 0x37, 0x6f, 0x46, 0x65, 0x5a, 0xe9, 0xef, 0x8c,
-	0x4c, 0x2f, 0xe7, 0xcd, 0x4c, 0x1b, 0xfa, 0xa2, 0x53, 0x68, 0x65, 0x7a, 0x20, 0x63, 0x1e, 0x2a,
-	0xc2, 0xac, 0x0d, 0xe3, 0xfb, 0xf9, 0x1d, 0xb4, 0xb5, 0x77, 0xcf, 0x35, 0xf9, 0x66, 0x31, 0x9d,
-	0xc3, 0x62, 0x8c, 0x8c, 0x70, 0x09, 0xbb, 0x39, 0x25, 0xf1, 0x30, 0x3f, 0x4b, 0x1d, 0xdb, 0x39,
-	0xde, 0x1c, 0x9b, 0x1f, 0x59, 0x56, 0xbe, 0x0d, 0x22, 0x0b, 0xec, 0x26, 0x91, 0xf5, 0x62, 0x96,
-	0x6a, 0x76, 0xa5, 0x92, 0xed, 0xaf, 0xe3, 0x4c, 0xa0, 0xcc, 0x9a, 0xcd, 0x2b, 0x4b, 0xc3, 0xa3,
-	0xdf, 0xaf, 0x9c, 0xd2, 0xf3, 0x2b, 0xa7, 0xf4, 0xe7, 0x95, 0x53, 0xfa, 0xf5, 0xda, 0xd9, 0x7a,
-	0x7e, 0xed, 0x6c, 0xfd, 0x71, 0xed, 0x6c, 0x9d, 0xde, 0x15, 0xff, 0x53, 0x5d, 0x2e, 0xff, 0xb1,
-	0xfa, 0x61, 0x81, 0xf0, 0xd9, 0x36, 0xfd, 0x13, 0xea, 0xc3, 0x7f, 0x03, 0x00, 0x00, 0xff, 0xff,
-	0xe2, 0x18, 0xab, 0x45, 0xd1, 0x12, 0x00, 0x00,
+	// 1081 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe4, 0x58, 0xcf, 0x6f, 0xe3, 0x44,
+	0x14, 0x6e, 0x9c, 0xa4, 0xd9, 0xbc, 0xa4, 0xd9, 0xc5, 0x40, 0xd7, 0x35, 0x8b, 0xc9, 0x9a, 0x6a,
+	0xb7, 0xaa, 0x50, 0xa2, 0x96, 0x13, 0x07, 0x84, 0x92, 0x4a, 0x08, 0x0e, 0x11, 0x28, 0x2c, 0x5a,
+	0xa9, 0x12, 0x02, 0xd7, 0x9e, 0x26, 0xd6, 0x26, 0x76, 0xf0, 0x4c, 0x77, 0xcb, 0x01, 0x09, 0x09,
+	0x89, 0x33, 0x07, 0xfe, 0x28, 0x8e, 0x7b, 0xe4, 0x88, 0x5a, 0xfe, 0x08, 0x24, 0x2e, 0xc8, 0xf3,
+	0xc3, 0x19, 0x4f, 0xc6, 0x71, 0x76, 0x59, 0x7a, 0xd9, 0x53, 0x34, 0x6f, 0xbe, 0x37, 0xef, 0xcd,
+	0x37, 0xdf, 0xbc, 0x79, 0x0e, 0x58, 0xfe, 0xd4, 0x8b, 0x22, 0x34, 0xeb, 0x8b, 0x5f, 0x72, 0xd9,
+	0x5b, 0x24, 0x31, 0x89, 0xcd, 0xdb, 0xdc, 0xd2, 0xe3, 0xbf, 0xb6, 0xe3, 0xc7, 0x78, 0x1e, 0xe3,
+	0xfe, 0x99, 0x87, 0x51, 0xff, 0xe9, 0xd1, 0x19, 0x22, 0xde, 0x51, 0xdf, 0x8f, 0xc3, 0x88, 0x39,
+	0xb8, 0x7f, 0x57, 0xa0, 0x33, 0xc2, 0x93, 0x2f, 0x16, 0x28, 0xe2, 0x2e, 0xa6, 0x05, 0x0d, 0x3f,
+	0x41, 0x1e, 0x89, 0x13, 0xab, 0xd2, 0xad, 0x1c, 0x34, 0xc7, 0x62, 0x68, 0xbe, 0x05, 0xf5, 0x85,
+	0x97, 0x90, 0x81, 0x65, 0x50, 0x3b, 0x1b, 0x08, 0xeb, 0xd0, 0xaa, 0x2e, 0xad, 0x43, 0xb3, 0x0f,
+	0xf5, 0x34, 0xcc, 0xc0, 0xaa, 0x75, 0xab, 0x07, 0xad, 0xe3, 0xbd, 0x1e, 0x4b, 0xa4, 0x97, 0x26,
+	0xd2, 0xe3, 0x89, 0xf4, 0x4e, 0xe2, 0x30, 0x1a, 0x33, 0x9c, 0x70, 0x18, 0x5a, 0xf5, 0x8d, 0x1c,
+	0x86, 0xa6, 0x0b, 0xed, 0xf9, 0xc5, 0x8c, 0x84, 0x38, 0x9c, 0x0c, 0x82, 0x20, 0xb1, 0xb6, 0x69,
+	0xf8, 0x9c, 0xcd, 0xb4, 0xe1, 0x16, 0x46, 0xdf, 0x5f, 0xa0, 0xc8, 0x47, 0x56, 0x83, 0xce, 0x67,
+	0x63, 0xf7, 0x00, 0x76, 0xf3, 0x3b, 0x1f, 0x23, 0xbc, 0x88, 0x23, 0x8c, 0xcc, 0x0e, 0x18, 0x61,
+	0xc0, 0x37, 0x6f, 0x84, 0x81, 0xfb, 0x4f, 0x05, 0x6e, 0x8f, 0xf0, 0xe4, 0x64, 0x16, 0x63, 0x54,
+	0xce, 0x92, 0x9a, 0x97, 0xa1, 0xc9, 0x2b, 0x63, 0xb2, 0x2a, 0x33, 0xf9, 0xc2, 0x9c, 0x65, 0xd4,
+	0xd7, 0x35, 0xd4, 0x0f, 0xad, 0xed, 0x0d, 0x99, 0xbc, 0x07, 0x4d, 0xbe, 0xad, 0x30, 0xe0, 0x34,
+	0x2d, 0x0d, 0xee, 0x1e, 0xdc, 0x55, 0x36, 0x2f, 0x88, 0x72, 0xaf, 0x0d, 0xd8, 0x49, 0xe7, 0xe2,
+	0xf9, 0x3c, 0x24, 0x73, 0x14, 0x91, 0xff, 0x48, 0x4b, 0x17, 0x5a, 0x1c, 0xee, 0xa5, 0x10, 0x46,
+	0x8e, 0x6c, 0x4a, 0x11, 0xe9, 0x26, 0x23, 0xc4, 0x10, 0x35, 0x86, 0x90, 0x4c, 0xe9, 0x91, 0x4f,
+	0x3d, 0x3c, 0xf5, 0xe3, 0x00, 0x71, 0x5a, 0xb2, 0x71, 0x3a, 0x17, 0x5d, 0xcc, 0xcf, 0x66, 0xb1,
+	0xff, 0x84, 0xca, 0xa5, 0x36, 0xce, 0xc6, 0xe6, 0x27, 0xb0, 0x93, 0xb2, 0x41, 0x62, 0x91, 0x7f,
+	0xa3, 0x8c, 0xbd, 0x3c, 0xde, 0xfc, 0x08, 0x80, 0x19, 0xa6, 0x64, 0xe6, 0x5b, 0xb7, 0xca, 0xbc,
+	0x25, 0x70, 0xfe, 0x00, 0x9a, 0xea, 0x01, 0x3c, 0x84, 0xb7, 0x73, 0x24, 0x17, 0xea, 0xf4, 0x6b,
+	0x78, 0x73, 0x84, 0x27, 0x8f, 0x43, 0x32, 0x0d, 0x12, 0xef, 0xd9, 0xa3, 0x70, 0x8e, 0xe8, 0xce,
+	0x8a, 0xcf, 0xa4, 0x03, 0x06, 0x89, 0xf9, 0x49, 0x18, 0x24, 0x4e, 0xf5, 0x14, 0x46, 0x01, 0xba,
+	0x14, 0xb2, 0xa4, 0x03, 0xf7, 0x5d, 0x78, 0x47, 0xb3, 0x6c, 0x26, 0x82, 0x79, 0x2e, 0xea, 0x67,
+	0x1e, 0x9e, 0xbe, 0x8a, 0xa8, 0xe6, 0x2e, 0x6c, 0x63, 0xe4, 0x27, 0x88, 0xf0, 0x43, 0xe6, 0x23,
+	0x25, 0x1b, 0x11, 0x2e, 0xcb, 0xe6, 0x27, 0x03, 0x1a, 0x23, 0x3c, 0xf9, 0xf4, 0x22, 0x0a, 0xd6,
+	0xa4, 0xa0, 0x08, 0xcd, 0x58, 0x15, 0x5a, 0xee, 0x48, 0xaa, 0xca, 0x91, 0x2c, 0xc5, 0xf2, 0x25,
+	0x53, 0x5e, 0xf9, 0x8d, 0xcd, 0xe3, 0x5f, 0x5a, 0xa5, 0xea, 0x2d, 0x6a, 0xac, 0xde, 0x22, 0xf7,
+	0x3e, 0xad, 0x56, 0x29, 0x03, 0x85, 0x4a, 0xf9, 0x85, 0x5d, 0xdc, 0x81, 0xef, 0xa3, 0x05, 0x39,
+	0xbf, 0x21, 0xae, 0x4e, 0xf8, 0xfa, 0x9b, 0x72, 0xc5, 0xf1, 0xff, 0x2b, 0x57, 0xec, 0x6e, 0x2d,
+	0x79, 0x28, 0x66, 0xac, 0x46, 0x59, 0xfd, 0x0a, 0x45, 0x01, 0x4a, 0x7c, 0x7a, 0x17, 0xd7, 0x70,
+	0xe6, 0x00, 0x60, 0x8a, 0x94, 0x4a, 0x9d, 0x64, 0x29, 0x61, 0xec, 0x63, 0x68, 0x33, 0x06, 0x98,
+	0x47, 0x39, 0x61, 0x39, 0xb8, 0x52, 0x88, 0xea, 0x2f, 0x52, 0x88, 0x44, 0xe4, 0xc4, 0x8b, 0xf0,
+	0x39, 0x4a, 0xca, 0x5f, 0x90, 0x1c, 0x3c, 0x65, 0x5c, 0x9c, 0x0c, 0x8d, 0xcd, 0x19, 0x97, 0x6d,
+	0x29, 0x86, 0xf0, 0x12, 0xc2, 0x0b, 0x65, 0x7a, 0x6a, 0x39, 0x9b, 0xbc, 0x4e, 0x80, 0x30, 0xe1,
+	0x25, 0x31, 0x67, 0x33, 0x0f, 0xe1, 0x8e, 0xf0, 0x49, 0x90, 0x8f, 0xc2, 0xa7, 0x28, 0xb1, 0x80,
+	0xae, 0xb5, 0x62, 0x37, 0x1f, 0x40, 0x47, 0xd8, 0x38, 0xa5, 0x2d, 0x8a, 0x54, 0xac, 0x2b, 0x8a,
+	0x69, 0x6b, 0x14, 0xf3, 0x0d, 0x7d, 0x0e, 0x65, 0x1d, 0x64, 0x9a, 0xb9, 0x07, 0xcd, 0x34, 0xfd,
+	0xcf, 0x69, 0x31, 0x63, 0x8a, 0x58, 0x1a, 0xcc, 0x7d, 0xd8, 0x11, 0x44, 0x31, 0x04, 0x93, 0x45,
+	0xde, 0xe8, 0xfe, 0x55, 0x85, 0x37, 0x46, 0x78, 0x32, 0xe6, 0xa9, 0x97, 0x2a, 0xcd, 0x85, 0xb6,
+	0xd8, 0xa6, 0xfc, 0xac, 0xca, 0xb6, 0x12, 0xb5, 0x0d, 0xa0, 0xc3, 0x14, 0x90, 0xd1, 0x58, 0xaa,
+	0x37, 0xc5, 0xe1, 0x35, 0x51, 0xdc, 0xaa, 0x8a, 0x60, 0x23, 0x15, 0xb5, 0x34, 0x2a, 0xfa, 0x16,
+	0xf6, 0x56, 0x4e, 0xf9, 0x95, 0xea, 0xe8, 0x09, 0x0d, 0xc0, 0x64, 0xfa, 0x8c, 0x3f, 0x96, 0xa4,
+	0xbc, 0x23, 0x90, 0x16, 0x0f, 0x75, 0x8b, 0xb3, 0xb7, 0x99, 0xbd, 0xe0, 0x55, 0xf1, 0x82, 0xbb,
+	0xef, 0xc3, 0xfd, 0xc2, 0x60, 0xd9, 0xcb, 0xfc, 0x73, 0x45, 0x93, 0xd2, 0xb4, 0xbc, 0x5d, 0x78,
+	0xa9, 0x94, 0x0a, 0xdb, 0x07, 0x5d, 0xaa, 0x53, 0xb5, 0x89, 0xf8, 0x91, 0xb6, 0x34, 0xe2, 0x74,
+	0x04, 0xec, 0xc6, 0x72, 0x64, 0x2d, 0x8e, 0x1a, 0x5e, 0x64, 0x77, 0xfc, 0x5b, 0x13, 0xaa, 0x23,
+	0x3c, 0x31, 0x1f, 0x43, 0x4b, 0xfe, 0x6e, 0x7b, 0xaf, 0xa7, 0x7c, 0xfc, 0xf5, 0xf2, 0x9f, 0x37,
+	0xf6, 0xc3, 0x12, 0x40, 0xa6, 0xbf, 0x53, 0x68, 0xe7, 0xbe, 0x75, 0xba, 0x3a, 0x47, 0x19, 0x61,
+	0x1f, 0x94, 0x21, 0xb2, 0xb5, 0x1f, 0x01, 0x48, 0x9f, 0x0b, 0x8e, 0xd6, 0x2f, 0x9b, 0xb7, 0x1f,
+	0xac, 0x9f, 0xcf, 0x56, 0x3d, 0x87, 0x3b, 0x2b, 0x6d, 0xef, 0xbe, 0xce, 0x57, 0x45, 0xd9, 0x1f,
+	0x6c, 0x82, 0xd2, 0xc5, 0xc9, 0x1a, 0xdd, 0xb5, 0x71, 0x04, 0x6a, 0x7d, 0x1c, 0xb5, 0x8b, 0x35,
+	0x87, 0x50, 0x63, 0x1d, 0xac, 0xce, 0x2b, 0x9d, 0xb1, 0xbb, 0x45, 0x33, 0x32, 0xd3, 0x52, 0x7f,
+	0xa7, 0x65, 0x7a, 0x39, 0xaf, 0x67, 0x5a, 0xd3, 0x17, 0x9d, 0x42, 0x3b, 0xd7, 0x03, 0x69, 0xf3,
+	0x90, 0x11, 0x7a, 0x6d, 0x68, 0xdf, 0xcf, 0xef, 0xa0, 0xa3, 0xbc, 0x7b, 0xae, 0xce, 0x37, 0x8f,
+	0xb1, 0x0f, 0xcb, 0x31, 0x59, 0x84, 0x4b, 0xd8, 0x2d, 0x28, 0x89, 0x87, 0xc5, 0x59, 0xaa, 0x58,
+	0xfb, 0x78, 0x73, 0x6c, 0x71, 0xe4, 0xac, 0xf2, 0x6d, 0x10, 0x59, 0x60, 0x37, 0x89, 0xac, 0x16,
+	0xb3, 0x54, 0xb3, 0x2b, 0x95, 0x6c, 0x7f, 0x1d, 0x67, 0x02, 0xa5, 0xd7, 0x6c, 0x51, 0x59, 0x1a,
+	0x1e, 0xfd, 0x7e, 0xe5, 0x54, 0x9e, 0x5f, 0x39, 0x95, 0x3f, 0xaf, 0x9c, 0xca, 0xaf, 0xd7, 0xce,
+	0xd6, 0xf3, 0x6b, 0x67, 0xeb, 0x8f, 0x6b, 0x67, 0xeb, 0xf4, 0xae, 0xf8, 0x9f, 0xea, 0x72, 0xf9,
+	0x8f, 0xd5, 0x0f, 0x0b, 0x84, 0xcf, 0xb6, 0xe9, 0x9f, 0x50, 0x1f, 0xfe, 0x1b, 0x00, 0x00, 0xff,
+	0xff, 0x8f, 0xb9, 0x50, 0x11, 0xd1, 0x12, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -2191,29 +2191,33 @@ func (m *MsgOpenchannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x32
 	}
-	if m.CoinB != nil {
-		{
-			size, err := m.CoinB.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CoinB) > 0 {
+		for iNdEx := len(m.CoinB) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CoinB[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x2a
 		}
-		i--
-		dAtA[i] = 0x2a
 	}
-	if m.CoinA != nil {
-		{
-			size, err := m.CoinA.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CoinA) > 0 {
+		for iNdEx := len(m.CoinA) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CoinA[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.PartB) > 0 {
 		i -= len(m.PartB)
@@ -2296,17 +2300,19 @@ func (m *MsgClosechannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x3a
 	}
-	if m.CoinB != nil {
-		{
-			size, err := m.CoinB.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CoinB) > 0 {
+		for iNdEx := len(m.CoinB) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CoinB[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x32
 		}
-		i--
-		dAtA[i] = 0x32
 	}
 	if len(m.PartB) > 0 {
 		i -= len(m.PartB)
@@ -2315,17 +2321,19 @@ func (m *MsgClosechannel) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	if m.CoinA != nil {
-		{
-			size, err := m.CoinA.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CoinA) > 0 {
+		for iNdEx := len(m.CoinA) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CoinA[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.PartA) > 0 {
 		i -= len(m.PartA)
@@ -2401,29 +2409,33 @@ func (m *MsgCommitment) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x4a
 	}
-	if m.Cointohtlc != nil {
-		{
-			size, err := m.Cointohtlc.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointohtlc) > 0 {
+		for iNdEx := len(m.Cointohtlc) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointohtlc[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x42
 		}
-		i--
-		dAtA[i] = 0x42
 	}
-	if m.Cointocreator != nil {
-		{
-			size, err := m.Cointocreator.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointocreator) > 0 {
+		for iNdEx := len(m.Cointocreator) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointocreator[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x3a
 		}
-		i--
-		dAtA[i] = 0x3a
 	}
 	if m.Numblock != 0 {
 		i = encodeVarintTx(dAtA, i, uint64(m.Numblock))
@@ -2678,17 +2690,19 @@ func (m *MsgFund) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	if m.CointoPartner != nil {
-		{
-			size, err := m.CointoPartner.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CointoPartner) > 0 {
+		for iNdEx := len(m.CointoPartner) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CointoPartner[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.Channelid) > 0 {
 		i -= len(m.Channelid)
@@ -2783,17 +2797,19 @@ func (m *MsgAcceptfund) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x2a
 	}
-	if m.CointoCreator != nil {
-		{
-			size, err := m.CointoCreator.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.CointoCreator) > 0 {
+		for iNdEx := len(m.CointoCreator) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.CointoCreator[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.Channelid) > 0 {
 		i -= len(m.Channelid)
@@ -2905,41 +2921,47 @@ func (m *MsgSendercommit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x3a
 	}
-	if m.Cointransfer != nil {
-		{
-			size, err := m.Cointransfer.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointransfer) > 0 {
+		for iNdEx := len(m.Cointransfer) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointransfer[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x32
 		}
-		i--
-		dAtA[i] = 0x32
 	}
-	if m.Cointohtlc != nil {
-		{
-			size, err := m.Cointohtlc.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointohtlc) > 0 {
+		for iNdEx := len(m.Cointohtlc) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointohtlc[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x2a
 		}
-		i--
-		dAtA[i] = 0x2a
 	}
-	if m.Cointosender != nil {
-		{
-			size, err := m.Cointosender.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointosender) > 0 {
+		for iNdEx := len(m.Cointosender) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointosender[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.Channelid) > 0 {
 		i -= len(m.Channelid)
@@ -3053,41 +3075,47 @@ func (m *MsgReceivercommit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x3a
 	}
-	if m.Cointransfer != nil {
-		{
-			size, err := m.Cointransfer.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointransfer) > 0 {
+		for iNdEx := len(m.Cointransfer) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointransfer[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x32
 		}
-		i--
-		dAtA[i] = 0x32
 	}
-	if m.Cointohtlc != nil {
-		{
-			size, err := m.Cointohtlc.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointohtlc) > 0 {
+		for iNdEx := len(m.Cointohtlc) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointohtlc[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x2a
 		}
-		i--
-		dAtA[i] = 0x2a
 	}
-	if m.Cointoreceiver != nil {
-		{
-			size, err := m.Cointoreceiver.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
+	if len(m.Cointoreceiver) > 0 {
+		for iNdEx := len(m.Cointoreceiver) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Cointoreceiver[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTx(dAtA, i, uint64(size))
 			}
-			i -= size
-			i = encodeVarintTx(dAtA, i, uint64(size))
+			i--
+			dAtA[i] = 0x22
 		}
-		i--
-		dAtA[i] = 0x22
 	}
 	if len(m.Channelid) > 0 {
 		i -= len(m.Channelid)
@@ -3394,13 +3422,17 @@ func (m *MsgOpenchannel) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.CoinA != nil {
-		l = m.CoinA.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CoinA) > 0 {
+		for _, e := range m.CoinA {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.CoinB != nil {
-		l = m.CoinB.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CoinB) > 0 {
+		for _, e := range m.CoinB {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.MultisigAddr)
 	if l > 0 {
@@ -3444,17 +3476,21 @@ func (m *MsgClosechannel) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.CoinA != nil {
-		l = m.CoinA.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CoinA) > 0 {
+		for _, e := range m.CoinA {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.PartB)
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.CoinB != nil {
-		l = m.CoinB.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CoinB) > 0 {
+		for _, e := range m.CoinB {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Channelid)
 	if l > 0 {
@@ -3501,13 +3537,17 @@ func (m *MsgCommitment) Size() (n int) {
 	if m.Numblock != 0 {
 		n += 1 + sovTx(uint64(m.Numblock))
 	}
-	if m.Cointocreator != nil {
-		l = m.Cointocreator.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointocreator) > 0 {
+		for _, e := range m.Cointocreator {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.Cointohtlc != nil {
-		l = m.Cointohtlc.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointohtlc) > 0 {
+		for _, e := range m.Cointohtlc {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Channelid)
 	if l > 0 {
@@ -3611,9 +3651,11 @@ func (m *MsgFund) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.CointoPartner != nil {
-		l = m.CointoPartner.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CointoPartner) > 0 {
+		for _, e := range m.CointoPartner {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Hashcode)
 	if l > 0 {
@@ -3660,9 +3702,11 @@ func (m *MsgAcceptfund) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.CointoCreator != nil {
-		l = m.CointoCreator.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.CointoCreator) > 0 {
+		for _, e := range m.CointoCreator {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Hashcode)
 	if l > 0 {
@@ -3709,17 +3753,23 @@ func (m *MsgSendercommit) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.Cointosender != nil {
-		l = m.Cointosender.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointosender) > 0 {
+		for _, e := range m.Cointosender {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.Cointohtlc != nil {
-		l = m.Cointohtlc.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointohtlc) > 0 {
+		for _, e := range m.Cointohtlc {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.Cointransfer != nil {
-		l = m.Cointransfer.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointransfer) > 0 {
+		for _, e := range m.Cointransfer {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Hashcodehtlc)
 	if l > 0 {
@@ -3780,17 +3830,23 @@ func (m *MsgReceivercommit) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	if m.Cointoreceiver != nil {
-		l = m.Cointoreceiver.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointoreceiver) > 0 {
+		for _, e := range m.Cointoreceiver {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.Cointohtlc != nil {
-		l = m.Cointohtlc.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointohtlc) > 0 {
+		for _, e := range m.Cointohtlc {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
-	if m.Cointransfer != nil {
-		l = m.Cointransfer.Size()
-		n += 1 + l + sovTx(uint64(l))
+	if len(m.Cointransfer) > 0 {
+		for _, e := range m.Cointransfer {
+			l = e.Size()
+			n += 1 + l + sovTx(uint64(l))
+		}
 	}
 	l = len(m.Hashcodehtlc)
 	if l > 0 {
@@ -4088,10 +4144,8 @@ func (m *MsgOpenchannel) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CoinA == nil {
-				m.CoinA = &types.Coin{}
-			}
-			if err := m.CoinA.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CoinA = append(m.CoinA, &types.Coin{})
+			if err := m.CoinA[len(m.CoinA)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4124,10 +4178,8 @@ func (m *MsgOpenchannel) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CoinB == nil {
-				m.CoinB = &types.Coin{}
-			}
-			if err := m.CoinB.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CoinB = append(m.CoinB, &types.Coin{})
+			if err := m.CoinB[len(m.CoinB)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4452,10 +4504,8 @@ func (m *MsgClosechannel) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CoinA == nil {
-				m.CoinA = &types.Coin{}
-			}
-			if err := m.CoinA.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CoinA = append(m.CoinA, &types.Coin{})
+			if err := m.CoinA[len(m.CoinA)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4520,10 +4570,8 @@ func (m *MsgClosechannel) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CoinB == nil {
-				m.CoinB = &types.Coin{}
-			}
-			if err := m.CoinB.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CoinB = append(m.CoinB, &types.Coin{})
+			if err := m.CoinB[len(m.CoinB)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4867,10 +4915,8 @@ func (m *MsgCommitment) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointocreator == nil {
-				m.Cointocreator = &types.Coin{}
-			}
-			if err := m.Cointocreator.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointocreator = append(m.Cointocreator, &types.Coin{})
+			if err := m.Cointocreator[len(m.Cointocreator)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -4903,10 +4949,8 @@ func (m *MsgCommitment) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointohtlc == nil {
-				m.Cointohtlc = &types.Coin{}
-			}
-			if err := m.Cointohtlc.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointohtlc = append(m.Cointohtlc, &types.Coin{})
+			if err := m.Cointohtlc[len(m.Cointohtlc)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5623,10 +5667,8 @@ func (m *MsgFund) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CointoPartner == nil {
-				m.CointoPartner = &types.Coin{}
-			}
-			if err := m.CointoPartner.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CointoPartner = append(m.CointoPartner, &types.Coin{})
+			if err := m.CointoPartner[len(m.CointoPartner)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -5970,10 +6012,8 @@ func (m *MsgAcceptfund) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.CointoCreator == nil {
-				m.CointoCreator = &types.Coin{}
-			}
-			if err := m.CointoCreator.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.CointoCreator = append(m.CointoCreator, &types.Coin{})
+			if err := m.CointoCreator[len(m.CointoCreator)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6317,10 +6357,8 @@ func (m *MsgSendercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointosender == nil {
-				m.Cointosender = &types.Coin{}
-			}
-			if err := m.Cointosender.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointosender = append(m.Cointosender, &types.Coin{})
+			if err := m.Cointosender[len(m.Cointosender)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6353,10 +6391,8 @@ func (m *MsgSendercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointohtlc == nil {
-				m.Cointohtlc = &types.Coin{}
-			}
-			if err := m.Cointohtlc.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointohtlc = append(m.Cointohtlc, &types.Coin{})
+			if err := m.Cointohtlc[len(m.Cointohtlc)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6389,10 +6425,8 @@ func (m *MsgSendercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointransfer == nil {
-				m.Cointransfer = &types.Coin{}
-			}
-			if err := m.Cointransfer.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointransfer = append(m.Cointransfer, &types.Coin{})
+			if err := m.Cointransfer[len(m.Cointransfer)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6838,10 +6872,8 @@ func (m *MsgReceivercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointoreceiver == nil {
-				m.Cointoreceiver = &types.Coin{}
-			}
-			if err := m.Cointoreceiver.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointoreceiver = append(m.Cointoreceiver, &types.Coin{})
+			if err := m.Cointoreceiver[len(m.Cointoreceiver)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6874,10 +6906,8 @@ func (m *MsgReceivercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointohtlc == nil {
-				m.Cointohtlc = &types.Coin{}
-			}
-			if err := m.Cointohtlc.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointohtlc = append(m.Cointohtlc, &types.Coin{})
+			if err := m.Cointohtlc[len(m.Cointohtlc)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -6910,10 +6940,8 @@ func (m *MsgReceivercommit) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Cointransfer == nil {
-				m.Cointransfer = &types.Coin{}
-			}
-			if err := m.Cointransfer.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Cointransfer = append(m.Cointransfer, &types.Coin{})
+			if err := m.Cointransfer[len(m.Cointransfer)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

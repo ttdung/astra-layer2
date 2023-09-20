@@ -15,7 +15,7 @@ message Fwdcommitment {
   uint64 timelockreceiver = 7;
   string hashcodehtlc = 8; 
   string hashcodedest = 9;
-  cosmos.base.v1beta1.Coin cointransfer = 10;
+  repeated cosmos.base.v1beta1.Coin cointransfer = 10;
   string creator = 11;
 }
 

@@ -28,24 +28,23 @@ func (k msgServer) Commitment(goCtx context.Context, msg *types.MsgCommitment) (
 	}
 
 	// Send coin to creator of commitment
-	if msg.Cointocreator.Amount.IsPositive() {
-		err = k.bankKeeper.SendCoins(ctx, from, toCreator, sdk.Coins{*msg.Cointocreator})
-		if err != nil {
-			return nil, err
+	for _, coin := range msg.Cointocreator {
+		if coin.Amount.IsPositive() {
+			err = k.bankKeeper.SendCoins(ctx, from, toCreator, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
 	// Send to HTLC
 	indexStr := fmt.Sprintf("%s:%s", msg.Channelid, msg.Hashcode)
-	if msg.Cointohtlc.Amount.IsPositive() {
-		err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, from, types.ModuleName, sdk.Coins{
-			sdk.Coin{
-				Denom:  msg.Cointohtlc.Denom,
-				Amount: msg.Cointohtlc.Amount,
-			},
-		})
-		if err != nil {
-			return nil, err
+	for _, coin := range msg.Cointohtlc {
+		if coin.Amount.IsPositive() {
+			err = k.Keeper.bankKeeper.SendCoinsFromAccountToModule(ctx, from, types.ModuleName, sdk.Coins{*coin})
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 

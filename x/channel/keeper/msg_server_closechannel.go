@@ -12,8 +12,10 @@ func (k msgServer) Closechannel(goCtx context.Context, msg *types.MsgClosechanne
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
-	if err := k.bankKeeper.IsSendEnabledCoins(ctx, *msg.CoinA); err != nil {
-		return nil, err
+	for _, coin := range msg.CoinA {
+		if err := k.bankKeeper.IsSendEnabledCoins(ctx, *coin); err != nil {
+			return nil, err
+		}
 	}
 
 	from, err := sdk.AccAddressFromBech32(msg.MultisigAddr)
@@ -34,16 +36,20 @@ func (k msgServer) Closechannel(goCtx context.Context, msg *types.MsgClosechanne
 	if k.bankKeeper.BlockedAddr(toA) {
 		err = sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not allowed to receive funds", msg.PartA)
 	} else {
-		if msg.CoinA.Amount.IsPositive() {
-			err = k.bankKeeper.SendCoins(ctx, from, toA, sdk.Coins{*msg.CoinA})
+		for _, coin := range msg.CoinA {
+			if coin.Amount.IsPositive() {
+				err = k.bankKeeper.SendCoins(ctx, from, toA, sdk.Coins{*coin})
+			}
 		}
 	}
 
 	if k.bankKeeper.BlockedAddr(toB) {
 		err = sdkerrors.Wrapf(sdkerrors.ErrUnauthorized, "%s is not allowed to receive funds", msg.PartB)
 	} else {
-		if msg.CoinB.Amount.IsPositive() {
-			err = k.bankKeeper.SendCoins(ctx, from, toB, sdk.Coins{*msg.CoinB})
+		for _, coin := range msg.CoinB {
+			if coin.Amount.IsPositive() {
+				err = k.bankKeeper.SendCoins(ctx, from, toB, sdk.Coins{*coin})
+			}
 		}
 	}
 

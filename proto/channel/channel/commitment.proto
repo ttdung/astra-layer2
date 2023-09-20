@@ -12,8 +12,8 @@ message Commitment {
   string partneraddr = 4; 
   string hashcode = 5; 
   uint64 numblock = 6;
-  cosmos.base.v1beta1.Coin cointocreator = 7;
-  cosmos.base.v1beta1.Coin cointohtlc = 8;
+  repeated cosmos.base.v1beta1.Coin cointocreator = 7;
+  repeated cosmos.base.v1beta1.Coin cointohtlc = 8;
   string channelid = 9; 
   
 }
