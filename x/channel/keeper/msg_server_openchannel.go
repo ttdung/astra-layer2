@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
-	"log"
+	"github.com/dungtt-astra/astra/v3/x/channel/pubkey"
 	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -14,30 +14,32 @@ func (k msgServer) Openchannel(goCtx context.Context, msg *types.MsgOpenchannel)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	// TODO: Handling the message
-	//kb := keyring.Keyring()
 
-	addrA, err := sdk.AccAddressFromBech32(msg.PartA)
+	pubkeyA, err := pubkey.NewPKAccount(msg.PartA)
 	if err != nil {
 		return nil, err
 	}
 
-	addrB, err := sdk.AccAddressFromBech32(msg.PartB)
+	addrA := pubkeyA.AccAddress()
+
+	pubkeyB, err := pubkey.NewPKAccount(msg.PartB)
 	if err != nil {
 		return nil, err
 	}
+
+	addrB := pubkeyB.AccAddress()
 
 	multiAddr := msg.GetSigners()[0]
 
-	// Verify multisig addr vs each single key
+	// Verify multisig addr of the signer
 	if strings.Compare(multiAddr.String(), msg.MultisigAddr) != 0 {
-		panic("Wrong multisig address")
+		return nil, fmt.Errorf("Wrong multisig address, expected:", msg.MultisigAddr)
 	}
 
 	for _, coin := range msg.CoinA {
 		if coin.Amount.IsPositive() {
 			err = k.bankKeeper.SendCoins(ctx, addrA, multiAddr, sdk.Coins{*coin})
 			if err != nil {
-				log.Println("-------------.. Err:", err.Error())
 				return nil, err
 			}
 		}

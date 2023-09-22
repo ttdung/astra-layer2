@@ -26,16 +26,6 @@ func CmdOpenchannel() *cobra.Command {
 			argMultisigAddr := args[4]
 			argSequence := args[5]
 
-			_, err = sdk.AccAddressFromBech32(argPartA)
-			if err != nil {
-				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partA address (%s)", err)
-			}
-
-			_, err = sdk.AccAddressFromBech32(argPartB)
-			if err != nil {
-				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid partB address (%s)", err)
-			}
-
 			_, err = sdk.AccAddressFromBech32(argMultisigAddr)
 			if err != nil {
 				return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid multisig address (%s)", err)

@@ -3,12 +3,13 @@ package ante
 import (
 	"fmt"
 	"github.com/dungtt-astra/astra/v3/x/channel/pubkey"
+	"strings"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 	channelkeeper "github.com/dungtt-astra/astra/v3/x/channel/keeper"
 	"github.com/dungtt-astra/astra/v3/x/channel/types"
-	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
+	//evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 )
 
 // GasWantedDecorator keeps track of the gasWanted amount on the current block in transient store
@@ -16,12 +17,12 @@ import (
 // NOTE: This decorator does not perform any validation
 type LnMsgDecorator struct {
 	ChannelKeeper *channelkeeper.Keeper
-	BankKeeper    evmtypes.BankKeeper
+	BankKeeper    types.BankKeeper
 }
 
 // NewGasWantedDecorator creates a new NewGasWantedDecorator
 func NewLnMsgDecorator(channelkeeper *channelkeeper.Keeper,
-	bankkeeper evmtypes.BankKeeper) LnMsgDecorator {
+	bankkeeper types.BankKeeper) LnMsgDecorator {
 	return LnMsgDecorator{
 		channelkeeper,
 		bankkeeper,
@@ -111,13 +112,24 @@ func (lnmsg LnMsgDecorator) validateAcceptFundTx(ctx sdk.Context, authTx authsig
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
+	var denom = ""
 	// verify amount to withdraw
 	for _, coin := range m.CointoCreator {
+		denom = fmt.Sprintf("%v:%v", denom, coin.Denom)
 		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
 		if coin.Amount.Int64() > amt.Amount.Int64() {
 			return fmt.Errorf("exceed amount of token can be sent")
 		}
 	}
+
+	// verify list of coins' denom
+	coins := lnmsg.BankKeeper.GetAllBalances(ctx, multisig)
+	for _, coin := range coins {
+		if !strings.Contains(denom, coin.Denom) {
+			return fmt.Errorf("Input denom missing: %v", coin.Denom)
+		}
+	}
+
 	return nil
 }
 
@@ -142,13 +154,25 @@ func (lnmsg LnMsgDecorator) validateFundTx(ctx sdk.Context, authTx authsigning.S
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
+	var denom = ""
 	// verify amount to withdraw
 	for _, coin := range m.CointoPartner {
+		denom = fmt.Sprintf("%v:%v", denom, coin.Denom)
+
 		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
 		if coin.Amount.Int64() > amt.Amount.Int64() {
 			return fmt.Errorf("exceed amount of token can be sent")
 		}
 	}
+
+	// verify list of coins' denom
+	coins := lnmsg.BankKeeper.GetAllBalances(ctx, multisig)
+	for _, coin := range coins {
+		if !strings.Contains(denom, coin.Denom) {
+			return fmt.Errorf("Input denom missing: %v", coin.Denom)
+		}
+	}
+
 	return nil
 }
 
@@ -178,11 +202,21 @@ func (lnmsg LnMsgDecorator) validateCommitmentTx(ctx sdk.Context, authTx authsig
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
+	var denom = ""
 	// verify amount to withdraw
 	for i, coin := range m.Cointocreator {
+		denom = fmt.Sprintf("%v:%v", denom, coin.Denom)
 		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
 		if m.Cointohtlc[i].Amount.Int64()+m.Cointocreator[i].Amount.Int64() > amt.Amount.Int64() {
 			return fmt.Errorf("exceed amount of token can be sent")
+		}
+	}
+
+	// verify list of coins' denom
+	coins := lnmsg.BankKeeper.GetAllBalances(ctx, multisig)
+	for _, coin := range coins {
+		if !strings.Contains(denom, coin.Denom) {
+			return fmt.Errorf("Input denom missing: %v", coin.Denom)
 		}
 	}
 
@@ -215,11 +249,21 @@ func (lnmsg LnMsgDecorator) validateCloseChannelTx(ctx sdk.Context, authTx auths
 		return fmt.Errorf("wrong signer, expected:", multisig.String())
 	}
 
+	var denom = ""
 	// verify amount to withdraw
 	for i, coin := range m.CoinA {
+		denom = fmt.Sprintf("%v:%v", denom, coin.Denom)
 		amt := lnmsg.BankKeeper.GetBalance(ctx, multisig, coin.Denom)
 		if m.CoinA[i].Amount.Int64()+m.CoinB[i].Amount.Int64() > amt.Amount.Int64() {
 			return fmt.Errorf("exceed amount of token can be withdrawn", m.Channelid)
+		}
+	}
+
+	// verify list of coins' denom
+	coins := lnmsg.BankKeeper.GetAllBalances(ctx, multisig)
+	for _, coin := range coins {
+		if !strings.Contains(denom, coin.Denom) {
+			return fmt.Errorf("Input denom missing: %v", coin.Denom)
 		}
 	}
 

@@ -13,8 +13,9 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v6/modules/core/keeper"
 	channelante "github.com/dungtt-astra/astra/v3/x/channel/ante"
 	cosmosante "github.com/evmos/evmos/v12/app/ante/cosmos"
-
 	evmante "github.com/evmos/evmos/v12/app/ante/evm"
+
+	channeltypes "github.com/dungtt-astra/astra/v3/x/channel/types"
 	evmtypes "github.com/evmos/evmos/v12/x/evm/types"
 
 	feeburnante "github.com/dungtt-astra/astra/v3/x/feeburn/ante"
@@ -29,7 +30,7 @@ import (
 // AnteHandler decorators.
 type HandlerOptions struct {
 	AccountKeeper      evmtypes.AccountKeeper
-	BankKeeper         evmtypes.BankKeeper
+	BankKeeper         channeltypes.BankKeeper
 	BankKeeperFork     feeburntypes.BankKeeper
 	IBCKeeper          *ibckeeper.Keeper
 	FeeMarketKeeper    evmante.FeeMarketKeeper
